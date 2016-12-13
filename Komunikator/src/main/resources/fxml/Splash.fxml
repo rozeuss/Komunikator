@@ -8,7 +8,7 @@
    <children>
       <ImageView layoutX="243.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../../../../../../STUDIA/Semestr_5/moje/pz/grafika/welcommm.png" />
+            <Image url="@../images/welcommm.png" />
          </image>
       </ImageView>
    </children>
