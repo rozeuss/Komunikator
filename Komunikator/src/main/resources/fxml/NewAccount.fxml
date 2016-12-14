@@ -9,21 +9,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="586.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewAccountController">
    <children>
-      <TextField fx:id="usernameTextField" layoutX="108.0" layoutY="133.0" prefHeight="35.0" prefWidth="380.0" promptText="Nazwa użytkownika" />
-      <Text layoutX="180.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nowe konto">
+      <TextField fx:id="usernameTextField" layoutX="108.0" layoutY="133.0" prefHeight="35.0" prefWidth="380.0" promptText="Username" />
+      <Text layoutX="178.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New account">
          <font>
             <Font size="46.0" />
          </font>
       </Text>
-      <TextField layoutX="108.0" layoutY="333.0" prefHeight="35.0" prefWidth="380.0" promptText="Wiek" />
-      <TextField layoutX="108.0" layoutY="233.0" prefHeight="35.0" prefWidth="380.0" promptText="Imie" />
-      <TextField layoutX="108.0" layoutY="283.0" prefHeight="35.0" prefWidth="380.0" promptText="Nazwisko" />
-      <TextField fx:id="passwordTextField" layoutX="108.0" layoutY="183.0" prefHeight="35.0" prefWidth="380.0" promptText="Haslo" />
-      <Button fx:id="createAccountButton" layoutX="143.0" layoutY="384.0" mnemonicParsing="false" onAction="#createAccountButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Utwórz" textAlignment="CENTER" />
-      <Button fx:id="cancelButton" layoutX="293.0" layoutY="384.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Anuluj" textAlignment="CENTER" />
+      <TextField layoutX="108.0" layoutY="333.0" prefHeight="35.0" prefWidth="380.0" promptText="Age" />
+      <TextField layoutX="108.0" layoutY="233.0" prefHeight="35.0" prefWidth="380.0" promptText="First Name" />
+      <TextField layoutX="108.0" layoutY="283.0" prefHeight="35.0" prefWidth="380.0" promptText="Last Name" />
+      <TextField fx:id="passwordTextField" layoutX="108.0" layoutY="183.0" prefHeight="35.0" prefWidth="380.0" promptText="Password" />
+      <Button fx:id="createAccountButton" layoutX="143.0" layoutY="384.0" mnemonicParsing="false" onAction="#createAccountButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Create" textAlignment="CENTER" />
+      <Button fx:id="cancelButton" layoutX="293.0" layoutY="384.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Cancel" textAlignment="CENTER" />
       <Label layoutX="501.0" layoutY="140.0" text="*" />
       <Label layoutX="501.0" layoutY="190.0" text="*" />
-      <Label layoutX="243.0" layoutY="440.0" text="* - pola wymagane">
+      <Label layoutX="259.0" layoutY="440.0" text="* - required">
          <font>
             <Font size="12.0" />
          </font>

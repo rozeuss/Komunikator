@@ -15,17 +15,17 @@
       <Button fx:id="exitButton" layoutX="293.0" layoutY="384.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Exit" textAlignment="CENTER" />
       <PasswordField fx:id="txtPassword" layoutX="155.0" layoutY="260.0" prefHeight="40.0" prefWidth="270.0" promptText="Password" />
       <TextField fx:id="txtUsername" layoutX="155.0" layoutY="193.0" prefHeight="40.0" prefWidth="270.0" promptText="Username" />
-      <Text layoutX="180.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logowanie">
+      <Text layoutX="233.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Log In">
          <font>
             <Font size="46.0" />
          </font>
       </Text>
-      <Text fx:id="forgotPasswordLabel" layoutX="233.0" layoutY="321.0" onMouseEntered="#forgotPasswordLabelOnMouseEntered" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Nie pamiętam hasła" underline="true">
+      <Text fx:id="forgotPasswordLabel" layoutX="244.0" layoutY="321.0" onMouseEntered="#forgotPasswordLabelOnMouseEntered" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot password?" underline="true">
          <font>
             <Font size="13.0" />
          </font>
       </Text>
-      <Button fx:id="newAccountButton" layoutX="225.0" layoutY="429.0" mnemonicParsing="false" onAction="#newAccountButtonOnAction" prefHeight="30.0" prefWidth="130.0" text="Utwórz konto">
+      <Button fx:id="newAccountButton" layoutX="225.0" layoutY="429.0" mnemonicParsing="false" onAction="#newAccountButtonOnAction" prefHeight="30.0" prefWidth="130.0" text="Create account">
          <font>
             <Font size="12.0" />
          </font>

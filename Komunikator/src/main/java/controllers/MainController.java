@@ -89,7 +89,8 @@ public class MainController {
 
 
 
-	@FXML public void menuItemProfileOnAction() {}
+	@FXML public void menuItemProfileOnAction() {
+	}
 
 
 

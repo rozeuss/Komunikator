@@ -39,7 +39,11 @@
       </MenuBar>
    </top>
    <bottom>
-      <AnchorPane prefHeight="55.0" prefWidth="1023.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="55.0" prefWidth="1023.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="17.0" text="Label" AnchorPane.leftAnchor="14.0" />
+            <Label layoutX="974.0" layoutY="17.0" text="Label" AnchorPane.rightAnchor="14.0" />
+         </children></AnchorPane>
    </bottom>
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="453.0" prefWidth="275.0" style="-fx-background-color: red;">
