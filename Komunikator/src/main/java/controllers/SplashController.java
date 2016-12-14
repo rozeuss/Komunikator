@@ -32,7 +32,7 @@ public class SplashController implements Initializable{
 	class SplashScreen extends Thread{
 		public void run(){
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(100);
 				
 				Platform.runLater(new Runnable(){
 
@@ -47,9 +47,12 @@ public class SplashController implements Initializable{
 						}
 						Stage stage = new Stage();
 						Scene scene = new Scene(parent);
+						stage.setHeight(800);
+						stage.setWidth(1000);
 						stage.setScene(scene);
 						stage.setTitle("Main Frame");
-						stage.setResizable(false);
+						stage.setMinHeight(575);
+						stage.setMinWidth(300);
 					//	stage.initStyle(StageStyle.UNDECORATED);
 						stage.show();
 						
