@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
@@ -27,12 +30,19 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#menuItemCaspianOnAction" text="Caspian">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="styleGroup" />
+                     </toggleGroup>
+                  </RadioMenuItem>
+                  <RadioMenuItem mnemonicParsing="false" onAction="#menuItemModenaOnAction" text="Modena" toggleGroup="$styleGroup" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <CheckMenuItem fx:id="menuItemAlwaysOnTop" mnemonicParsing="false" onAction="#menuItemAlwaysOnTopOnAction" text="Always on top" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemAboutOnAction" text="About" />
                </items>
             </Menu>
          </menus>
@@ -46,7 +56,7 @@
          </children></AnchorPane>
    </bottom>
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="453.0" prefWidth="275.0" style="-fx-background-color: red;">
+      <VBox alignment="TOP_CENTER" prefHeight="453.0" prefWidth="275.0">
       <fx:include fx:id="mainRightVBox" source="MainRightVBox.fxml" />
          <ListView prefHeight="200.0" prefWidth="500.0" VBox.vgrow="ALWAYS" />
          <opaqueInsets>

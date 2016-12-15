@@ -11,7 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import utils.FxmlUtils;
 
 public class SplashController implements Initializable{
 
@@ -30,23 +32,27 @@ public class SplashController implements Initializable{
 	
 	
 	class SplashScreen extends Thread{
+		private static final String FXML_MAIN_FXML = "/fxml/Main.fxml";
+
 		public void run(){
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(100);
 				
 				Platform.runLater(new Runnable(){
 
 					@Override
 					public void run() {
-						Parent parent = null;
+					/*	Parent parent = null;
 						try {
-							parent = FXMLLoader.load(getClass().getResource("/fxml/Main.fxml"));
+							parent = FXMLLoader.load(getClass().getResource(FXML_MAIN_FXML));
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}
+						}*/
+						
+						Pane borderPane = FxmlUtils.fxmlLoader(FXML_MAIN_FXML);
 						Stage stage = new Stage();
-						Scene scene = new Scene(parent);
+						Scene scene = new Scene(borderPane);
 						stage.setHeight(800);
 						stage.setWidth(1000);
 						stage.setScene(scene);

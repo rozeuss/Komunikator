@@ -22,12 +22,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.Main;
+import utils.FxmlUtils;
 
 public class NewAccountController implements Initializable{
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName() );
+    private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
+
+	private static final Logger LOGGER = Logger.getLogger(Main.class.getName() );
     
     @FXML
     private TextField usernameTextField;
@@ -84,23 +88,37 @@ public class NewAccountController implements Initializable{
 	@FXML Button createAccountButton;
 
 	@FXML Text welldefinedPassword;
+	
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+		usernameTextField.textProperty().bindBidirectional(nameProperty);
+		passwordTextField.textProperty().bindBidirectional(passwordProperty);
+
+		
+		//createAccountButton.disableProperty().bind(disablePasswordProperty);
+
+		welldefinedUsername.visibleProperty().bind(getNameOkProperty());
+		welldefinedPassword.visibleProperty().bind(getPasswordOkProperty());
+
+		createAccountButton.disableProperty().bind(getPasswordOkProperty().not());
+	}
+
 
 	@FXML public void cancelButtonOnAction(ActionEvent event) {
-		Parent parent = null;
+	/*	Parent parent = null;
 		try {
-			parent = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+			parent = FXMLLoader.load(getClass().getResource(FXML_LOGIN_FXML));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		//Stage stage = new Stage();
-		
+		}*/
+		Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
 		
         Stage stage  = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-		Scene scene = new Scene(parent);
-		
-		
+		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setTitle("Login");
 		stage.setResizable(false);
@@ -116,20 +134,6 @@ public class NewAccountController implements Initializable{
 	    }
 
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
-		usernameTextField.textProperty().bindBidirectional(nameProperty);
-		passwordTextField.textProperty().bindBidirectional(passwordProperty);
-
-		
-		createAccountButton.disableProperty().bind(disablePasswordProperty);
-
-		welldefinedUsername.visibleProperty().bind(getNameOkProperty());
-		welldefinedPassword.visibleProperty().bind(getPasswordOkProperty());
-
-	}
 
 
 	@FXML public void createAccountButtonOnAction() {}

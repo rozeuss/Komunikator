@@ -2,6 +2,8 @@ package controllers;
 
 import database.Communication;
 import security.Password;
+import utils.FxmlUtils;
+
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -24,10 +26,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
 
 public class LoginController implements Initializable {
+	private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
+
+	private static final String FXML_SPLASH_FXML = "/fxml/Splash.fxml";
+
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
 	@FXML
@@ -86,15 +93,16 @@ public class LoginController implements Initializable {
 
 			((Node) (event.getSource())).getScene().getWindow().hide();
 			messageLabel.setText("Welcome: " + txtUsername.getText());
-			Parent parent = null;
+		/*	Parent parent = null;
 			try {
-				parent = FXMLLoader.load(getClass().getResource("/fxml/Splash.fxml"));
+				parent = FXMLLoader.load(getClass().getResource(FXML_SPLASH_FXML));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
+			Pane borderPane = FxmlUtils.fxmlLoader(FXML_SPLASH_FXML);
 			Stage stage = new Stage();
-			Scene scene = new Scene(parent);
+			Scene scene = new Scene(borderPane);
 			stage.setScene(scene);
 			stage.setResizable(true);
 			stage.initStyle(StageStyle.TRANSPARENT);
@@ -122,23 +130,25 @@ public class LoginController implements Initializable {
 	@FXML
 	public void exitButtonOnAction() {
 		Platform.exit();
+		System.exit(0);
 	}
 
 	@FXML
 	public void newAccountButtonOnAction(ActionEvent event) {
 
-		Parent parent = null;
+	/*	Parent parent = null;
 		try {
-			parent = FXMLLoader.load(getClass().getResource("/fxml/NewAccount.fxml"));
+			parent = FXMLLoader.load(getClass().getResource(FXML_NEW_ACCOUNT_FXML));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		// Stage stage = new Stage();
+		Pane borderPane = FxmlUtils.fxmlLoader(FXML_NEW_ACCOUNT_FXML);
 
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-		Scene scene = new Scene(parent);
+		Scene scene = new Scene(borderPane);
 
 		stage.setScene(scene);
 		stage.setTitle("New Account");
