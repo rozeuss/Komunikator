@@ -70,9 +70,10 @@ public class LoginController implements Initializable {
 			String username = txtUsername.getText();
 			String password = txtPassword.getText();
 
-                        
-			try {
+                        try {
 				CredentialsHandler.getInstance().HashAndSendCredentials(username, password);
+                                username = null;
+                                password = null;
 			} catch (NullPointerException  e) {
 				LOGGER.log(Level.WARNING, null, e);
                         }
