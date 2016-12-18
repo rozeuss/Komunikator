@@ -1,14 +1,20 @@
 package controllers;
 
+
 import handlers.CredentialsHandler;
+import security.Password;
 import utils.FxmlUtils;
 
+import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -16,6 +22,7 @@ import main.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,6 +31,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
+import security.PasswordHasher;
+import tasks.CredentialsHandlerTrigger;
 
 public class LoginController implements Initializable {
 	private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
@@ -31,7 +40,8 @@ public class LoginController implements Initializable {
 	private static final String FXML_SPLASH_FXML = "/fxml/Splash.fxml";
 
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
-
+        
+        private CredentialsHandlerTrigger credentialsHandlerTrigger;
 	@FXML
 	private Label messageLabel;
 
@@ -57,29 +67,14 @@ public class LoginController implements Initializable {
 	private Text forgotPasswordLabel;
 
 	@FXML
-	private void loginButtonOnAction(ActionEvent event) {
-                
-            Task<Void> task = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-            };
-            try {
+	private void loginButtonOnAction(ActionEvent event) throws Exception {
+                        
+                credentialsHandlerTrigger.SetUsername(txtUsername.getText());
+                credentialsHandlerTrigger.SetPassword(txtPassword.getText());
+                try {
                         incorrectCredentialsLabel.setVisible(false);
-			String username = txtUsername.getText();
-			String password = txtPassword.getText();
-
-                        try {
-				CredentialsHandler.getInstance().HashAndSendCredentials(username, password);
-                                username = null;
-                                password = null;
-			} catch (NullPointerException  e) {
-				LOGGER.log(Level.WARNING, null, e);
-                        }
-			
-
-		} catch (IllegalArgumentException e) {
+			credentialsHandlerTrigger.run();    
+                } catch (IllegalArgumentException e) {
 			incorrectCredentialsLabel.setVisible(true);
 		}
 
@@ -154,6 +149,7 @@ public class LoginController implements Initializable {
 
 	public LoginController() {
 		LOGGER.log(Level.FINE, "LOG IN Controller created");
+                credentialsHandlerTrigger = new CredentialsHandlerTrigger();
 	}
 
 	@FXML
