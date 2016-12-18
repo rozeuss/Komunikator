@@ -5,11 +5,8 @@
  */
 package handlers;
 
-import database.Communication;
+
 import database.CredentialsSender;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.logging.Level;
 import security.PasswordHasher;
 
 /**

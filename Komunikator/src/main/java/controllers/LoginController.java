@@ -1,20 +1,14 @@
 package controllers;
 
-import database.Communication;
 import handlers.CredentialsHandler;
-import security.Password;
 import utils.FxmlUtils;
 
-import java.io.IOException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -22,7 +16,6 @@ import main.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,7 +24,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
-import security.PasswordHasher;
 
 public class LoginController implements Initializable {
 	private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
