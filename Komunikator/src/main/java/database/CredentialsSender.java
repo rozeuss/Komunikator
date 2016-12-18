@@ -14,19 +14,12 @@ import javafx.concurrent.Task;
  *
  * @author Maciej
  */
-public class DBCommunication {
+public class CredentialsSender {
     
-    private DBCommunication(){}
-    
-    public static void sendCredentials(String Username, String PasswordInput) throws IllegalArgumentException, NoSuchAlgorithmException, InvalidKeySpecException{
-        char[] UsernameChars = Username.toCharArray();
-        char[] PasswordChars = PasswordInput.toCharArray();
-        
-        if(UsernameChars.length == 0 || PasswordChars.length == 0) throw new IllegalArgumentException();
-        
-        String PasswordHashed;
-        PasswordHashed = Password.generateHash(PasswordChars);
-        
+    private CredentialsSender(){}
+    private static CredentialsSender credentialsSenderHolder;
+    public void sendCredentials(String username, String hashedPassword) {
+         
         
         Task<String> sendCredentials = new Task<String>() {
             @Override
@@ -36,9 +29,14 @@ public class DBCommunication {
         };
         
         
-        //TODO
+        
         
         
     }
-    
+    public static CredentialsSender getInstance(){
+        if(credentialsSenderHolder == null)
+            credentialsSenderHolder = new CredentialsSender();
+            
+        return credentialsSenderHolder;
+    }
 }

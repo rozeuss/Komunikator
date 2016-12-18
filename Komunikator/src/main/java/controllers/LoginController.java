@@ -1,6 +1,7 @@
 package controllers;
 
 import database.Communication;
+import handlers.CredentialsHandler;
 import security.Password;
 import utils.FxmlUtils;
 
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 
 import main.Main;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
+import security.PasswordHasher;
 
 public class LoginController implements Initializable {
 	private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
@@ -63,27 +66,25 @@ public class LoginController implements Initializable {
 
 	@FXML
 	private void loginButtonOnAction(ActionEvent event) {
+                
+            Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            };
+            try {
+                        incorrectCredentialsLabel.setVisible(false);
+			String username = txtUsername.getText();
+			String password = txtPassword.getText();
 
-		try {
-			String Username = txtUsername.getText();
-			char[] PasswordChars = txtPassword.getText().toCharArray();
-
-			if ((Username.length() == 0 || PasswordChars.length == 0))
-				throw new IllegalArgumentException();
-
-			// txtUsername.deleteText(0, txtUsername.getLength());
-			// txtPassword.deleteText(0, txtPassword.getLength());
-			incorrectCredentialsLabel.setVisible(false);
-
-			String PasswordHashed = null;
+                        
 			try {
-				PasswordHashed = Password.generateHash(PasswordChars);
-				Communication.sendCredentials(Username, PasswordHashed);
-			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+				CredentialsHandler.getInstance().HashAndSendCredentials(username, password);
+			} catch (NullPointerException  e) {
 				LOGGER.log(Level.WARNING, null, e);
-			}
-
-			System.out.println(PasswordHashed);
+                        }
+			
 
 		} catch (IllegalArgumentException e) {
 			incorrectCredentialsLabel.setVisible(true);
