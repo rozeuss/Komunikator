@@ -5,8 +5,6 @@
  */
 package database;
 
-import javafx.concurrent.Task;
-
 /**
  *
  * @author Maciej

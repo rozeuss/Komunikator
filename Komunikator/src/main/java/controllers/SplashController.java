@@ -1,15 +1,13 @@
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -59,6 +57,9 @@ public class SplashController implements Initializable{
 						stage.setTitle("Main Frame");
 						stage.setMinHeight(575);
 						stage.setMinWidth(400);
+						stage.getIcons().add(
+								   new Image(
+								      SplashController.class.getResourceAsStream( "../images/icon.png" ))); 
 					//	stage.initStyle(StageStyle.UNDECORATED);
 						stage.show();
 						

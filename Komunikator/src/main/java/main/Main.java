@@ -2,8 +2,10 @@ package main;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import utils.FxmlUtils;
@@ -30,6 +32,9 @@ public class Main extends Application {
 		primaryStage.setTitle("Login");
 		primaryStage.setResizable(false);
 		// primaryStage.initStyle(StageStyle.UNDECORATED);
+		primaryStage.getIcons().add(
+				   new Image(
+				      Main.class.getResourceAsStream( "../images/icon.png" ))); 
 		primaryStage.show();
 		LOGGER.log(Level.FINE, "Main App window created and shown");
 

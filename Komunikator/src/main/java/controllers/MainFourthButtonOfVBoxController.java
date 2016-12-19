@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.Person;
 import utils.FxmlUtils;
 import javafx.scene.control.TextArea;
 
