@@ -13,9 +13,9 @@ import security.PasswordHasher;
  *
  * @author ADMIN
  */
-public class CredentialsHandler {
-    private static CredentialsHandler credentialsHandlerHolder;
-    private CredentialsHandler(){}
+public class LogInCredentialsHandler {
+    private static LogInCredentialsHandler credentialsHandlerHolder;
+    private LogInCredentialsHandler(){}
     
     
     public void HashAndSendCredentials(String username, String password) throws NullPointerException, IllegalArgumentException {
@@ -33,9 +33,9 @@ public class CredentialsHandler {
     
     
     
-    public static CredentialsHandler getInstance(){
+    public static LogInCredentialsHandler getInstance(){
         if(credentialsHandlerHolder == null)
-            credentialsHandlerHolder = new CredentialsHandler();
+            credentialsHandlerHolder = new LogInCredentialsHandler();
             
         return credentialsHandlerHolder;
     }

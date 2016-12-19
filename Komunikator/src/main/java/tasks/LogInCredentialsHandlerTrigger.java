@@ -6,7 +6,7 @@
 package tasks;
 
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
-import handlers.CredentialsHandler;
+import handlers.LogInCredentialsHandler;
 import java.util.logging.Level;
 import javafx.concurrent.Task;
 
@@ -14,16 +14,16 @@ import javafx.concurrent.Task;
  *
  * @author ADMIN
  */
-public class CredentialsHandlerTrigger extends Task{
+public class LogInCredentialsHandlerTrigger extends Task{
     
     private String username;
     private String password;
-    public CredentialsHandlerTrigger(){}
+    public LogInCredentialsHandlerTrigger(){}
 
     @Override
     protected Object call() throws IllegalArgumentException, NullPointerException {
         try {
-            CredentialsHandler.getInstance().HashAndSendCredentials(username, password);
+            LogInCredentialsHandler.getInstance().HashAndSendCredentials(username, password);
         } catch (NullPointerException  e) {
             LOGGER.log(Level.WARNING, null, e);
         }

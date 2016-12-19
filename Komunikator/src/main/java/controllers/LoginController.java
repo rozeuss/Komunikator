@@ -24,12 +24,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
-import tasks.CredentialsHandlerTrigger;
+import tasks.LogInCredentialsHandlerTrigger;
 
 public class LoginController implements Initializable {
         private static final ExecutorService taskExecutor = Executors.newFixedThreadPool(5);
         
-        private CredentialsHandlerTrigger credentialsHandlerTrigger;
+        private LogInCredentialsHandlerTrigger credentialsHandlerTrigger;
 	
         private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
 
@@ -148,7 +148,7 @@ public class LoginController implements Initializable {
 
 	public LoginController() {
 		LOGGER.log(Level.FINE, "LOG IN Controller created");
-                credentialsHandlerTrigger = new CredentialsHandlerTrigger();
+                credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();
 	}
 
 	@FXML
