@@ -3,12 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -58,7 +59,15 @@
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="453.0" prefWidth="275.0">
       <fx:include fx:id="mainRightVBox" source="MainRightVBox.fxml" />
-         <ListView prefHeight="200.0" prefWidth="500.0" VBox.vgrow="ALWAYS" />
+         <TableView fx:id="personTable" onContextMenuRequested="#tableViewOnMouseClicked" prefHeight="100.0" prefWidth="500.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="First Name" />
+               <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="Last Name" />
+            </columns>
+            <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+         </TableView>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

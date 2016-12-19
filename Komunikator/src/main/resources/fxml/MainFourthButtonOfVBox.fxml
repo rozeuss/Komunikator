@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -9,44 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <HBox prefHeight="500.0" prefWidth="500.0">
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <ImageView fx:id="userProfileImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/Onion-300x300.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
-            <VBox>
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin>
-               <children>
-                  <Label text="Username:" />
-                  <VBox>
-                     <children>
-                        <Label text="First name:" />
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-            <VBox>
-               <HBox.margin>
-                  <Insets left="10.0" top="10.0" />
-               </HBox.margin>
-               <children>
-                  <Label text="&lt;username&gt;" />
-                  <Label text="&lt;firstname&gt;" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-   </center>
+<BorderPane prefHeight="628.0" prefWidth="763.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainFourthButtonOfVBoxController">
    <top>
       <Label text="Your profile" BorderPane.alignment="TOP_LEFT">
          <BorderPane.margin>
@@ -57,4 +23,115 @@
          </font>
       </Label>
    </top>
+   <center>
+      <VBox>
+         <children>
+            <HBox prefHeight="15.0" prefWidth="500.0">
+               <children>
+                  <VBox prefHeight="500.0" prefWidth="131.0">
+                     <children>
+                        <ImageView fx:id="userProfileImage" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Onion-300x300.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="204.0" prefWidth="137.0" spacing="8.0">
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                     <children>
+                        <Label text="Username:">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label text="First name:">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label text="Last name:">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label text="E-mail:">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" text="Age:">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" text="From:">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="193.0" prefWidth="188.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="userUserName" editable="false" promptText="&lt;username&gt;" />
+                        <TextField fx:id="userFirstName" editable="false" promptText="&lt;firstname&gt;" />
+                        <TextField fx:id="userLastName" editable="false" promptText="&lt;lastname&gt;" />
+                        <TextField fx:id="userEmail" editable="false" promptText="&lt;email&gt;" />
+                        <TextField fx:id="userAge" editable="false" promptText="&lt;age&gt;" />
+                        <TextField fx:id="userFrom" editable="false" promptText="&lt;from&gt;" text="BADUMTS" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="337.0" prefWidth="763.0">
+               <children>
+                  <VBox prefHeight="303.0" prefWidth="633.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="RIGHT" text="About me:">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                           <graphic>
+                              <Label fx:id="userAbout" text="&lt;aboutuser set max length&gt;">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                           </graphic>
+                        </Label>
+                        <TextArea fx:id="aboutMeTextArea" maxWidth="600.0" prefHeight="142.0" prefWidth="450.0" wrapText="true" />
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <right>
+      <VBox alignment="TOP_CENTER" prefHeight="323.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_RIGHT" focusTraversable="true" minHeight="300.0" minWidth="174.0" prefHeight="543.0" prefWidth="182.0" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonOnAction" text="Edit" />
+                  <Button disable="true" mnemonicParsing="false" text="Apply" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
