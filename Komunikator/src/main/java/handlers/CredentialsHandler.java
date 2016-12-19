@@ -27,6 +27,7 @@ public class CredentialsHandler {
                         String PasswordHashed = null;
 			PasswordHashed = PasswordHasher.hashpw(password, PasswordHasher.gensalt());
                         CredentialsSender.getInstance().sendCredentials(username, password);
+                        PasswordHashed = null;
 			
     }
     
