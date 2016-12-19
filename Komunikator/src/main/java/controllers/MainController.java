@@ -1,31 +1,64 @@
 package controllers;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import main.Person;
 import utils.DialogsUtils;
 import utils.FxmlUtils;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckMenuItem;
 
 public class MainController {
 
+	
+	   @FXML
+	    private TableView<Person> personTable;
+	    @FXML
+	    private TableColumn<Person, String> firstNameColumn;
+	    @FXML
+	    private TableColumn<Person, String> lastNameColumn;
+	    @FXML
+	    private Label firstNameLabel;
+	    @FXML
+	    private Label lastNameLabel;
+	    @FXML
+	    private Label streetLabel;
+	    @FXML
+	    private Label postalCodeLabel;
+	    @FXML
+	    private Label cityLabel;
+	    @FXML
+	    private Label birthdayLabel;
+	
 	private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
 
 	private static final String FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML = "/fxml/MainFourthButtonOfVBox.fxml";
+	
+	private static final String FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML = "/fxml/MainFirstButtonOfVBox.fxml";
+
+	private static final String FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML = "/fxml/MainSecondButtonOfVBox.fxml";
+
 
 	private static final String FXML_OPTIONS_FXML = "/fxml/Options.fxml";
 
@@ -56,13 +89,84 @@ public class MainController {
 	@FXML
 	CheckMenuItem menuItemAlwaysOnTop;
 
+	
+	
+	
+	
+	@FXML
+	private void tableViewOnMouseClicked(){
+		System.out.println("elo");
+	}
+	
+	
+
+	
+	
+	
+	
 	public void setCenter(String fxmlPath) {
 		borderPane.setCenter(FxmlUtils.fxmlLoader(fxmlPath));
 	}
 
+	
+	
+	
+	
 	@FXML
 	private void initialize() {
 		mainRightVBoxController.setMainController(this);
+		 personTable.setItems(this.getPersonData());
+		 firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+	      lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+	      
+	      
+	      personTable.setRowFactory(new Callback<TableView<Person>, TableRow<Person>>() {
+	          @Override
+	          public TableRow<Person> call(TableView<Person> tableView) {
+	            final TableRow<Person> row = new TableRow<>();
+	            final ContextMenu rowMenu = new ContextMenu();
+	            ContextMenu tableMenu = tableView.getContextMenu();
+	            if (tableMenu != null) {
+	              rowMenu.getItems().addAll(tableMenu.getItems());
+	              rowMenu.getItems().add(new SeparatorMenuItem());
+	            }
+	            MenuItem chatItem = new MenuItem("Chat");
+	            MenuItem profileItem = new MenuItem("Show profile");
+	            
+	            
+	            chatItem.setOnAction(new EventHandler<ActionEvent>(){
+
+					@Override
+					public void handle(ActionEvent event) {
+						System.out.println("elodwazero");
+						setCenter(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML);
+					}
+	            	
+	            });
+	            
+	            
+	            profileItem.setOnAction(new EventHandler<ActionEvent>(){
+
+	    					@Override
+	    					public void handle(ActionEvent event) {
+	    						System.out.println("elodwazero");
+	    						setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
+	    					}
+	    	            	
+	    	            });
+	            
+	            rowMenu.getItems().addAll(chatItem, profileItem);
+	            row.contextMenuProperty().bind(
+	                Bindings.when(Bindings.isNotNull(row.itemProperty()))
+	                .then(rowMenu)
+	                .otherwise((ContextMenu) null));
+	            return row;
+	          }
+	        });
+	      
+	      
+	      
+
 
 	}
 
@@ -152,4 +256,31 @@ public class MainController {
 		DialogsUtils.dialogAboutApplication();
 	}
 
+	
+	 private ObservableList<Person> personData = FXCollections.observableArrayList();
+
+	    /**
+	     * Constructor
+	     */
+	    public MainController() {
+	        // Add some sample data
+	        personData.add(new Person("Hans", "Muster"));
+	        personData.add(new Person("Ruth", "Mueller"));
+	        personData.add(new Person("Heinz", "Kurz"));
+	        personData.add(new Person("Cornelia", "Meier"));
+	        personData.add(new Person("Werner", "Meyer"));
+	        personData.add(new Person("Lydia", "Kunz"));
+	        personData.add(new Person("Anna", "Best"));
+	        personData.add(new Person("Stefan", "Meier"));
+	        personData.add(new Person("Martin", "Mueller"));
+	    }
+
+	    /**
+	     * Returns the data as an observable list of Persons. 
+	     * @return
+	     */
+	    public ObservableList<Person> getPersonData() {
+	        return personData;
+	    }
+	
 }
