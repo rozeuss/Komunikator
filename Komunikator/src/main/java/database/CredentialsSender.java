@@ -5,9 +5,6 @@
  */
 package database;
 
-import security.Password;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import javafx.concurrent.Task;
 
 /**
@@ -18,20 +15,9 @@ public class CredentialsSender {
     
     private CredentialsSender(){}
     private static CredentialsSender credentialsSenderHolder;
-    public void sendCredentials(String username, String hashedPassword) {
+    public void sendCredentials(String username, String hashedPassword) 
+    {
          
-        
-        Task<String> sendCredentials = new Task<String>() {
-            @Override
-            protected String call() throws Exception {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        
-        
-        
-        
-        
     }
     public static CredentialsSender getInstance(){
         if(credentialsSenderHolder == null)

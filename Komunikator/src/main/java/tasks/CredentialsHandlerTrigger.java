@@ -9,13 +9,13 @@ import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import handlers.CredentialsHandler;
 import java.util.logging.Level;
 import javafx.concurrent.Task;
-import security.PasswordHasher;
 
 /**
  *
  * @author ADMIN
  */
 public class CredentialsHandlerTrigger extends Task{
+    
     private String username;
     private String password;
     public CredentialsHandlerTrigger(){}

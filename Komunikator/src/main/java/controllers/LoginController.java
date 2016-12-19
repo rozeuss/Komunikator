@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
 import tasks.CredentialsHandlerTrigger;
 
 public class LoginController implements Initializable {
-        private static final ExecutorService taskExecutor = Executors.newFixedThreadPool(1);
+        private static final ExecutorService taskExecutor = Executors.newFixedThreadPool(5);
         
         private CredentialsHandlerTrigger credentialsHandlerTrigger;
 	
