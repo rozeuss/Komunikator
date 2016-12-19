@@ -28,16 +28,16 @@ import tasks.CredentialsHandlerTrigger;
 
 public class LoginController implements Initializable {
         private static final ExecutorService taskExecutor = Executors.newFixedThreadPool(1);
-             
-             
-	private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
+        
+        private CredentialsHandlerTrigger credentialsHandlerTrigger;
+	
+        private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
 
 	private static final String FXML_SPLASH_FXML = "/fxml/Splash.fxml";
 
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
         
-        private CredentialsHandlerTrigger credentialsHandlerTrigger;
-	@FXML
+        @FXML
 	private Label messageLabel;
 
 	@FXML
@@ -67,12 +67,15 @@ public class LoginController implements Initializable {
                 credentialsHandlerTrigger.SetUsername(txtUsername.getText());
                 credentialsHandlerTrigger.SetPassword(txtPassword.getText());
                 try {
-                        incorrectCredentialsLabel.setVisible(false);
-                        taskExecutor.execute(credentialsHandlerTrigger);
-                        taskExecutor.shutdown();
-		} catch (IllegalArgumentException e) {
-			incorrectCredentialsLabel.setVisible(true);
-		}
+                    incorrectCredentialsLabel.setVisible(false);
+                    taskExecutor.execute(credentialsHandlerTrigger);
+                    taskExecutor.shutdown();
+                    taskExecutor.awaitTermination(1, TimeUnit.SECONDS);
+                } catch (IllegalArgumentException e) {
+                    incorrectCredentialsLabel.setVisible(true);
+		} catch (NullPointerException nlp) {
+                    LOGGER.log(Level.WARNING, "NULL POINTER EXCEPTION IN LOG IN EXECUTOR");  
+                }
 
 		if (txtUsername.getText().equals("test") && txtPassword.getText().equals("test")) {
 
