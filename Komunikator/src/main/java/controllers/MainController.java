@@ -217,9 +217,9 @@ public class MainController {
 			 * (IOException e) { // TODO Auto-generated catch block
 			 * e.printStackTrace(); }
 			 */
-			Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
+			Pane loginPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
 			Stage stage = new Stage();
-			Scene scene = new Scene(borderPane);
+			Scene scene = new Scene(loginPane);
 			stage.setHeight(486);
 			stage.setWidth(586);
 			stage.centerOnScreen();

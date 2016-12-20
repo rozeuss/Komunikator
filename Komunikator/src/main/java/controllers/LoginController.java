@@ -70,7 +70,7 @@ public class LoginController implements Initializable {
                     incorrectCredentialsLabel.setVisible(false);
                     taskExecutor.execute(credentialsHandlerTrigger);
                     taskExecutor.shutdown();
-                    taskExecutor.awaitTermination(1, TimeUnit.SECONDS);
+                   taskExecutor.awaitTermination(1, TimeUnit.SECONDS);
                 } catch (IllegalArgumentException e) {
                     incorrectCredentialsLabel.setVisible(true);
 		} catch (NullPointerException nlp) {
