@@ -15,7 +15,6 @@
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Button fx:id="firstButtonVBox" contentDisplay="TOP" mnemonicParsing="false" onAction="#firstButtonVBoxOnAction" prefHeight="200.0" prefWidth="300.0" text="Chat with...">
@@ -27,7 +26,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="secondButtonVBox" contentDisplay="TOP" mnemonicParsing="false" onAction="#secondButtonVBoxOnAction" prefHeight="200.0" prefWidth="300.0" text="Conversations" GridPane.columnIndex="1">
+      <Button fx:id="secondButtonVBox" contentDisplay="TOP" mnemonicParsing="false" onAction="#secondButtonVBoxOnAction" prefHeight="200.0" prefWidth="300.0" text="Groups" GridPane.columnIndex="1">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -46,24 +45,6 @@
          </graphic>
       </Button>
       <Button fx:id="fourthButtonVBox" contentDisplay="TOP" mnemonicParsing="false" onAction="#fourthButtonVBoxOnAction" prefHeight="200.0" prefWidth="300.0" text="Your profile" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <graphic>
-            <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/icons/open-book.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button mnemonicParsing="false" prefHeight="200.0" prefWidth="300.0" text="Button" GridPane.rowIndex="2">
-         <graphic>
-            <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/icons/open-book.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="200.0" prefWidth="300.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <graphic>
             <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
