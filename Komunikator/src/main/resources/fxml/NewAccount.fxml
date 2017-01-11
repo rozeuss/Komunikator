@@ -4,17 +4,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="586.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewAccountController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="586.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewAccountController">
    <children>
       <TextField fx:id="usernameTextField" layoutX="108.0" layoutY="133.0" prefHeight="35.0" prefWidth="380.0" promptText="Username" />
-      <Text layoutX="178.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New account">
-         <font>
-            <Font size="46.0" />
-         </font>
-      </Text>
       <TextField layoutX="108.0" layoutY="333.0" prefHeight="35.0" prefWidth="380.0" promptText="Age" />
       <TextField layoutX="108.0" layoutY="233.0" prefHeight="35.0" prefWidth="380.0" promptText="First Name" />
       <TextField layoutX="108.0" layoutY="283.0" prefHeight="35.0" prefWidth="380.0" promptText="Last Name" />
@@ -37,6 +34,29 @@
          <font>
             <Font size="25.0" />
          </font>
+      </Text>
+      <Text id="loginID" layoutY="113.0" text="New account" textAlignment="CENTER" wrappingWidth="586.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="46.0" />
+         </font>
+         <stroke>
+            <LinearGradient endX="0.48543689320388345" endY="1.0" startX="0.49029126213592233">
+               <stops>
+                  <Stop color="#00000030" />
+                  <Stop color="#00000030" offset="0.007246376811594203" />
+                  <Stop color="#015669" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+         <fill>
+            <LinearGradient endX="0.47572815533980584" endY="0.825242718446602" startX="0.5145631067961165" startY="0.5242718446601942">
+               <stops>
+                  <Stop color="#0000001c" />
+                  <Stop color="#ffffff00" offset="0.8768115942028986" />
+                  <Stop color="#ffffff00" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
       </Text>
    </children>
 </AnchorPane>

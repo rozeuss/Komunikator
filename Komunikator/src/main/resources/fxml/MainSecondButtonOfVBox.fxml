@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="628.0" prefWidth="763.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainSecondButtonOfVBoxController">
+<BorderPane prefHeight="628.0" prefWidth="763.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainSecondButtonOfVBoxController">
    <top>
       <Label text="Your conversations" BorderPane.alignment="TOP_LEFT">
          <BorderPane.margin>
@@ -22,7 +22,7 @@
       </Label>
    </top>
    <left>
-      <VBox minHeight="100.0" minWidth="100.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="580.0" prefWidth="243.0" BorderPane.alignment="TOP_LEFT">
+      <VBox id="VBox" minHeight="100.0" minWidth="100.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="580.0" prefWidth="243.0" BorderPane.alignment="TOP_LEFT">
          <children>
             <Button fx:id="newConversationButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#newConversationButtonOnAction" prefHeight="31.0" prefWidth="299.0" text="New conversation">
                <VBox.margin>
@@ -32,14 +32,14 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <ListView fx:id="listView" minHeight="100.0" minWidth="100.0" onMouseClicked="#listViewOnMouseClicked" prefHeight="543.0" prefWidth="269.0" VBox.vgrow="ALWAYS" />
+            <ListView id="listView" fx:id="listView" onMouseClicked="#listViewOnMouseClicked" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </left>
    <center>
-      <SplitPane fx:id="splitPane" dividerPositions="0.10536044362292052" mouseTransparent="true" orientation="VERTICAL" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.10536044362292052" mouseTransparent="true" orientation="VERTICAL" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="122.0" prefWidth="464.0" SplitPane.resizableWithParent="false">
+          <AnchorPane id="anchorTop" minHeight="0.0" minWidth="0.0" prefHeight="122.0" prefWidth="464.0" SplitPane.resizableWithParent="false">
                <children>
                   <Label layoutX="157.0" layoutY="30.0" prefHeight="80.0" prefWidth="297.0" text="Selected conversation" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
@@ -48,7 +48,7 @@
                   </Label>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
+          <AnchorPane id="anchorBottom" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
                <children>
                   <VBox layoutX="14.0" layoutY="49.0" spacing="50.0">
                      <children>
