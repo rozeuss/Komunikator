@@ -58,7 +58,8 @@ public class MainController {
 	private static final String FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML = "/fxml/MainFirstButtonOfVBox.fxml";
 
 	private static final String FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML = "/fxml/MainSecondButtonOfVBox.fxml";
-
+	
+	private static final String FXML_CHATTING_FXML = "/fxml/Chatting.fxml";
 
 	private static final String FXML_OPTIONS_FXML = "/fxml/Options.fxml";
 
@@ -139,7 +140,7 @@ public class MainController {
 					@Override
 					public void handle(ActionEvent event) {
 						System.out.println("elodwazero");
-						setCenter(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML);
+						setCenter(FXML_CHATTING_FXML);
 					}
 	            	
 	            });

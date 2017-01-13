@@ -3,6 +3,10 @@
     -fx-background-color: pink;
 }
 
+.button2{
+		-fx-background-color: 
+        red;
+}
 
 .root{
 	-fx-background-color: 
@@ -16,11 +20,20 @@
 
     -fx-background-radius: 20;
    /* -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );*/  
-    -fx-font-family: "Arial";
+    -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: linear-gradient(white 0%, #8edbda 80%, #015669 100%);
-    -fx-font-size: 15px;
+    -fx-font-size: 16px;
 
 }
+#vBoxButtons:hover{
+
+}
+
+#vBoxButtons:pressed{
+  -fx-background-color: rgba(255,255,255,0.1);
+  -fx-text-fill: #015669;
+}
+
 
 
 
@@ -43,9 +56,39 @@
 
 }
 
+
+
+
+
+
+
+.list-cell{
+	-fx-cell-size: 40;
+}
+
+
+
+
+
+
+
+
 .split-pane-divider{
 	-fx-background-color: 
         #015669;
+}
+
+
+.dialog-pane .header-panel{
+		-fx-background-color: #8edbda;
+		-fx-fill: white;
+}
+.dialog-pane{
+	-fx-background-color: white;
+}
+
+.dialog-pane .label{
+	-fx-fill:white;
 }
 
 #splitPane {
@@ -239,11 +282,22 @@
     -fx-background-color: derive(#015669,50%);
 }
 
+.menu-item:focused {
+    -fx-background-color: rgba(255,255,255,0.3);
+}
+
 .menu-bar .label {
     -fx-font-size: 14pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 0.9;
+}
+
+.menu:hover {
+    -fx-background-color: rgba(0,0,0,0.3);
+}
+.menu:showing {
+    -fx-background-color: rgba(255,255,255,0.3);
 }
 
 .menu .left-container {
@@ -283,19 +337,19 @@
     -fx-background-insets: 0,1,2,0;
     -fx-text-fill: white;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-    -fx-font-family: "Arial";
+    -fx-font-family: "Segoe UI Light";
     -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-font-size: 12px;
+    -fx-font-size: 13px;
     -fx-padding: 10 20 10 20;
 }
-
+/* DO EDYCJI */
 .button:hover {
    	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.6) , 5, 0.0 , 0 , 1 );
 
 }
 
 .button:pressed, .button:default:hover:pressed {
-  -fx-background-color: white;
+  -fx-background-color: rgba(255,255,255,0.5);
   -fx-text-fill: #1d1d1d;
 }
 
