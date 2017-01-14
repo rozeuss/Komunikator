@@ -21,6 +21,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
@@ -76,7 +78,7 @@ public class LoginController implements Initializable {
 		} catch (NullPointerException nlp) {
                     LOGGER.log(Level.WARNING, "NULL POINTER EXCEPTION IN LOG IN EXECUTOR");  
                 }
-
+            
 		if (txtUsername.getText().equals("test") && txtPassword.getText().equals("test")) {
 
 			((Node) (event.getSource())).getScene().getWindow().hide();
@@ -156,6 +158,17 @@ public class LoginController implements Initializable {
 
 		System.out.println("to se przypomnij xD\nlogin:test\nhaslo:test");
 
+	}
+
+	@FXML public void txtPasswordOnKeyReleased( KeyEvent e)
+	{
+		/* GDY BEDZIEMY W PASSWORD I DAMY ENTER TO ZALOGUJE */
+		if(e.getCode().equals(KeyCode.ENTER))
+		{
+		loginButton.fire();
+        System.out.println("Wcisnieto ENTER! Robimy clear");
+        txtPassword.clear();
+		}
 	}
 
 }

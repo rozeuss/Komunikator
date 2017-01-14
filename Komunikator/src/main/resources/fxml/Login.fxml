@@ -15,8 +15,8 @@
    <children>
       <Button fx:id="loginButton" layoutX="143.0" layoutY="384.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Login" textAlignment="CENTER" />
       <Button fx:id="exitButton" layoutX="293.0" layoutY="384.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Exit" textAlignment="CENTER" />
-      <PasswordField fx:id="txtPassword" layoutX="155.0" layoutY="260.0" prefHeight="40.0" prefWidth="270.0" promptText="Password" />
       <TextField fx:id="txtUsername" layoutX="155.0" layoutY="193.0" prefHeight="40.0" prefWidth="270.0" promptText="Username" />
+      <PasswordField fx:id="txtPassword" layoutX="155.0" layoutY="260.0" onKeyReleased="#txtPasswordOnKeyReleased" prefHeight="40.0" prefWidth="270.0" promptText="Password" />
       <Text id="loginID" layoutX="188.0" layoutY="113.0" text="Log In">
          <font>
             <Font size="46.0" />
