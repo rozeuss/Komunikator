@@ -1,9 +1,15 @@
 package main;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import controllers.LoginController;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -26,11 +32,26 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_LOGIN_FXML)); 
+		Parent root = (Parent)fxmlLoader.load();   
 		//Parent root = FXMLLoader.load(getClass().getResource(FXML_LOGIN_FXML));
-		Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
-		Scene scene = new Scene(borderPane);
+		LoginController loginController = fxmlLoader.<LoginController>getController();
+		
+		try{
+			Socket socket = new Socket("127.0.0.1", 1056);
+			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			loginController.setSocket(socket, out, in);	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		
+		
+		//Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
+		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Yo! - Login");
+		primaryStage.setTitle("Login");
 		primaryStage.setResizable(false);
 		// primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.getIcons().add(
