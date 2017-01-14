@@ -24,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
 import tasks.LogInCredentialsHandlerTrigger;
@@ -93,8 +94,10 @@ public class LoginController implements Initializable {
 			Pane borderPane = FxmlUtils.fxmlLoader(FXML_SPLASH_FXML);
 			Stage stage = new Stage();
 			Scene scene = new Scene(borderPane);
+			scene.setFill(Color.TRANSPARENT);
 			stage.setScene(scene);
 			stage.setResizable(true);
+			borderPane.setStyle("-fx-background-color: transparent;");
 			stage.initStyle(StageStyle.TRANSPARENT);
 			// scene.setFill(Color.TRANSPARENT);
 			// stage.setTitle("Main Frame");
