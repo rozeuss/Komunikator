@@ -11,7 +11,7 @@ import java.net.Socket;
 
 import controllers.*;
 import transferData.*;
-import transferDataContainers.LoginStatus;
+import transferDataContainers.Confirmation;
 
 public class ConnectionWorker implements Runnable {
 	
@@ -61,10 +61,10 @@ public class ConnectionWorker implements Runnable {
 		}
 		
 		if (controller instanceof LoginController) {
-			if(response instanceof LoginStatus){
-				((LoginController) controller).setLoginStatus((LoginStatus)response);
-				System.out.println(((LoginStatus) response).getMessage());
-				//((LoginController) controller).checkLoginStatus();
+			if(response instanceof Confirmation){
+				((LoginController) controller).setLoginStatus((Confirmation)response);
+				System.out.println(((Confirmation) response).getMessage());
+				((LoginController) controller).checkLoginStatus();
 			}
 		}
 		

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import database.ConnectionWorker;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -25,6 +26,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.Main;
+import transferDataContainers.LoginCredentials;
+import transferDataContainers.RegistrationInformation;
 import utils.FxmlUtils;
 
 public class NewAccountController implements Initializable{
@@ -35,12 +38,14 @@ public class NewAccountController implements Initializable{
     
     @FXML
     private TextField usernameTextField;
-
     @FXML
     private TextField passwordTextField;
-
-    
-    
+    @FXML
+    private TextField ageTextField;
+    @FXML
+    private TextField firstNameTextField;
+    @FXML
+    private TextField lastNameTextField;
     
 	StringProperty nameProperty = new SimpleStringProperty();
 
@@ -108,25 +113,15 @@ public class NewAccountController implements Initializable{
 
 
 	@FXML public void cancelButtonOnAction(ActionEvent event) {
-            
-            
-            
-	/*	Parent parent = null;
-		try {
-			parent = FXMLLoader.load(getClass().getResource(FXML_LOGIN_FXML));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
 		
+		Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
         Stage stage  = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setTitle("Yo! - Login");
 		stage.setResizable(false);
-		// stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
+		
 	}
 	
 	
@@ -139,12 +134,14 @@ public class NewAccountController implements Initializable{
 
 
 
-	@FXML public void createAccountButtonOnAction() {}
-
-
-	
-
-
+	@FXML public void createAccountButtonOnAction(ActionEvent event) {
+		/*registrationStatus =  new RegistrationStatus();	
+		LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
+		
+		ConnectionWorker connectionWorker = new ConnectionWorker(socket, out, in, loginCredentials, this);
+		Thread thread = new Thread(connectionWorker);
+		thread.run();*/
+	}
 }
 
 

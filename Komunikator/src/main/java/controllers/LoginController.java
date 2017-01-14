@@ -49,7 +49,7 @@ public class LoginController implements Initializable {
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	private LoginStatus loginStatus;
+	private Confirmation loginConfirmation;
 	private ActionEvent loginButtonActionEvent;
 	
     @FXML
@@ -78,7 +78,7 @@ public class LoginController implements Initializable {
 	
 	@FXML
 	private void loginButtonOnAction(ActionEvent event) throws Exception {
-		loginStatus =  new LoginStatus();
+		loginConfirmation =  new Confirmation();
 		/*credentialsHandlerTrigger.SetUsername(txtUsername.getText());
 		credentialsHandlerTrigger.SetPassword(txtPassword.getText());
 		try {
@@ -98,7 +98,7 @@ public class LoginController implements Initializable {
 		ConnectionWorker connectionWorker = new ConnectionWorker(socket, out, in, loginCredentials, this);
 
 		Thread thread = new Thread(connectionWorker);
-		thread.start();
+		thread.run();
 		
 		/*Task <Void> task = new Task<Void>(){
 
@@ -197,8 +197,8 @@ public class LoginController implements Initializable {
 		this.out = out;
 	}
 	
-	public void setLoginStatus(LoginStatus loginStatus) {
-		this.loginStatus = loginStatus;
+	public void setLoginStatus(Confirmation loginStatus) {
+		this.loginConfirmation = loginStatus;
 	}
 	
 	public void setSplashScene(){
@@ -217,13 +217,13 @@ public class LoginController implements Initializable {
 	public void showInvalidCredentialsLabel(){
 		System.out.println("wyswietl abela kurwa");
 		
-		messageLabel.setText(loginStatus.getMessage());
+		messageLabel.setText(loginConfirmation.getMessage());
 		
-		System.out.println(loginStatus.getMessage());
+		System.out.println(loginConfirmation.getMessage());
 	}
 
 	public void checkLoginStatus() {
-		if(loginStatus.isConfirmed() == true){
+		if(loginConfirmation.isConfirmed() == true){
 			System.out.println("potweirdzono status");
 			setSplashScene();
 		}

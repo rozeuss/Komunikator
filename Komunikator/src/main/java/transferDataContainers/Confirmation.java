@@ -2,7 +2,7 @@ package transferDataContainers;
 
 import java.io.Serializable;
 
-public class LoginStatus implements Serializable {
+public class Confirmation implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private boolean confirmed = false;
