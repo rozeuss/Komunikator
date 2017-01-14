@@ -136,6 +136,17 @@ public class MainController {
 	            MenuItem profileItem = new MenuItem("Show profile");
 	            MenuItem deleteFriendItem = new MenuItem("Delete friend");
 	            
+	            
+	            
+	            row.setOnMouseClicked(event -> {
+	                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+	                    Person rowData = row.getItem();
+	                    System.out.println("Klikasz ziomka: " + rowData.getFirstName() + " " + rowData.getLastName());
+						setCenter(FXML_CHATTING_FXML);
+	                }
+	            });
+	            
+	            
 	            chatItem.setOnAction(new EventHandler<ActionEvent>(){
 
 					@Override
