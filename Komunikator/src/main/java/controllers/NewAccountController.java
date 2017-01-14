@@ -123,7 +123,7 @@ public class NewAccountController implements Initializable{
         Stage stage  = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
-		stage.setTitle("Login");
+		stage.setTitle("Yo! - Login");
 		stage.setResizable(false);
 		// stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();

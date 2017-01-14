@@ -11,10 +11,19 @@
 .root{
 	-fx-background-color: 
         #8edbda,
-        linear-gradient(white 0%, #8edbda 70%, #015669 100%);
+        linear-gradient(white 0%, #8edbda 60%, #015669 100%);
    /*  -fx-background-radius: 5,4,3,5;*/
     -fx-background-insets: 0,1,2,0;
 }
+
+.text-area{
+	-fx-background-color:#e3f6f6;
+}
+
+.text-area .content{
+	-fx-background-color:#e3f6f6;
+}
+
 
 #vBoxButtons{
 
@@ -101,10 +110,9 @@
         #090a0c;
 }
 
-#listView{
-			-fx-background-color: 
-        #090a0c,
-                linear-gradient(#8edbda 0%, #015669 100%);
+.list-view{
+			-fx-background-color: #8edbda;
+           /*   linear-gradient(#8edbda 0%, #015669 100%); */
 }
 
 #loginID{
@@ -118,19 +126,60 @@
 .list-cell {     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
-    -fx-opacity: 0.6; }
-.list-cell:odd { -fx-background-color: #1f2429; /* 1 */ }
-.list-cell:even { -fx-background-color: #38424b; /* for information */ }
+    -fx-opacity: 0.8; }
+.list-cell:odd { -fx-background-color: #015669; /* 1 */ 
+}
+.list-cell:even { -fx-background-color: #016880; /* for information */ }
 .list-cell:filled:hover { 
-    -fx-background-color: blue; /* 2 */
-     -fx-font-size: 11pt;
+    -fx-background-color: rgba(0,0,0,0.2); /* 2 */
+     -fx-font-size: 13pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
     -fx-opacity: 0.6;
 }
 
+.tab-pane>*.tab-header-area>*.headers-region>*.tab:selected{
 
 
+	
+}
+
+
+.tab:selected {
+/*    -fx-background-color: white;*/
+/*    -fx-background-color: -fx-tab-border-color, -fx-inner-border, -fx-body-color;
+-fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+-fx-background-insets: 0, 1 1 0 1, 2 2 0 2;*/
+-fx-background-color: #e3f6f6;
+-fx-background-insets: 0, 1 1 0 1;
+-fx-background-radius: 5 5 0 0, 4 4 0 0;
+-fx-border-color: #015669;
+-fx-border-width: 1 1 0 1;
+-fx-border-radius: 5 5 0 0;
+
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+     -fx-border-color: transparent;
+}
+
+.tab-pane>*.tab-header-area>*.tab-header-background{
+	-fx-outer-border: #015669;
+	-fx-text-box-border: linear-gradient(#20262b, #191d22);
+}
+
+.tab{
+	-fx-outer-border: #015669;
+	-fx-inner-border: white;
+	-fx-base: white;
+
+}
+
+.tab-pane *.tab-header-background 
+{
+-fx-background-color:  linear-gradient(white 1%, #8edbda 100%);
+-fx-effect: innershadow(two-pass-box , rgba(0,0,0,0.6) , 4, 0.0 , 0 , 0);
+}
 
 .scroll-bar:vertical{
 				-fx-background-color: 
@@ -191,9 +240,9 @@
 
 
 .label {
-    -fx-font-size: 11pt;
+    -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: red;
+    -fx-text-fill: #015669;
     -fx-opacity: 0.6;
 }
 
@@ -205,10 +254,10 @@
 }
 
 .label-header {
-    -fx-font-size: 32pt;
-    -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
-    -fx-opacity: 1;
+    -fx-font-size: 24pt;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-text-fill: #015669;
+    -fx-opacity: 0.8;
 }
 
 .table-cell:odd{ -fx-background-color: #8edbda; }
@@ -278,9 +327,19 @@
     -fx-background-color: derive(#015669,20%);
 }
 
+.menu-item {
+
+}
 .context-menu {
     -fx-background-color: derive(#015669,50%);
 }
+
+.menu-item>*.label{
+	-fx-text-fill: white;
+	-fx-font-weight: bolder;
+	-fx-font-size: 17;
+}
+
 
 .menu-item:focused {
     -fx-background-color: rgba(255,255,255,0.3);

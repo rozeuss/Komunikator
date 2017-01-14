@@ -30,7 +30,7 @@ public class Main extends Application {
 		Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
 		Scene scene = new Scene(borderPane);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Login");
+		primaryStage.setTitle("Yo! - Login");
 		primaryStage.setResizable(false);
 		// primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.getIcons().add(

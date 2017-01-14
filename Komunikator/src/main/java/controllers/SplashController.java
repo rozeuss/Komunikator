@@ -54,7 +54,7 @@ public class SplashController implements Initializable{
 						stage.setHeight(800);
 						stage.setWidth(1000);
 						stage.setScene(scene);
-						stage.setTitle("Main Frame");
+						stage.setTitle("Yo!");
 						stage.setMinHeight(575);
 						stage.setMinWidth(400);
 						stage.getIcons().add(

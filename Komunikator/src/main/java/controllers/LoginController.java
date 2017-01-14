@@ -139,7 +139,7 @@ public class LoginController implements Initializable {
 		Scene scene = new Scene(borderPane);
 
 		stage.setScene(scene);
-		stage.setTitle("New Account");
+		stage.setTitle("Yo! - New Account");
 		stage.setResizable(false);
 		// stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();

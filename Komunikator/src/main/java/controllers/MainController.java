@@ -24,6 +24,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Person;
 import utils.DialogsUtils;
@@ -133,7 +134,7 @@ public class MainController {
 	            }
 	            MenuItem chatItem = new MenuItem("Chat");
 	            MenuItem profileItem = new MenuItem("Show profile");
-	            
+	            MenuItem deleteFriendItem = new MenuItem("Delete friend");
 	            
 	            chatItem.setOnAction(new EventHandler<ActionEvent>(){
 
@@ -156,7 +157,27 @@ public class MainController {
 	    	            	
 	    	            });
 	            
-	            rowMenu.getItems().addAll(chatItem, profileItem);
+	        //    deleteFriendItem.setOnAction(event -> personTable.getItems().remove(cell.getItem()));
+
+	            
+	            deleteFriendItem.setOnAction(new EventHandler<ActionEvent>(){
+
+	    					@Override
+	    					public void handle(ActionEvent event) {
+	    						//System.out.println(personTable.getSelectionModel().getSelectedItem().toString());
+	    						Optional<ButtonType> result = DialogsUtils.confirmationDialog("Deleting friend", "Do you really want to kill your friendship?");
+	    						if (result.get() == ButtonType.OK) {
+	    						int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+	    						String selectedName = personTable.getSelectionModel().getSelectedItem().getFirstName();
+								personTable.getItems().remove(selectedIndex);
+	    						System.out.println("Usunieto poprawnie uzytkownika: " + selectedName);
+	    						}
+	    					}
+	    	            	
+	    	            });
+	            
+	            
+	            rowMenu.getItems().addAll(chatItem, profileItem, deleteFriendItem);
 	            row.contextMenuProperty().bind(
 	                Bindings.when(Bindings.isNotNull(row.itemProperty()))
 	                .then(rowMenu)
@@ -173,7 +194,7 @@ public class MainController {
 
 	@FXML
 	public void menuItemCloseOnAction() {
-		Optional<ButtonType> result = DialogsUtils.confirmationDialog("Exit");
+		Optional<ButtonType> result = DialogsUtils.confirmationDialog("Exit", "Attention! It's dangerous!");
 		if (result.get() == ButtonType.OK) {
 			Platform.exit();
 			System.exit(0);
@@ -210,14 +231,8 @@ public class MainController {
 	@FXML
 	public void menuItemSignOutOnAction() {
 
-		Optional<ButtonType> result = DialogsUtils.confirmationDialog("Sign Out");
+		Optional<ButtonType> result = DialogsUtils.confirmationDialog("Sign Out", "Are you sure?");
 		if (result.get() == ButtonType.OK) {
-			/*
-			 * Parent parent = null; try { parent =
-			 * FXMLLoader.load(getClass().getResource(FXML_LOGIN_FXML)); } catch
-			 * (IOException e) { // TODO Auto-generated catch block
-			 * e.printStackTrace(); }
-			 */
 			Pane loginPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
 			Stage stage = new Stage();
 			Scene scene = new Scene(loginPane);
@@ -228,7 +243,7 @@ public class MainController {
 			stage.setTitle("Options");
 			stage.setMinHeight(575);
 			stage.setMinWidth(300);
-			// stage.initStyle(StageStyle.UNDECORATED);
+			stage.initStyle(StageStyle.UNDECORATED);
 			stage.show();
 			borderPane.getScene().getWindow().hide();
 		}

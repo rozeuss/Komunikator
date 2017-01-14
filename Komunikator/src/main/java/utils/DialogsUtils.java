@@ -20,13 +20,13 @@ public class DialogsUtils {
 
 		stage.getIcons().add(new Image(SplashController.class.getResourceAsStream("../images/icon.png")));
 		informationAlert.setTitle("About");
-		informationAlert.setHeaderText("About app.");
-		informationAlert.setContentText("This is a app. True a art.");
+		informationAlert.setHeaderText("About Yo! Communicator.© ™ ® ( ͡° ͜ʖ ͡°)");
+		informationAlert.setContentText("Simple instant messenger developed by students: Kate Infantry, Suchy 'Dry' Suchacki, Raciej Mudnicki and Daniel Kredkiewicz");
 		informationAlert.showAndWait();
 
 	}
 
-	public static Optional<ButtonType> confirmationDialog(String titleString) {
+	public static Optional<ButtonType> confirmationDialog(String titleString, String headerTextString) {
 		Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
 		DialogPane dialogPane = confirmationAlert.getDialogPane();
 		dialogPane.getStylesheets().add(DialogsUtils.class.getResource("/fxml/DarkTheme.css").toExternalForm());
@@ -35,7 +35,7 @@ public class DialogsUtils {
 		stage.getIcons().add(new Image(SplashController.class.getResourceAsStream("../images/icon.png")));
 
 		confirmationAlert.setTitle(titleString);
-		confirmationAlert.setHeaderText("Are you sure?");
+		confirmationAlert.setHeaderText(headerTextString);
 
 		Optional<ButtonType> result = confirmationAlert.showAndWait();
 
