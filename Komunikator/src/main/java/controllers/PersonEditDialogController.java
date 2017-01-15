@@ -1,12 +1,28 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Person;
 import utils.DateUtil;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.image.ImageView;
 
 
 public class PersonEditDialogController {
@@ -15,8 +31,6 @@ public class PersonEditDialogController {
     private TextField firstNameField;
     @FXML
     private TextField lastNameField;
-    @FXML
-    private TextField streetField;
     @FXML
     private TextField postalCodeField;
     @FXML
@@ -28,20 +42,24 @@ public class PersonEditDialogController {
     private Stage dialogStage;
     private Person person;
     private boolean okClicked = false;
+	@FXML TextField emailField;
+	@FXML TextField ageField;
+	@FXML TextField countryField;
+	@FXML RadioButton maleRadioButton;
+	@FXML ToggleGroup radioToggleGroup;
+	@FXML RadioButton femaleRadioButton;
+	@FXML Button loadAvatarButton;
+	@FXML HBox rootHBox;
+	@FXML Button cancelButton;
+	@FXML ImageView myImageView;
 
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
+
     @FXML
     private void initialize() {
+
     }
 
-    /**
-     * Sets the stage of this dialog.
-     * 
-     * @param dialogStage
-     */
+
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
@@ -56,31 +74,23 @@ public class PersonEditDialogController {
 
         firstNameField.setText(person.getFirstName());
         lastNameField.setText(person.getLastName());
-        streetField.setText(person.getStreet());
         postalCodeField.setText(Integer.toString(person.getPostalCode()));
         cityField.setText(person.getCity());
         birthdayField.setText(DateUtil.format(person.getBirthday()));
         birthdayField.setPromptText("dd.mm.yyyy");
     }
 
-    /**
-     * Returns true if the user clicked OK, false otherwise.
-     * 
-     * @return
-     */
+
     public boolean isOkClicked() {
         return okClicked;
     }
 
-    /**
-     * Called when the user clicks ok.
-     */
+
     @FXML
     private void handleOk() {
         if (isInputValid()) {
             person.setFirstName(firstNameField.getText());
             person.setLastName(lastNameField.getText());
-            person.setStreet(streetField.getText());
             person.setPostalCode(Integer.parseInt(postalCodeField.getText()));
             person.setCity(cityField.getText());
             person.setBirthday(DateUtil.parse(birthdayField.getText()));
@@ -90,19 +100,14 @@ public class PersonEditDialogController {
         }
     }
 
-    /**
-     * Called when the user clicks cancel.
-     */
+
     @FXML
     private void handleCancel() {
-        dialogStage.close();
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
     }
 
-    /**
-     * Validates the user input in the text fields.
-     * 
-     * @return true if the input is valid
-     */
+
     private boolean isInputValid() {
         String errorMessage = "";
 
@@ -112,14 +117,10 @@ public class PersonEditDialogController {
         if (lastNameField.getText() == null || lastNameField.getText().length() == 0) {
             errorMessage += "No valid last name!\n"; 
         }
-        if (streetField.getText() == null || streetField.getText().length() == 0) {
-            errorMessage += "No valid street!\n"; 
-        }
 
         if (postalCodeField.getText() == null || postalCodeField.getText().length() == 0) {
             errorMessage += "No valid postal code!\n"; 
         } else {
-            // try to parse the postal code into an int.
             try {
                 Integer.parseInt(postalCodeField.getText());
             } catch (NumberFormatException e) {
@@ -142,7 +143,7 @@ public class PersonEditDialogController {
         if (errorMessage.length() == 0) {
             return true;
         } else {
-            // Show the error message.
+
             Alert alert = new Alert(AlertType.ERROR);
             alert.initOwner(dialogStage);
             alert.setTitle("Invalid Fields");
@@ -154,4 +155,25 @@ public class PersonEditDialogController {
             return false;
         }
     }
+
+
+	@FXML public void loadAvatarButtonOnAction() {               
+	FileChooser fileChooser = new FileChooser();
+   // FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+   // fileChooser.getExtensionFilters().add(extFilter);
+	FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+    FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+    fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+      
+	
+    fileChooser.setTitle("Select your profile image");
+    File file = fileChooser.showOpenDialog(new Stage());
+    try {
+        BufferedImage bufferedImage = ImageIO.read(file);
+        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+        myImageView.setImage(image);
+    } catch (IOException ex) {
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+    }
+    System.out.println(file);}
 }

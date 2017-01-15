@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.Optional;
 
+import javax.sql.RowSetMetaData;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -51,7 +53,14 @@ public class MainController {
 	    private Label cityLabel;
 	    @FXML
 	    private Label birthdayLabel;
+	    
+	static private String showProfileUserName;
 	
+	public String getShowProfileUserName() {
+		return showProfileUserName;
+	}
+
+
 	private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
 
 	private static final String FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML = "/fxml/MainFourthButtonOfVBox.fxml";
@@ -162,7 +171,9 @@ public class MainController {
 
 	    					@Override
 	    					public void handle(ActionEvent event) {
-	    						System.out.println("elodwazero");
+	    					
+	    						showProfileUserName = row.getItem().getFirstName() + " " + row.getItem().getLastName();
+	    						System.out.println(showProfileUserName);
 	    						setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
 	    					}
 	    	            	
