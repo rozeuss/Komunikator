@@ -64,7 +64,7 @@ public class MainFourthButtonOfVBoxController {
 		//System.out.println(mainController.getShowProfileUserName());
 		
 		//setProfileNameLabelText("te");
-		System.out.println(mainController.getShowProfileUserName());
+	//	System.out.println(mainController.getShowProfileUserName());
 		showPersonDetails();
 	}
 	
