@@ -15,6 +15,7 @@ public class MainRightVBoxController {
 	private ToggleGroup toggleGroup;
 
 	private MainController mainController;
+	
 	@FXML
 	VBox mainRightVBox;
 	@FXML
@@ -31,28 +32,26 @@ public class MainRightVBoxController {
 	@FXML
 	public void firstButtonVBoxOnAction(ActionEvent event) {
 
-		mainController.setCenter("/fxml/MainFirstButtonOfVBox.fxml");
-
+		mainController.setCenter(mainController.getMainFirstFxmlLoader());
 	}
 
 	@FXML
 	public void secondButtonVBoxOnAction() {
-
-		mainController.setCenter("/fxml/MainSecondButtonOfVBox.fxml");
-
+		//TODO podwójne wyœwietlanie
+		//mainController.setCenter(mainController.getMainSecondFxmlLoader());
 	}
 
 	@FXML
 	public void thirdButtonVBoxOnAction() {
 
-		mainController.setCenter("/fxml/MainThirdButtonOfVBox.fxml");
+		//mainController.setCenter("/fxml/MainThirdButtonOfVBox.fxml");
 
 	}
 
 	@FXML
 	public void fourthButtonVBoxOnAction() {
 
-		mainController.setCenter("/fxml/MainFourthButtonOfVBox.fxml");
+		mainController.setCenter(mainController.getMainFourthFxmlLoader());
 
 	}
 

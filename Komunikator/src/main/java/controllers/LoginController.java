@@ -3,6 +3,7 @@ package controllers;
 
 import utils.FxmlUtils;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -12,9 +13,10 @@ import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import database.ConnectionWorker;
+import database.LoginConnectionWorker;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -22,11 +24,13 @@ import main.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -95,55 +99,10 @@ public class LoginController implements Initializable {
 		
 		LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
 		
-		ConnectionWorker connectionWorker = new ConnectionWorker(socket, out, in, loginCredentials, this);
+		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials, this);
 
-		Thread thread = new Thread(connectionWorker);
+		Thread thread = new Thread(loginConnectionWorker);
 		thread.run();
-		
-		/*Task <Void> task = new Task<Void>(){
-
-			@Override
-			protected Void call() throws Exception {
-				while(loginStatus.isConfirmed() == false){
-					messageLabel.setText(loginStatus.getMessage());
-				}
-				setSplashScene();
-				return null;
-			}
-			
-		}*/
-
-
-
-
-		/*if (txtUsername.getText().equals("test") && txtPassword.getText().equals("test")) {
-
-			((Node) (event.getSource())).getScene().getWindow().hide();
-			messageLabel.setText("Welcome: " + txtUsername.getText());
-			/*Parent parent = null;
-			try {
-				parent = FXMLLoader.load(getClass().getResource(FXML_SPLASH_FXML));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			/*Pane borderPane = FxmlUtils.fxmlLoader(FXML_SPLASH_FXML);
-			Stage stage = new Stage();
-			Scene scene = new Scene(borderPane);
-			stage.setScene(scene);
-			stage.setResizable(true);
-			stage.initStyle(StageStyle.TRANSPARENT);
-			// scene.setFill(Color.TRANSPARENT);
-			// stage.setTitle("Main Frame");
-			// stage.setResizable(false);
-			// stage.initStyle(StageStyle.UNDECORATED);
-			
-			stage.show();
-
-		} else {
-			messageLabel.setText("Username or Password invalid!");
-
-		}*/
 
 	}
 
@@ -162,15 +121,7 @@ public class LoginController implements Initializable {
 
 	@FXML
 	public void newAccountButtonOnAction(ActionEvent event) {
-
-	/*	Parent parent = null;
-		try {
-			parent = FXMLLoader.load(getClass().getResource(FXML_NEW_ACCOUNT_FXML));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		// Stage stage = new Stage();
+		
 		Pane borderPane = FxmlUtils.fxmlLoader(FXML_NEW_ACCOUNT_FXML);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		Scene scene = new Scene(borderPane);
@@ -183,7 +134,7 @@ public class LoginController implements Initializable {
 
 	public LoginController() {
 		LOGGER.log(Level.FINE, "LOG IN Controller created");
-                credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();
+        credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();
 	}
 
 	@FXML
@@ -202,16 +153,29 @@ public class LoginController implements Initializable {
 	}
 	
 	public void setSplashScene(){
-		System.out.println("setSplashScene");
+		
 		((Node) (loginButtonActionEvent.getSource())).getScene().getWindow().hide();
 		messageLabel.setText("Welcome: " + txtUsername.getText());
-		Pane borderPane = FxmlUtils.fxmlLoader(FXML_SPLASH_FXML);
-		Stage stage = new Stage();
-		Scene scene = new Scene(borderPane);
-		stage.setScene(scene);
-		stage.setResizable(true);
-		stage.initStyle(StageStyle.TRANSPARENT);
-		stage.show();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_SPLASH_FXML)); 
+		Parent root;
+		try {
+			root = (Parent)fxmlLoader.load();
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.setResizable(true);
+			stage.initStyle(StageStyle.TRANSPARENT);
+			stage.show();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		SplashController splashLoginController = fxmlLoader.<SplashController>getController();
+		
+		try{
+		splashLoginController.setSocket(socket, out, in);	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void showInvalidCredentialsLabel(){

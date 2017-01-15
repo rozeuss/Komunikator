@@ -1,5 +1,9 @@
 package controllers;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Optional;
 
 import javafx.application.Application;
@@ -10,6 +14,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
@@ -27,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Person;
+import sun.awt.AppContext;
 import utils.DialogsUtils;
 import utils.FxmlUtils;
 
@@ -51,6 +59,18 @@ public class MainController {
 	    private Label cityLabel;
 	    @FXML
 	    private Label birthdayLabel;
+	    
+		private Socket socket;
+		
+		private ObjectOutputStream out;
+		
+		private ObjectInputStream in;
+		
+		private FXMLLoader mainFirstFxmlLoader;
+		
+		private FXMLLoader mainSecondFxmlLoader;
+		
+		private FXMLLoader mainFourthFxmlLoader;
 	
 	private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
 
@@ -91,29 +111,31 @@ public class MainController {
 	@FXML
 	CheckMenuItem menuItemAlwaysOnTop;
 
-	
-	
-	
-	
 	@FXML
 	private void tableViewOnMouseClicked(){
 		System.out.println("elo");
 	}
 	
-	
-
-	
-	
-	
-	
-	public void setCenter(String fxmlPath) {
-		borderPane.setCenter(FxmlUtils.fxmlLoader(fxmlPath));
+	public void setCenter(FXMLLoader fxmlLoader) {
+		Parent root = null;
+		try {
+			//fxmlLoader.setRoot(null);
+			//fxmlLoader.setController(null);
+			if(fxmlLoader.getRoot() == null) {
+				root = (Parent)fxmlLoader.load();
+				System.out.println("1 " + fxmlLoader.getController().toString());
+				borderPane.setCenter(root);
+			}
+			else {
+				System.out.println("2 " + fxmlLoader.getController().toString());
+				borderPane.setCenter(fxmlLoader.getRoot());
+			}
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
-	
-	
-	
-	
 	@FXML
 	private void initialize() {
 		mainRightVBoxController.setMainController(this);
@@ -142,7 +164,7 @@ public class MainController {
 	                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
 	                    Person rowData = row.getItem();
 	                    System.out.println("Klikasz ziomka: " + rowData.getFirstName() + " " + rowData.getLastName());
-						setCenter(FXML_CHATTING_FXML);
+						//setCenter(FXML_CHATTING_FXML);
 	                }
 	            });
 	            
@@ -152,7 +174,7 @@ public class MainController {
 					@Override
 					public void handle(ActionEvent event) {
 						System.out.println("elodwazero");
-						setCenter(FXML_CHATTING_FXML);
+						//setCenter(FXML_CHATTING_FXML);
 					}
 	            	
 	            });
@@ -163,7 +185,7 @@ public class MainController {
 	    					@Override
 	    					public void handle(ActionEvent event) {
 	    						System.out.println("elodwazero");
-	    						setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
+	    						//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
 	    					}
 	    	            	
 	    	            });
@@ -236,7 +258,7 @@ public class MainController {
 
 	@FXML
 	public void menuItemProfileOnAction() {
-		setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
+		//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
 	}
 
 	@FXML
@@ -302,12 +324,37 @@ public class MainController {
 	        personData.add(new Person("Martin", "Mueller"));
 	    }
 
-	    /**
-	     * Returns the data as an observable list of Persons. 
-	     * @return
-	     */
+
 	    public ObservableList<Person> getPersonData() {
 	        return personData;
 	    }
-	
+	    
+		public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
+			this.socket = socket;
+			this.in = in;
+			this.out = out;
+		}
+		
+		public FXMLLoader getMainFirstFxmlLoader() {
+			return mainFirstFxmlLoader;
+		}
+		
+		public FXMLLoader getMainSecondFxmlLoader() {
+			return mainSecondFxmlLoader;
+		}
+		
+		public FXMLLoader getMainFourthFxmlLoader() {
+			return mainFourthFxmlLoader;
+		}
+		
+		public void createFxmlControllers(){
+			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 
+			MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
+			
+			mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML)); 
+			MainSecondButtonOfVBoxController mainSecondButtonOfVBoxController = mainSecondFxmlLoader.<MainSecondButtonOfVBoxController>getController();
+			
+			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
+			MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
+		}
 }

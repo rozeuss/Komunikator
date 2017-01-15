@@ -10,9 +10,7 @@ import controllers.*;
 
 public class Receiver {
 	
-	public Object read(ObjectInputStream in) 
-										throws ClassNotFoundException, IOException, EOFException {
-
+	public Object read(ObjectInputStream in) throws ClassNotFoundException, IOException, EOFException {
 		return in.readObject();
 	}
 }

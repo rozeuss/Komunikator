@@ -34,7 +34,6 @@ public class Main extends Application {
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_LOGIN_FXML)); 
 		Parent root = (Parent)fxmlLoader.load();
-		//Parent root = FXMLLoader.load(getClass().getResource(FXML_LOGIN_FXML));
 		LoginController loginController = fxmlLoader.<LoginController>getController();
 		
 		try{

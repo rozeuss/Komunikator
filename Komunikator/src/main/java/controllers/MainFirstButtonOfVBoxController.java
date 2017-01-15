@@ -1,5 +1,9 @@
 package controllers;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,5 +57,4 @@ public class MainFirstButtonOfVBoxController {
 	        
 	        
 	}
-	
 }
