@@ -49,20 +49,18 @@
 /* DO MainSecondButtonOfVBox */
 #anchorTop {
 	-fx-background-color: 
-        #090a0c,
-        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#20262b, #191d22),
-        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+        #8edbda,
+        linear-gradient(rgba(255,255,255,0.6) 0%, #8edbda 30%);
+       /*   linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),*/
+       /*   linear-gradient(#20262b, #191d22),*/
+       /*  radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));*/
 
 }
 
 #anchorBottom {
 	-fx-background-color: 
-        #090a0c,
-        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#20262b, #191d22),
-        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
-
+               #8edbda,
+        linear-gradient(#8edbda 60%, #015669 100%);
 }
 
 
@@ -83,8 +81,8 @@
 
 
 .split-pane-divider{
-	-fx-background-color: 
-        #015669;
+     -fx-box-border: #015669;
+     -fx-base:#8edbda;
 }
 
 
@@ -111,7 +109,7 @@
 }
 
 .list-view{
-			-fx-background-color: #8edbda;
+			-fx-background-color: #015669;
            /*   linear-gradient(#8edbda 0%, #015669 100%); */
 }
 

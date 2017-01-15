@@ -34,6 +34,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
 import tasks.LogInCredentialsHandlerTrigger;
@@ -156,6 +157,7 @@ public class LoginController implements Initializable {
 		
 		((Node) (loginButtonActionEvent.getSource())).getScene().getWindow().hide();
 		messageLabel.setText("Welcome: " + txtUsername.getText());
+
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_SPLASH_FXML)); 
 		Parent root;
 		try {
@@ -163,6 +165,8 @@ public class LoginController implements Initializable {
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
+			scene.setFill(Color.TRANSPARENT);
+			root.setStyle("-fx-background-color: transparent;");
 			stage.setResizable(true);
 			stage.initStyle(StageStyle.TRANSPARENT);
 			stage.show();
@@ -176,11 +180,10 @@ public class LoginController implements Initializable {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+
 	}
 	
-	public void showInvalidCredentialsLabel(){
-		System.out.println("wyswietl abela kurwa");
-		
+	public void showInvalidCredentialsLabel(){	
 		messageLabel.setText(loginConfirmation.getMessage());
 		
 		System.out.println(loginConfirmation.getMessage());
@@ -200,11 +203,11 @@ public class LoginController implements Initializable {
 
 	@FXML public void txtPasswordOnKeyReleased( KeyEvent e)
 	{
-		/* GDY BEDZIEMY W PASSWORD I DAMY ENTER TO ZALOGUJE */
 		if(e.getCode().equals(KeyCode.ENTER))
 		{
 		loginButton.fire();
         System.out.println("Wcisnieto ENTER! Robimy clear");
+        txtUsername.clear();
         txtPassword.clear();
 		}
 	}

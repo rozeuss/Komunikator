@@ -39,12 +39,13 @@ public class MainRightVBoxController {
 	public void secondButtonVBoxOnAction() {
 		//TODO podwójne wyœwietlanie
 		//mainController.setCenter(mainController.getMainSecondFxmlLoader());
+		mainController.setCenter(mainController.getMainSecondFxmlLoader());
 	}
 
 	@FXML
 	public void thirdButtonVBoxOnAction() {
-
 		//mainController.setCenter("/fxml/MainThirdButtonOfVBox.fxml");
+		mainController.setCenter(mainController.getMainThirdFxmlLoader());
 
 	}
 
