@@ -1,8 +1,9 @@
 package transferDataContainers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserData {
+public class UserData implements Serializable {
 	private User user;
 	private ArrayList<User> friends;
 	private ArrayList<Message> unreadMessages;
@@ -18,6 +19,14 @@ public class UserData {
 
 	public User getUser() {
 		return user;
+	}
+
+	public ArrayList<Invitation> getInvitations() {
+		return invitations;
+	}
+
+	public void setInvitations(ArrayList<Invitation> invitations) {
+		this.invitations = invitations;
 	}
 
 	public void setUser(User user) {
