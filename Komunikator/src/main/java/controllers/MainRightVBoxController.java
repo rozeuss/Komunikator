@@ -56,7 +56,7 @@ public class MainRightVBoxController {
 	public void fourthButtonVBoxOnAction() {
 
 		mainController.setCenter(mainController.getMainFourthFxmlLoader());
-		mainController.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController().setYourProfileNameLabelText();
+		mainController.setLoggedUserData();
 
 	}
 

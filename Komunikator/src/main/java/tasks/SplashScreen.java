@@ -18,11 +18,11 @@ public class SplashScreen implements Runnable {
 		@Override
 		public void run() {
 			while(!isDataLoaded) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			//	try {
+					Thread.yield();
+		//		} catch (InterruptedException e) {
+		//			e.printStackTrace();
+		//		}
 			}
 			
 			splashController.launchMainView();

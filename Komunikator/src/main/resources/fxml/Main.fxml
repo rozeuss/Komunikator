@@ -71,7 +71,7 @@
                <Insets top="2.0" />
             </VBox.margin>
          </TableView>
-         <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <TableView fx:id="groupTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
            <columns>
              <TableColumn prefWidth="75.0" text="Groups" />
            </columns>
