@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.sql.RowSetMetaData;
@@ -38,6 +39,8 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Person;
 import sun.awt.AppContext;
+import transferDataContainers.Invitation;
+import transferDataContainers.OverdueInvitations;
 import transferDataContainers.UserData;
 import utils.DialogsUtils;
 import utils.FxmlUtils;
@@ -73,6 +76,7 @@ public class MainController {
 	private FXMLLoader mainFourthFxmlLoader;
 	private FXMLLoader chattingFxmlLoader;
 	private String showProfileUserName;
+	 private ArrayList<Invitation> invitations;
 
 	
 	public String getShowProfileUserName() {
@@ -357,6 +361,7 @@ public class MainController {
 	
 	 private ObservableList<Person> personData = FXCollections.observableArrayList();
 
+
 	    /**
 	     * Constructor
 	     */
@@ -441,6 +446,28 @@ public class MainController {
 		
 		public void setMainControllerRoot(Parent mainControllerRoot) {
 			this.mainControllerRoot = mainControllerRoot;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		public void addInvitations(OverdueInvitations dataObject) {
+			this.invitations = dataObject.getInvitations();
 		}
 
 }

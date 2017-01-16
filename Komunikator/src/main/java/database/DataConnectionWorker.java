@@ -43,9 +43,18 @@ public class DataConnectionWorker implements Runnable {
 				System.out.println("DataConnectionWorker - przed czytaniem obiektu");
 				dataObject = receiver.read(in);
 				
-				if(dataObject instanceof UserData){
-					mainController.setUserData((UserData)dataObject);
+				if(dataObject instanceof OverdueInvitations){
+					mainController.addInvitations((OverdueInvitations)dataObject);
 					splashController.getSplashScreen().setIsDataLoaded(true);
+				}
+				if(dataObject instanceof User){
+	
+				}
+				if(dataObject instanceof Friends){
+
+				}
+				if(dataObject instanceof UnreadMessages){
+
 				}
 			} 
 			catch (ClassNotFoundException | IOException e) {
