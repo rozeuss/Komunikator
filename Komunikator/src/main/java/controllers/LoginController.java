@@ -78,8 +78,7 @@ public class LoginController implements Initializable {
 	@FXML
 	private Button newAccountButton;
 
-	@FXML
-	private Text forgotPasswordLabel;
+
 	
 	@FXML
 	private void loginButtonOnAction(ActionEvent event) throws Exception {
@@ -138,10 +137,6 @@ public class LoginController implements Initializable {
         credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();
 	}
 
-	@FXML
-	public void forgotPasswordLabelOnMouseEntered() {
-
-	}
 
 	public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
 		this.socket = socket;

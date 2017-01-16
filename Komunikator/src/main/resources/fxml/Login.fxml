@@ -40,11 +40,6 @@
             </LinearGradient>
          </fill>
       </Text>
-      <Text fx:id="forgotPasswordLabel" layoutX="244.0" layoutY="321.0" onMouseEntered="#forgotPasswordLabelOnMouseEntered" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot password?" underline="true">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Text>
       <Button fx:id="newAccountButton" layoutX="225.0" layoutY="429.0" mnemonicParsing="false" onAction="#newAccountButtonOnAction" prefHeight="30.0" prefWidth="130.0" text="Create account">
          <font>
             <Font size="12.0" />

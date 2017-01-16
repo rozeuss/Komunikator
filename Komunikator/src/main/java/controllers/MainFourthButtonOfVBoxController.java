@@ -28,12 +28,20 @@ public class MainFourthButtonOfVBoxController {
 	@FXML
 	private Button editButton;
 	@FXML Label profileNameLabel;
-
+	
 	
 	public void setProfileNameLabelText(String profileNameLabelText) {
-		this.profileNameLabel.setText(profileNameLabelText);
+		profileNameLabel.setText(profileNameLabelText + "'s profile");
 	}
-
+	
+	public void setYourProfileNameLabelText() {
+		profileNameLabel.setText("Your profile");
+	}
+	
+	public void setFirstAndLastName(String firstName, String lastName){
+		firstNameTextField.setText(firstName);
+		lastNameTextField.setText(lastName);
+	}
 
 
 
@@ -56,15 +64,17 @@ public class MainFourthButtonOfVBoxController {
 		stage.show();
 	}
 	
-
+	
 
 	
-	public void initialize(){
-		//profileNameLabel.setText(mainController.getShowProfileUserName() + "'s profile");
-		//System.out.println(mainController.getShowProfileUserName());
+	public MainFourthButtonOfVBoxController() {
 		
-		//setProfileNameLabelText("te");
-	//	System.out.println(mainController.getShowProfileUserName());
+	}
+
+
+
+
+	public void initialize(){
 		showPersonDetails();
 	}
 	

@@ -134,6 +134,24 @@ public class MainController {
 		System.out.println("elo");
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 	public void setCenter(FXMLLoader fxmlLoader) {
 		Parent root = null;
 		try {
@@ -185,6 +203,8 @@ public class MainController {
 	                    Person rowData = row.getItem();
 	                    System.out.println("Klikasz ziomka: " + rowData.getFirstName() + " " + rowData.getLastName());
 						//setCenter(FXML_CHATTING_FXML);
+	                    setCenter(getChattingFxmlLoader());
+
 	                }
 	            });
 	            
@@ -215,7 +235,10 @@ public class MainController {
 	    						System.out.println(showProfileUserName);
 	    						setCenter(getMainFourthFxmlLoader());
 	    						//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
-
+	    						mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setProfileNameLabelText(showProfileUserName);
+	    						mainFourthFxmlLoader.
+	    						<MainFourthButtonOfVBoxController>getController().
+	    						setFirstAndLastName(row.getItem().getFirstName(), row.getItem().getLastName());
 	    					}
 	    	            	
 	    	            });
@@ -286,10 +309,13 @@ public class MainController {
 		stage.show();
 	}
 
+	
+
 	@FXML
 	public void menuItemProfileOnAction() {
 		//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
 		setCenter(getMainFourthFxmlLoader());
+		mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setYourProfileNameLabelText();
 	}
 
 	@FXML
@@ -343,6 +369,8 @@ public class MainController {
 	     * Constructor
 	     */
 	    public MainController() {
+
+
 	        // Add some sample data
 	        personData.add(new Person("Hans", "Muster"));
 	        personData.add(new Person("Ruth", "Mueller"));
@@ -386,7 +414,7 @@ public class MainController {
 		public FXMLLoader getChattingFxmlLoader() {
 			return chattingFxmlLoader;
 		}
-		
+
 		public void createFxmlControllers(){
 			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 
 			MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
@@ -399,7 +427,7 @@ public class MainController {
 			
 			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
 			MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
-		
+
 			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
 			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
 		
@@ -407,4 +435,5 @@ public class MainController {
 
 		
 		}
+
 }

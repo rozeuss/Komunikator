@@ -25,6 +25,9 @@ public class MainRightVBoxController {
 	@FXML
 	Button fourthButtonVBox;
 
+	
+	
+	
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
 	}
@@ -53,6 +56,7 @@ public class MainRightVBoxController {
 	public void fourthButtonVBoxOnAction() {
 
 		mainController.setCenter(mainController.getMainFourthFxmlLoader());
+		mainController.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController().setYourProfileNameLabelText();
 
 	}
 

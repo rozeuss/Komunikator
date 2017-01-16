@@ -11,7 +11,12 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import utils.FxmlUtils;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 /** JEZELI LISTA KONWERSACJI BEDZIE PUSTA TO MOZE WYWALIC BLAD GDY UZYTKOWNIK
@@ -67,7 +72,9 @@ public class MainSecondButtonOfVBoxController {
 
 	String tempItem = "avoidBlankSpacesOnListView";
 
-	@FXML Button newConversationButton;
+
+
+	@FXML Button newGroupButton;
 	
 	private void avoidBlankSpacesOnListView() throws IOException
     {
@@ -92,6 +99,25 @@ public class MainSecondButtonOfVBoxController {
 
 
 
-	@FXML public void newConversationButtonOnAction() {}
+
+
+	@FXML public void newGroupButtonOnAction() {
+		
+		Pane borderPane = FxmlUtils.fxmlLoader("/fxml/NewGroupConversation.fxml");
+		Stage stage = new Stage();
+		Scene scene = new Scene(borderPane);
+		stage.setHeight(600);
+		stage.setWidth(420);
+		stage.setScene(scene);
+		stage.setTitle("New group");
+		stage.setResizable(false);
+		stage.getIcons().add(
+				   new Image(
+				      this.getClass().getResourceAsStream( "../images/icon.png" ))); 
+		// stage.initStyle(StageStyle.UNDECORATED);
+		stage.show();
+		
+		
+	}
 	
 }
