@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.sql.RowSetMetaData;
@@ -12,6 +13,7 @@ import database.DataConnectionWorker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -53,11 +55,11 @@ public class MainController {
 	
 
    @FXML
-    private TableView<Person> personTable;
+    private TableView<User> personTable;
     @FXML
-    private TableColumn<Person, String> firstNameColumn;
+    private TableColumn<User, String> firstNameColumn;
     @FXML
-    private TableColumn<Person, String> lastNameColumn;
+    private TableColumn<User, String> lastNameColumn;
     @FXML
     private Label firstNameLabel;
     @FXML
@@ -180,15 +182,15 @@ public class MainController {
 	    //	System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0) + "\n\n");
 		
 
-		 personTable.setItems(this.getPersonData());
-		 firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-	      lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+		 personTable.setItems(this.getFriendsData());
+		 firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFirstName()));
+	      lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName()));
 	      
 	      
-	      personTable.setRowFactory(new Callback<TableView<Person>, TableRow<Person>>() {
+	      personTable.setRowFactory(new Callback<TableView<User>, TableRow<User>>() {
 	          @Override
-	          public TableRow<Person> call(TableView<Person> tableView) {
-	            final TableRow<Person> row = new TableRow<>();
+	          public TableRow<User> call(TableView<User> tableView) {
+	            final TableRow<User> row = new TableRow<>();
 	            final ContextMenu rowMenu = new ContextMenu();
 	            ContextMenu tableMenu = tableView.getContextMenu();
 	            if (tableMenu != null) {
@@ -203,7 +205,7 @@ public class MainController {
 	            
 	            row.setOnMouseClicked(event -> {
 	                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-	                    Person rowData = row.getItem();
+	                    User rowData = row.getItem();
 	                    System.out.println("Klikasz ziomka: " + rowData.getFirstName() + " " + rowData.getLastName());
 						//setCenter(FXML_CHATTING_FXML);
 	                    setCenter(getChattingFxmlLoader());
@@ -233,7 +235,7 @@ public class MainController {
 	    						System.out.println("elodwazero");
 	    						//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
 
-	    					
+	    						
 	    						showProfileUserName = row.getItem().getFirstName() + " " + row.getItem().getLastName();
 	    						System.out.println(showProfileUserName);
 	    						setCenter(getMainFourthFxmlLoader());
@@ -243,7 +245,7 @@ public class MainController {
 	    						<MainFourthButtonOfVBoxController>getController().
 	    						setFirstAndLastName(row.getItem().getFirstName(), row.getItem().getLastName());
 	    						
-	    						setFriendData(0);
+	    						setFriendData(row.getIndex());
 	    					}
 	    	            	
 	    	            });
@@ -462,11 +464,13 @@ public class MainController {
 		    dataObject.getUser().getGender()
 		    );
 		   System.out.println("To powinno byc Karolina: " + dataObject.getFriends().get(0).getFirstName());
-		    
-		   friendsData.add(dataObject.getFriends().get(0));
-		   System.out.println(friendsData.get(0).getFirstName());
-		//   groupTable.setItems(this.friendsData);
-		    
+		  
+   
+		   ArrayList<User> friendList = dataObject.getFriends();  
+		   for(User user: friendList){
+			   friendsData.add(user);
+		   }
+
 		}
 
 	//	personTable.setItems(this.getPersonData());
@@ -498,7 +502,7 @@ public class MainController {
 		public void setFriendData(int friendIndex){
 			
 			
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setAgeTextField(9200);
+		/*	mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setAgeTextField(9200);
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCityTextField("");
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCountryTextField("");
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setEmailTextField("");
@@ -508,9 +512,9 @@ public class MainController {
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUsernameTextField("");
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setProfileNameLabelText(showProfileUserName);
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
-			
+			*/
 			// ELO tutaj nizej poprawne jak bedzie serwer dzialal
-		/*	
+			
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setAgeTextField(loggedUserData.getFriends().get(friendIndex).getAge());
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCityTextField(loggedUserData.getFriends().get(friendIndex).getCity());
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCountryTextField(loggedUserData.getFriends().get(friendIndex).getCountry());
@@ -520,6 +524,8 @@ public class MainController {
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setGenderTextField(loggedUserData.getFriends().get(friendIndex).getGender());
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUsernameTextField(loggedUserData.getFriends().get(friendIndex).getUserName());
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setProfileNameLabelText(showProfileUserName);
-		*/
+			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
+
+		
 		}
 }
