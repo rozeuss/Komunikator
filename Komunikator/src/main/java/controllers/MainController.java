@@ -431,10 +431,13 @@ public class MainController {
 			
 			System.out.println("SetUserData function");
 		}
+
 		
 		public Parent getMainControllerRoot() {
 			return mainControllerRoot;
 		}
+		
+
 		
 		public void setMainControllerRoot(Parent mainControllerRoot) {
 			this.mainControllerRoot = mainControllerRoot;

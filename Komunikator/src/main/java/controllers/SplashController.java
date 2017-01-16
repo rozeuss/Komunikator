@@ -61,6 +61,11 @@ public class SplashController implements Initializable {
 				stage.setScene(scene);
 				//scene.setFill(Color.TRANSPARENT);
 				//root.setStyle("-fx-background-color: transparent;");
+				stage.setHeight(800);
+				stage.setWidth(1000);
+				stage.setMinHeight(575);
+				stage.setMinWidth(400);
+				stage.setTitle("Yo!");
 				stage.setResizable(true);
 				//stage.initStyle(StageStyle.TRANSPARENT);
 				stage.show();

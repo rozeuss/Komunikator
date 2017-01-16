@@ -218,8 +218,12 @@ public class LoginController implements Initializable {
 	        System.out.println("Wcisnieto ENTER! Robimy clear");
 	        txtUsername.clear();
 	        txtPassword.clear();
+
 		}
 	}
+	
+
+
 	
 	public void createAndRunDataConnectionWorker(){
 		try {

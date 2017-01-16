@@ -46,7 +46,7 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Login");
+		primaryStage.setTitle("Yo! - Login");
 		primaryStage.setResizable(false);
 		primaryStage.getIcons().add(
 				   new Image(
