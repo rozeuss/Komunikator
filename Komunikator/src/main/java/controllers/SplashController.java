@@ -20,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.Main;
 import tasks.SplashScreen;
 import utils.FxmlUtils;
 
@@ -67,6 +68,9 @@ public class SplashController implements Initializable {
 				stage.setMinWidth(400);
 				stage.setTitle("Yo!");
 				stage.setResizable(true);
+				stage.getIcons().add(
+						   new Image(
+						      Main.class.getResourceAsStream( "../images/icon.png" ))); 
 				//stage.initStyle(StageStyle.TRANSPARENT);
 				stage.show();
 				rootAnchorPane.getScene().getWindow().hide();

@@ -20,11 +20,58 @@ public class MainFourthButtonOfVBoxController {
 	@FXML TextField lastNameTextField;
 	@FXML TextField emailTextField;
 	@FXML TextField ageTextField;
+	
+	public void setAgeTextField(int ageTextFieldText) {
+		this.ageTextField.setText(String.valueOf(ageTextFieldText));
+	}
+
+	public void setUsernameTextField(String usernameTextField) {
+		this.usernameTextField.setText(usernameTextField);
+	}
+
+	public void setFirstNameTextField(String firstNameTextField) {
+		this.firstNameTextField.setText(firstNameTextField);
+	}
+
+	public void setLastNameTextField(String lastNameTextField) {
+		this.lastNameTextField.setText(lastNameTextField);
+	}
+
+	public void setEmailTextField(String emailTextField) {
+		this.emailTextField.setText(emailTextField);
+	}
+
+	public void setCountryTextField(String countryTextField) {
+		this.countryTextField.setText(countryTextField);
+	}
+
+	public void setCityTextField(String cityTextField) {
+		this.cityTextField.setText(cityTextField);
+	}
+
+	public void setGenderTextField(String genderTextField) {
+		this.genderTextField.setText(genderTextField);
+	}
+
+
+
+
+
 	@FXML TextField countryTextField;
 	@FXML TextField cityTextField;
 	@FXML TextField genderTextField;
 	@FXML
 	private ImageView userProfileImage;
+	
+	
+	public void setUserProfileImage(Image userProfileImage) {
+		this.userProfileImage.setImage(userProfileImage);
+	}
+
+
+
+
+
 	@FXML
 	private Button editButton;
 	@FXML Label profileNameLabel;
