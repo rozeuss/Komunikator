@@ -30,7 +30,6 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_LOGIN_FXML)); 
 		Parent root = (Parent)fxmlLoader.load();
@@ -44,15 +43,11 @@ public class Main extends Application {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
 		
-		
-		//Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Login");
 		primaryStage.setResizable(false);
-		// primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.getIcons().add(
 				   new Image(
 				      Main.class.getResourceAsStream( "../images/icon.png" ))); 

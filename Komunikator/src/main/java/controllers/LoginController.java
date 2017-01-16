@@ -13,6 +13,7 @@ import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import database.DataConnectionWorker;
 import database.LoginConnectionWorker;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -48,6 +49,8 @@ public class LoginController implements Initializable {
     private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
 
 	private static final String FXML_SPLASH_FXML = "/fxml/Splash.fxml";
+	
+	private static final String FXML_MAIN_FXML = "/fxml/Main.fxml";
 
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
         
@@ -56,6 +59,11 @@ public class LoginController implements Initializable {
 	private ObjectInputStream in;
 	private Confirmation loginConfirmation;
 	private ActionEvent loginButtonActionEvent;
+	private MainController mainController;
+	private SplashController splashController;
+	private DataConnectionWorker dataConnectionWorker;
+	private User user;
+	private Parent mainControllerRoot;
 	
     @FXML
 	private Label messageLabel;
@@ -81,7 +89,7 @@ public class LoginController implements Initializable {
 
 	
 	@FXML
-	private void loginButtonOnAction(ActionEvent event) throws Exception {
+	private void loginButtonOnAction(ActionEvent event) throws Exception {		
 		loginConfirmation =  new Confirmation();
 		/*credentialsHandlerTrigger.SetUsername(txtUsername.getText());
 		credentialsHandlerTrigger.SetPassword(txtPassword.getText());
@@ -98,6 +106,7 @@ public class LoginController implements Initializable {
 		this.loginButtonActionEvent = event;
 		
 		LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
+		user = new User(txtUsername.getText());
 		
 		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials, this);
 
@@ -108,9 +117,8 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		incorrectCredentialsLabel.setVisible(false);
 
+		incorrectCredentialsLabel.setVisible(false);
 	}
 
 	@FXML
@@ -134,7 +142,15 @@ public class LoginController implements Initializable {
 
 	public LoginController() {
 		LOGGER.log(Level.FINE, "LOG IN Controller created");
-        credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();
+        credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();	
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FXML));
+		try {
+			this.mainControllerRoot = (Parent)fxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		mainController = fxmlLoader.<MainController>getController();
+		mainController.setMainControllerRoot(mainControllerRoot);
 	}
 
 
@@ -168,14 +184,15 @@ public class LoginController implements Initializable {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		SplashController splashLoginController = fxmlLoader.<SplashController>getController();
-		
+		splashController = fxmlLoader.<SplashController>getController();
+
 		try{
-		splashLoginController.setSocket(socket, out, in);	
-		}catch(Exception e){
+			splashController.setMainController(mainController);
+			splashController.startSplashScreen();
+			createAndRunDataConnectionWorker();
+		} catch(Exception e){
 			e.printStackTrace();
 		}
-
 	}
 	
 	public void showInvalidCredentialsLabel(){	
@@ -185,8 +202,7 @@ public class LoginController implements Initializable {
 	}
 
 	public void checkLoginStatus() {
-		if(loginConfirmation.isConfirmed() == true){
-			System.out.println("potweirdzono status");
+		if(loginConfirmation.isConfirmed() == true) {
 			setSplashScene();
 		}
 		else{
@@ -196,15 +212,34 @@ public class LoginController implements Initializable {
 			
 	}
 
-	@FXML public void txtPasswordOnKeyReleased( KeyEvent e)
-	{
-		if(e.getCode().equals(KeyCode.ENTER))
-		{
-		loginButton.fire();
-        System.out.println("Wcisnieto ENTER! Robimy clear");
-        txtUsername.clear();
-        txtPassword.clear();
+	@FXML public void txtPasswordOnKeyReleased( KeyEvent e) {
+		if(e.getCode().equals(KeyCode.ENTER)) {
+			loginButton.fire();
+	        System.out.println("Wcisnieto ENTER! Robimy clear");
+	        txtUsername.clear();
+	        txtPassword.clear();
 		}
 	}
+	
+	public void createAndRunDataConnectionWorker(){
+		try {
+			dataConnectionWorker = new DataConnectionWorker(socket, out, in, this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Thread thread = new Thread(dataConnectionWorker);
+		thread.start();
+	}
+	
+	public MainController getMainController(){
+		return mainController;
+	}
+	
+	public SplashController getSplashController(){
+		return splashController;
+	}
 
+	public User getUser() {
+		return user;
+	}
 }

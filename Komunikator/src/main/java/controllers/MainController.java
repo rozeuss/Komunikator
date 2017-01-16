@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.sql.RowSetMetaData;
 
+import database.DataConnectionWorker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -37,49 +38,40 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Person;
 import sun.awt.AppContext;
+import transferDataContainers.UserData;
 import utils.DialogsUtils;
 import utils.FxmlUtils;
 
 public class MainController {
 
-	
-	   @FXML
-	    private TableView<Person> personTable;
-	    @FXML
-	    private TableColumn<Person, String> firstNameColumn;
-	    @FXML
-	    private TableColumn<Person, String> lastNameColumn;
-	    @FXML
-	    private Label firstNameLabel;
-	    @FXML
-	    private Label lastNameLabel;
-	    @FXML
-	    private Label streetLabel;
-	    @FXML
-	    private Label postalCodeLabel;
-	    @FXML
-	    private Label cityLabel;
-	    @FXML
-	    private Label birthdayLabel;
-	    
-
-		private Socket socket;
-		
-		private ObjectOutputStream out;
-		
-		private ObjectInputStream in;
-		
-		private FXMLLoader mainFirstFxmlLoader;
-		
-		private FXMLLoader mainSecondFxmlLoader;
-		
-		private FXMLLoader mainThirdFxmlLoader;
-		
-		private FXMLLoader mainFourthFxmlLoader;
-		
-		private FXMLLoader chattingFxmlLoader;
-		
-
+   @FXML
+    private TableView<Person> personTable;
+    @FXML
+    private TableColumn<Person, String> firstNameColumn;
+    @FXML
+    private TableColumn<Person, String> lastNameColumn;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label lastNameLabel;
+    @FXML
+    private Label streetLabel;
+    @FXML
+    private Label postalCodeLabel;
+    @FXML
+    private Label cityLabel;
+    @FXML
+    private Label birthdayLabel;
+   
+    private Parent mainControllerRoot;
+	private Socket socket;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+	private FXMLLoader mainFirstFxmlLoader;
+	private FXMLLoader mainSecondFxmlLoader;
+	private FXMLLoader mainThirdFxmlLoader;
+	private FXMLLoader mainFourthFxmlLoader;
+	private FXMLLoader chattingFxmlLoader;
 	private String showProfileUserName;
 
 	
@@ -380,7 +372,9 @@ public class MainController {
 	        personData.add(new Person("Lydia", "Kunz"));
 	        personData.add(new Person("Anna", "Best"));
 	        personData.add(new Person("Stefan", "Meier"));
-	        personData.add(new Person("Martin", "Mueller"));
+	        personData.add(new Person("Martin", "Mueller"));      
+	        
+	        createFxmlControllers();
 	    }
 
 
@@ -430,10 +424,20 @@ public class MainController {
 
 			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
 			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
-		
-			
 
+		}
+
+		public void setUserData(UserData dataObject) {
+			
+			System.out.println("SetUserData function");
+		}
 		
+		public Parent getMainControllerRoot() {
+			return mainControllerRoot;
+		}
+		
+		public void setMainControllerRoot(Parent mainControllerRoot) {
+			this.mainControllerRoot = mainControllerRoot;
 		}
 
 }

@@ -12,25 +12,28 @@ import java.net.Socket;
 import controllers.*;
 import transferData.*;
 import transferDataContainers.Confirmation;
+import transferDataContainers.UserDataRequest;
 
 public class LoginConnectionWorker implements Runnable {
 	
-	Socket socket;
-	Receiver receiver;
-	Sender sender;
-	Object dataObject;
-	ObjectOutputStream out;
-	ObjectInputStream in;
-	Object controller;
+	private Socket socket;
+	private Receiver receiver;
+	private Sender sender;
+	private Object dataObject;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+	private LoginController loginController;
+	private UserDataRequest userDataRequest;
 	
-	public LoginConnectionWorker(Socket socket, ObjectOutputStream out, ObjectInputStream in, Object dataObject, Object controller) throws IOException{
+	public LoginConnectionWorker(Socket socket, ObjectOutputStream out, ObjectInputStream in, Object dataObject, LoginController loginController) throws IOException{
 		this.socket = socket;
 		this.out = out;
 		this.in = in;
 		this.dataObject = dataObject;
-		this.controller = controller;
 		this.receiver = new Receiver();
 		this.sender = new Sender(out);
+		this.loginController = loginController;
+		this.userDataRequest = new UserDataRequest(loginController.getUser());
 	}
 
 	@Override
@@ -60,13 +63,16 @@ public class LoginConnectionWorker implements Runnable {
 			}
 		}
 		
-		if (controller instanceof LoginController) {
 			if(response instanceof Confirmation){
-				((LoginController) controller).setLoginStatus((Confirmation)response);
+				loginController.setLoginStatus((Confirmation)response);
 				System.out.println(((Confirmation) response).getMessage());
-				((LoginController) controller).checkLoginStatus();
+				try {
+					sender.send(userDataRequest);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				loginController.checkLoginStatus();
 			}
-		}
 		
 	}
 
