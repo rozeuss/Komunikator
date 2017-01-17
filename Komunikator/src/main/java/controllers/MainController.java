@@ -490,14 +490,15 @@ public class MainController {
 		public void addFriends(Friends dataObject) {
 			this.friendsLoggedUserData = dataObject;
 		
-			System.out.println("To powinno byc Karolina: " +
-			dataObject.getFriends().get(0).getFirstName()
-			);
-		   ArrayList<User> friendList = dataObject.getFriends();  
-		   for(User user: friendList){
-			   friendsData.add(user);
-		   }
-
+			if(dataObject.getFriends().size() != 0){
+				System.out.println("To powinno byc Karolina: " +
+						dataObject.getFriends().get(0).getFirstName()
+						);
+					   ArrayList<User> friendList = dataObject.getFriends();  
+					   for(User user: friendList){
+						   friendsData.add(user);
+					   }
+			}
 	}
 		
 		
