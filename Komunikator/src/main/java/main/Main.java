@@ -37,7 +37,7 @@ public class Main extends Application {
 		LoginController loginController = fxmlLoader.<LoginController>getController();
 		
 		try{
-			Socket socket = new Socket("192.168.1.102", 1056);
+			Socket socket = new Socket("127.0.0.1", 1056);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			loginController.setSocket(socket, out, in);	

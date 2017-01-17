@@ -57,7 +57,9 @@ public class ConversationLogicThread implements Runnable {
                 messageContentHolder = receivedMessageHolder.toString().split(" ");
                 messageContent = messageBuilder.append(messageContentHolder[0]).append(" ").append(messageContentHolder[5]).append(" ").append(messageContentHolder[7]).append("\n").toString();
                 conversationController.updateMessagesArea(messageContent);
+                
                 /*save to file !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+                
                 receivedMessageHolder = null;
                 messageContent = null;
             

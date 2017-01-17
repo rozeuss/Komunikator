@@ -170,7 +170,7 @@ public class MainController {
 	private void initialize() {
 		mainRightVBoxController.setMainController(this);
 		
-	//	userData.add(loggedUserData.getFriends().get(0));
+            //userData.add(loggedUserData.getFriends().get(0));
 	    //	System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0) + "\n\n");
 		
 
@@ -207,11 +207,17 @@ public class MainController {
 	            
 	            
 	            chatItem.setOnAction(new EventHandler<ActionEvent>(){
-
+                            
 					@Override
 					public void handle(ActionEvent event) {
 						//setCenter(FXML_CHATTING_FXML);
-						chattingController.openConversationTab(0, row.getItem().getFirstName(), row.getItem().getLastName());
+                                                for (User u : friendsData){
+	    							if(u.getUserName().equals(row.getItem().getUserName()))
+	    							{
+	    								chattingController.openConversationTab(u.getUserName(), row.getItem().getFirstName(), row.getItem().getLastName());
+	    							}
+}
+						
 						setCenter(getChattingFxmlLoader());
 					}
 	            	
@@ -263,7 +269,7 @@ public class MainController {
 	    						if (result.get() == ButtonType.OK) {
 	    						int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
 	    						String selectedName = personTable.getSelectionModel().getSelectedItem().getFirstName();
-								personTable.getItems().remove(selectedIndex);
+							personTable.getItems().remove(selectedIndex);
 	    						System.out.println("Usunieto poprawnie uzytkownika: " + selectedName);
 	    						}
 	    					}
