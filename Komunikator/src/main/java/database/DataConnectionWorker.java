@@ -48,7 +48,7 @@ public class DataConnectionWorker implements Runnable {
 					splashController.getSplashScreen().setIsDataLoaded(true);
 				}
 				if(dataObject instanceof User){
-	
+					
 				}
 				if(dataObject instanceof Friends){
 

@@ -86,6 +86,7 @@ public class MainController {
 	private FXMLLoader chattingFxmlLoader;
 	private String showProfileUserName;
 	 private ArrayList<Invitation> invitations;
+	 private Parent mainThirdFxmlRoot;
 
 	
 	public String getShowProfileUserName() {
@@ -391,7 +392,7 @@ public class MainController {
 
 
 	        
-	        createFxmlControllers();
+	        //createFxmlControllers();
 	    }
 
 
@@ -401,8 +402,8 @@ public class MainController {
 	    
 		public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
 			this.socket = socket;
-			this.in = in;
 			this.out = out;
+			this.in = in;
 		}
 		
 		public FXMLLoader getMainFirstFxmlLoader() {
@@ -426,6 +427,8 @@ public class MainController {
 			return chattingFxmlLoader;
 		}
 
+		private MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController;
+		
 		public void createFxmlControllers(){
 			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 
 			MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
@@ -434,14 +437,25 @@ public class MainController {
 			MainSecondButtonOfVBoxController mainSecondButtonOfVBoxController = mainSecondFxmlLoader.<MainSecondButtonOfVBoxController>getController();
 			
 			mainThirdFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_THIRD_BUTTON_OF_V_BOX_FXML)); 
-			MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
+			try {
+				this.mainThirdFxmlRoot = (Parent)mainThirdFxmlLoader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
+			mainThirdButtonOfVBoxController.setMainThirdButtonOfVBoxControllerRoot(mainThirdFxmlRoot);
+
+			System.out.println("mainThirdButtonOfVBoxController " +  in.getClass());
+			System.out.println(out.getClass());
+			System.out.println(socket.getClass());
+			mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController().setSocket(socket, out, in);
+			mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController().createSender();
 			
 			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
 			MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 
 			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
 			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
-
 		}
 
 		UserData loggedUserData;
@@ -496,6 +510,18 @@ public class MainController {
 		}
 
 		public void setLoggedUserData(){
+			/*MainFourthButtonOfVBoxController mc= mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
+			mc.setAgeTextField(loggedUserData.getUser().getAge());
+			mc.setCityTextField(loggedUserData.getUser().getCity());
+			mc.setCountryTextField(loggedUserData.getUser().getCountry());
+			mc.setEmailTextField(loggedUserData.getUser().geteMail());
+			mc.setFirstNameTextField(loggedUserData.getUser().getFirstName());
+			mc.setLastNameTextField(loggedUserData.getUser().getLastName());
+			mc.setGenderTextField(loggedUserData.getUser().getGender());
+			mc.setUsernameTextField(loggedUserData.getUser().getUserName());
+			mc.setYourProfileNameLabelText();
+			mc.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));*/
+			
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setAgeTextField(loggedUserData.getUser().getAge());
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCityTextField(loggedUserData.getUser().getCity());
 			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCountryTextField(loggedUserData.getUser().getCountry());

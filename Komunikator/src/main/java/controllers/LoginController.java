@@ -152,6 +152,14 @@ public class LoginController implements Initializable {
 		mainController = fxmlLoader.<MainController>getController();
 		mainController.setMainControllerRoot(mainControllerRoot);
 	}
+	
+	public void setSettingsOfMainController(){
+		System.out.println("Main " +  in.getClass());
+		System.out.println(out.getClass());
+		System.out.println(socket.getClass());
+		mainController.setSocket(socket, out, in);
+		mainController.createFxmlControllers();
+	}
 
 
 	public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
