@@ -89,6 +89,7 @@ public class MainController {
 
 	private String showProfileUserName;
 	 private ArrayList<Invitation> invitations;
+	 private Parent mainThirdFxmlRoot;
 
 	
 	public String getShowProfileUserName() {
@@ -380,7 +381,18 @@ public class MainController {
 	     * Constructor
 	     */
 	    public MainController() {
-	        createFxmlControllers();
+	    	
+	    //	userData.add(loggedUserData.getFriends().get(0));
+	    //	System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0) + "\n\n");
+	        // Add some sample data
+	     //   personData.add(new Person("Hans", "Muster"));
+	      //  personData.add(new Person("Ruth", "Mueller"));
+
+
+	        
+	        //createFxmlControllers();
+
+	      //  createFxmlControllers();
 	    }
 
 
@@ -388,8 +400,8 @@ public class MainController {
 	    
 		public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
 			this.socket = socket;
-			this.in = in;
 			this.out = out;
+			this.in = in;
 		}
 		
 		public FXMLLoader getMainFirstFxmlLoader() {
@@ -417,6 +429,8 @@ public class MainController {
 			return personEditDialogFxmlLoader;
 		}
 
+		private MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController;
+		
 		public void createFxmlControllers(){
 			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 
 			MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
@@ -425,15 +439,25 @@ public class MainController {
 			MainSecondButtonOfVBoxController mainSecondButtonOfVBoxController = mainSecondFxmlLoader.<MainSecondButtonOfVBoxController>getController();
 			
 			mainThirdFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_THIRD_BUTTON_OF_V_BOX_FXML)); 
-			MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
+			try {
+				this.mainThirdFxmlRoot = (Parent)mainThirdFxmlLoader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
+			mainThirdButtonOfVBoxController.setMainThirdButtonOfVBoxControllerRoot(mainThirdFxmlRoot);
+
+			System.out.println("mainThirdButtonOfVBoxController " +  in.getClass());
+			System.out.println(out.getClass());
+			System.out.println(socket.getClass());
+			mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController().setSocket(socket, out, in);
+			mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController().createSender();
 			
 			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
 			MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 
 			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
 			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
-			
-	
 		}
 
 		User loggedUserData;
@@ -466,14 +490,15 @@ public class MainController {
 		public void addFriends(Friends dataObject) {
 			this.friendsLoggedUserData = dataObject;
 		
-			System.out.println("To powinno byc Karolina: " +
-			dataObject.getFriends().get(0).getFirstName()
-			);
-		   ArrayList<User> friendList = dataObject.getFriends();  
-		   for(User user: friendList){
-			   friendsData.add(user);
-		   }
-
+			if(dataObject.getFriends().size() != 0){
+				System.out.println("To powinno byc Karolina: " +
+						dataObject.getFriends().get(0).getFirstName()
+						);
+					   ArrayList<User> friendList = dataObject.getFriends();  
+					   for(User user: friendList){
+						   friendsData.add(user);
+					   }
+			}
 	}
 		
 		
@@ -493,6 +518,7 @@ public class MainController {
 		}
 
 		public void setLoggedUserData(){
+
 			MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 			controller.setAgeTextField(loggedUserData.getAge());
 			controller.setCityTextField(loggedUserData.getCity());
