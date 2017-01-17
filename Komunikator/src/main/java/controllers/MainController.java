@@ -40,8 +40,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Main;
-import main.Person;
 import sun.awt.AppContext;
+import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
 import transferDataContainers.OverdueInvitations;
 import transferDataContainers.User;
@@ -84,6 +84,9 @@ public class MainController {
 	private FXMLLoader mainThirdFxmlLoader;
 	private FXMLLoader mainFourthFxmlLoader;
 	private FXMLLoader chattingFxmlLoader;
+	private FXMLLoader personEditDialogFxmlLoader;
+
+
 	private String showProfileUserName;
 	 private ArrayList<Invitation> invitations;
 	 private Parent mainThirdFxmlRoot;
@@ -107,6 +110,8 @@ public class MainController {
 	private static final String FXML_CHATTING_FXML = "/fxml/Chatting.fxml";
 
 	private static final String FXML_OPTIONS_FXML = "/fxml/Options.fxml";
+	
+
 
 	@FXML
 	private MainRightVBoxController mainRightVBoxController;
@@ -142,20 +147,6 @@ public class MainController {
 	
 	
 	
-	
-	
-	
-	
-	
-
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
 	    
 	    
 	public void setCenter(FXMLLoader fxmlLoader) {
@@ -234,22 +225,32 @@ public class MainController {
 	            profileItem.setOnAction(new EventHandler<ActionEvent>(){
 
 	    					@Override
-	    					public void handle(ActionEvent event) {
-
-	    						System.out.println("elodwazero");
-	    						//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
-
-	    						
+	    					public void handle(ActionEvent event) {    				
 	    						showProfileUserName = row.getItem().getFirstName() + " " + row.getItem().getLastName();
-	    						System.out.println(showProfileUserName);
 	    						setCenter(getMainFourthFxmlLoader());
-	    						//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
-	    						mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setProfileNameLabelText(showProfileUserName);
-	    						mainFourthFxmlLoader.
-	    						<MainFourthButtonOfVBoxController>getController().
-	    						setFirstAndLastName(row.getItem().getFirstName(), row.getItem().getLastName());
+	    						MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
+
+	    						controller.setProfileNameLabelText(showProfileUserName);
 	    						
-	    						setFriendData(row.getIndex());
+	    						for (User u : friendsData){
+	    							if(u.getUserName().equals(row.getItem().getUserName()))
+	    							{
+	    								User item = row.getItem();
+	    					//			controller.setUsernameTextField(row.getItem().getUserName());
+	    					//			controller.setAgeTextField(row.getItem().getAge());
+	    								setFriendData(item);
+	    							}
+
+	    							
+	    						}
+	    						
+
+	    						
+	    						
+	    						
+	    		
+	    			
+	    					
 	    					}
 	    	            	
 	    	            });
@@ -374,11 +375,8 @@ public class MainController {
 	}
 
 	
-	 private ObservableList<Person> personData = FXCollections.observableArrayList();
+
 	 
-
-
-
 	    /**
 	     * Constructor
 	     */
@@ -387,18 +385,18 @@ public class MainController {
 	    //	userData.add(loggedUserData.getFriends().get(0));
 	    //	System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0) + "\n\n");
 	        // Add some sample data
-	        personData.add(new Person("Hans", "Muster"));
-	        personData.add(new Person("Ruth", "Mueller"));
+	     //   personData.add(new Person("Hans", "Muster"));
+	      //  personData.add(new Person("Ruth", "Mueller"));
 
 
 	        
 	        //createFxmlControllers();
+
+	      //  createFxmlControllers();
 	    }
 
 
-	    public ObservableList<Person> getPersonData() {
-	        return personData;
-	    }
+
 	    
 		public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
 			this.socket = socket;
@@ -425,6 +423,10 @@ public class MainController {
 		
 		public FXMLLoader getChattingFxmlLoader() {
 			return chattingFxmlLoader;
+		}
+		
+		public FXMLLoader getPersonEditDialogFxmlLoader() {
+			return personEditDialogFxmlLoader;
 		}
 
 		private MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController;
@@ -458,7 +460,9 @@ public class MainController {
 			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
 		}
 
-		UserData loggedUserData;
+		User loggedUserData;
+		Friends friendsLoggedUserData;
+		
 		 private ObservableList<User> friendsData = FXCollections.observableArrayList();
 		 
 		public ObservableList<User> getFriendsData() {
@@ -466,34 +470,37 @@ public class MainController {
 		}
 
 
-		public void setUserData(UserData dataObject) {
+		public void setUser(User dataObject) {
 			this.loggedUserData = dataObject;
-			System.out.println("\nSetUserData function");
 
-		    welcomeLabel.setText("Welcome, " + dataObject.getUser().getUserName() + " :-)");
+		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
 
 		    System.out.println( "Info o uzytkowniku " + 
-		    dataObject.getUser().getAge()+
-		    dataObject.getUser().getCity()+
-		    dataObject.getUser().getCountry()+
-		    dataObject.getUser().geteMail()+
-		    dataObject.getUser().getLastName()+
-		    dataObject.getUser().getFirstName()+
-		    dataObject.getUser().getGender()
+		    dataObject.getAge()+
+		    dataObject.getCity()+
+		    dataObject.getCountry()+
+		    dataObject.geteMail()+
+		    dataObject.getLastName()+
+		    dataObject.getFirstName()+
+		    dataObject.getGender()
 		    );
-		   System.out.println("To powinno byc Karolina: " + dataObject.getFriends().get(0).getFirstName());
-		  
-   
+		}
+	
+
+		public void addFriends(Friends dataObject) {
+			this.friendsLoggedUserData = dataObject;
+		
+			System.out.println("To powinno byc Karolina: " +
+			dataObject.getFriends().get(0).getFirstName()
+			);
 		   ArrayList<User> friendList = dataObject.getFriends();  
 		   for(User user: friendList){
 			   friendsData.add(user);
 		   }
 
-		}
-
-	//	personTable.setItems(this.getPersonData());
+	}
 		
-
+		
 		public Parent getMainControllerRoot() {
 			return mainControllerRoot;
 		}
@@ -510,57 +517,36 @@ public class MainController {
 		}
 
 		public void setLoggedUserData(){
-			/*MainFourthButtonOfVBoxController mc= mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
-			mc.setAgeTextField(loggedUserData.getUser().getAge());
-			mc.setCityTextField(loggedUserData.getUser().getCity());
-			mc.setCountryTextField(loggedUserData.getUser().getCountry());
-			mc.setEmailTextField(loggedUserData.getUser().geteMail());
-			mc.setFirstNameTextField(loggedUserData.getUser().getFirstName());
-			mc.setLastNameTextField(loggedUserData.getUser().getLastName());
-			mc.setGenderTextField(loggedUserData.getUser().getGender());
-			mc.setUsernameTextField(loggedUserData.getUser().getUserName());
-			mc.setYourProfileNameLabelText();
-			mc.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));*/
-			
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setAgeTextField(loggedUserData.getUser().getAge());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCityTextField(loggedUserData.getUser().getCity());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCountryTextField(loggedUserData.getUser().getCountry());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setEmailTextField(loggedUserData.getUser().geteMail());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setFirstNameTextField(loggedUserData.getUser().getFirstName());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setLastNameTextField(loggedUserData.getUser().getLastName());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setGenderTextField(loggedUserData.getUser().getGender());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUsernameTextField(loggedUserData.getUser().getUserName());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setYourProfileNameLabelText();
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));
-		}
-		
-		public void setFriendData(int friendIndex){
-			
-			
-		/*	mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setAgeTextField(9200);
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCityTextField("");
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCountryTextField("");
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setEmailTextField("");
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setFirstNameTextField("");
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setLastNameTextField("");
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setGenderTextField("");
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUsernameTextField("");
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setProfileNameLabelText(showProfileUserName);
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
-			*/
-			// ELO tutaj nizej poprawne jak bedzie serwer dzialal
-			
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setAgeTextField(loggedUserData.getFriends().get(friendIndex).getAge());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCityTextField(loggedUserData.getFriends().get(friendIndex).getCity());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setCountryTextField(loggedUserData.getFriends().get(friendIndex).getCountry());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setEmailTextField(loggedUserData.getFriends().get(friendIndex).geteMail());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setFirstNameTextField(loggedUserData.getFriends().get(friendIndex).getFirstName());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setLastNameTextField(loggedUserData.getFriends().get(friendIndex).getLastName());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setGenderTextField(loggedUserData.getFriends().get(friendIndex).getGender());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUsernameTextField(loggedUserData.getFriends().get(friendIndex).getUserName());
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setProfileNameLabelText(showProfileUserName);
-			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
 
+			MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
+			controller.setAgeTextField(loggedUserData.getAge());
+			controller.setCityTextField(loggedUserData.getCity());
+			controller.setCountryTextField(loggedUserData.getCountry());
+			controller.setEmailTextField(loggedUserData.geteMail());
+			controller.setFirstNameTextField(loggedUserData.getFirstName());
+			controller.setLastNameTextField(loggedUserData.getLastName());
+			controller.setGenderTextField(loggedUserData.getGender());
+			controller.setUsernameTextField(loggedUserData.getUserName());
+			controller.setYourProfileNameLabelText();
+			controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));
+		}
+		
+		public void setFriendData(User friend){
+			MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
+			controller.setAgeTextField(friend.getAge());
+			controller.setCityTextField(friend.getCity());
+			controller.setCountryTextField(friend.getCountry());
+			controller.setEmailTextField(friend.geteMail());
+			controller.setFirstNameTextField(friend.getFirstName());
+			controller.setLastNameTextField(friend.getLastName());
+			controller.setGenderTextField(friend.getGender());
+			controller.setUsernameTextField(friend.getUserName());
+			controller.setProfileNameLabelText(showProfileUserName);
+			controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
 		
 		}
+
+
+
+
 }
