@@ -18,6 +18,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -37,8 +38,8 @@ public class ConversationController implements Initializable {
     @FXML TextArea  messagesArea;
     @FXML Button    sendMessageButton;
     
-    ConversationLogicThread logicThread;
-    
+    private ConversationLogicThread logicThread;
+    private Parent conversationFxmlRoot;
     
     @Override 
     public void initialize(URL location, ResourceBundle resources) {
@@ -59,5 +60,6 @@ public class ConversationController implements Initializable {
         messagesArea.appendText(message);
     }
     
+   
     
 }

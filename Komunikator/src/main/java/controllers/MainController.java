@@ -7,9 +7,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import javax.sql.RowSetMetaData;
-
-import database.DataConnectionWorker;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -20,7 +19,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
@@ -40,12 +38,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Main;
-import sun.awt.AppContext;
 import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
 import transferDataContainers.OverdueInvitations;
 import transferDataContainers.User;
-import transferDataContainers.UserData;
 import utils.DialogsUtils;
 import utils.FxmlUtils;
 
@@ -85,11 +81,12 @@ public class MainController {
 	private FXMLLoader mainFourthFxmlLoader;
 	private FXMLLoader chattingFxmlLoader;
 	private FXMLLoader personEditDialogFxmlLoader;
-
+        private ChattingController chattingController;
 
 	private String showProfileUserName;
-	 private ArrayList<Invitation> invitations;
-	 private Parent mainThirdFxmlRoot;
+	private ArrayList<Invitation> invitations;
+	private Parent mainThirdFxmlRoot;
+        private Parent chatFxmlRoot;
 
 	
 	public String getShowProfileUserName() {
@@ -213,9 +210,8 @@ public class MainController {
 
 					@Override
 					public void handle(ActionEvent event) {
-						System.out.println("elodwazero");
 						//setCenter(FXML_CHATTING_FXML);
-						
+						chattingController.openConversationTab(0, row.getItem().getFirstName(), row.getItem().getLastName());
 						setCenter(getChattingFxmlLoader());
 					}
 	            	
@@ -456,9 +452,20 @@ public class MainController {
 			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
 			MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 
-			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
-			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
-		}
+			
+                        chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
+                        
+                        try 
+                        {
+                            this.chatFxmlRoot = (Parent)chattingFxmlLoader.load();
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        chattingController = chattingFxmlLoader.<ChattingController>getController();
+                        chattingController.setChattingControllerRoot(chatFxmlRoot);
+                        
+                        
+                }
 
 		User loggedUserData;
 		Friends friendsLoggedUserData;

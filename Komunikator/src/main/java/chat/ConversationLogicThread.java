@@ -52,10 +52,10 @@ public class ConversationLogicThread implements Runnable {
                 messageContentHolder = messageHolder.toString().split(" ");
                 messageContent = messageBuilder.append(messageContentHolder[0]).append(" ").append(messageContentHolder[5]).append(" ").append(messageContentHolder[7]).append("\n").toString();
                 conversationController.updateMessagesArea(messageContent);
+                
                 messageHolder = null;
                 messageContent = null;
-            
-            }
+           }
             
             
             
@@ -84,4 +84,6 @@ public class ConversationLogicThread implements Runnable {
     public void setMessageHolder(Message messageHolder) {
         this.messageHolder = messageHolder;
     }
+    
+
 }
