@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import chat.ConversationLogicThread;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import main.Main;
+import transferData.Sender;
 
 
 /**
@@ -40,6 +42,17 @@ public class ConversationController implements Initializable {
     
     private ConversationLogicThread logicThread;
     private Parent conversationFxmlRoot;
+    private int clientID;
+    private Sender sender;
+    private ObjectOutputStream out;   
+
+    public void setSender(Sender sender) {
+        this.sender = sender;
+    }
+
+    public void setOut(ObjectOutputStream out) {
+        this.out = out;
+    }
     
     @Override 
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,7 +60,7 @@ public class ConversationController implements Initializable {
     }
     
     public void createLogicThread(){
-        logicThread = new ConversationLogicThread();
+        logicThread = new ConversationLogicThread(sender,out);
         Thread thread = new Thread(logicThread);
         thread.start();
     }

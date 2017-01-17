@@ -47,8 +47,8 @@ import utils.FxmlUtils;
 
 public class MainController {
 	
-	@FXML
-	private TableView<User> groupTable;
+    @FXML
+    private TableView<User> groupTable;
 	
 	
 
