@@ -73,7 +73,7 @@ public class MainThirdButtonOfVBoxController {
 		System.out.println("invitaion : " + invitation.getClass());
 		System.out.println("out : " + out.getClass());
 		sender.send(invitation);
-		//sendInvitationButton.setDisable(true);
+		sendInvitationButton.setDisable(true);
 	}
 	
 	@FXML
