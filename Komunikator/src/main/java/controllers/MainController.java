@@ -41,6 +41,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Main;
 import sun.awt.AppContext;
+import transferDataContainers.FoundedUsers;
 import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
 import transferDataContainers.OverdueInvitations;
@@ -50,12 +51,8 @@ import utils.DialogsUtils;
 import utils.FxmlUtils;
 
 public class MainController {
-	
 	@FXML
 	private TableView<User> groupTable;
-	
-	
-
    @FXML
     private TableView<User> personTable;
     @FXML
@@ -74,7 +71,6 @@ public class MainController {
     private Label cityLabel;
     @FXML
     private Label birthdayLabel;
-   
     private Parent mainControllerRoot;
 	private Socket socket;
 	private ObjectOutputStream out;
@@ -89,14 +85,11 @@ public class MainController {
 	private FXMLLoader mainThirdFxmlLoader;
 	private FXMLLoader mainFourthFxmlLoader;
 	private FXMLLoader chattingFxmlLoader;
-	
+	private FXMLLoader personEditDialogFxmlLoader;
 	private FXMLLoader loginFxmlLoader;
-
-
-
 	private String showProfileUserName;
-	 private ArrayList<Invitation> invitations;
-	 private Parent mainThirdFxmlRoot;
+	private ArrayList<Invitation> invitations;
+	private Parent mainThirdFxmlRoot;
 
 	
 	public String getShowProfileUserName() {
@@ -121,45 +114,31 @@ public class MainController {
 
 	@FXML
 	private MainRightVBoxController mainRightVBoxController;
-
 	@FXML
 	private BorderPane borderPane;
-
 	@FXML
 	private Label welcomeLabel;
-
 	@FXML
 	MenuItem menuItemClose;
-
 	@FXML
 	MenuItem menuItemOptions;
-
 	@FXML
 	MenuItem menuItemProfile;
-
 	@FXML
 	MenuItem menuItemSignOut;
-
 	@FXML
 	ToggleGroup styleGroup;
-
 	@FXML
 	CheckMenuItem menuItemAlwaysOnTop;
-
 	@FXML
+	
 	private void tableViewOnMouseClicked(){
 		System.out.println("elo");
 	}
-	
-	
-	
-	    
-	    
+    
 	public void setCenter(FXMLLoader fxmlLoader) {
 		Parent root = null;
 		try {
-			//fxmlLoader.setRoot(null);
-			//fxmlLoader.setController(null);
 			if(fxmlLoader.getRoot() == null) {
 				root = (Parent)fxmlLoader.load();
 				System.out.println("1 " + fxmlLoader.getController().toString());
@@ -182,14 +161,12 @@ public class MainController {
 	//	userData.add(loggedUserData.getFriends().get(0));
 	    //	System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0) + "\n\n");
 		
-
 		 personTable.setItems(this.getFriendsData());
 		 firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFirstName()));
-	      lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName()));
-	      
-	      
-	      personTable.setRowFactory(new Callback<TableView<User>, TableRow<User>>() {
-	          @Override
+	     lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName())); 
+	     personTable.setRowFactory(new Callback<TableView<User>, TableRow<User>>() {
+	         
+	    	 @Override  
 	          public TableRow<User> call(TableView<User> tableView) {
 	            final TableRow<User> row = new TableRow<>();
 	            final ContextMenu rowMenu = new ContextMenu();
@@ -473,10 +450,11 @@ public class MainController {
 			System.out.println("mainThirdButtonOfVBoxController " +  in.getClass());
 			System.out.println(out.getClass());
 			System.out.println(socket.getClass());
-			mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController().setSocket(socket, out, in);
-			mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController().createSender();
+			mainThirdButtonOfVBoxController.setSocket(socket, out, in);
+			mainThirdButtonOfVBoxController.createSender();
 			
 			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
+
 			try {
 				this.mainFourthFxmlRoot = (Parent)mainFourthFxmlLoader.load();
 			} catch (IOException e) {
@@ -495,7 +473,7 @@ public class MainController {
 		}
 
 		private User loggedUserData;
-		Friends friendsLoggedUserData;
+		private Friends friendsLoggedUserData;
 		
 		 private ObservableList<User> friendsData = FXCollections.observableArrayList();
 		 
@@ -505,6 +483,8 @@ public class MainController {
 
 
 		public void setUser(User dataObject) {
+			this.loggedUserData = dataObject;
+			mainThirdButtonOfVBoxController.setLoggedUser(loggedUserData);
 			this.setLoggedUserData(dataObject);
 		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
 
@@ -616,7 +596,7 @@ public class MainController {
 	
 		}
 
-
-
-
+		public void setFoundedUsers(FoundedUsers dataObject) {
+			mainThirdButtonOfVBoxController.setFoundedUsers(dataObject);	
+		}
 }

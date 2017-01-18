@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import controllers.LoginController;
 import controllers.MainController;
@@ -36,8 +37,7 @@ public class DataConnectionWorker implements Runnable {
 		this.loginController = loginController;
 		this.mainController = loginController.getMainController();
 		this.splashController = loginController.getSplashController();
-		this.receiver = new Receiver();
-		//dataObject = new Object();
+		this.receiver = new Receiver();   
 	}
 
 	@Override
@@ -52,14 +52,25 @@ public class DataConnectionWorker implements Runnable {
 					mainController.addInvitations((OverdueInvitations)dataObject);
 					splashController.getSplashScreen().setIsDataLoaded(true);
 				}
-				if(dataObject instanceof User){
+				else if(dataObject instanceof User){
 					mainController.setUser((User)(dataObject));
 				}
-				if(dataObject instanceof Friends){
+				else if(dataObject instanceof Friends){
 					mainController.addFriends((Friends)dataObject);
 				}
-				if(dataObject instanceof UnreadMessages){
+				else if(dataObject instanceof UnreadMessages){
 
+				} else if(dataObject instanceof FoundedUsers){	
+					mainController.setFoundedUsers((FoundedUsers)dataObject);
+				}
+				else if(dataObject instanceof InvitationConfirmation){
+					System.out.println("Odbieram invitation confirmation ");	
+				}
+				else if(dataObject instanceof Invitation){
+					System.out.println("Odbieram invitation ");	
+				}
+				else if(dataObject instanceof NewFriend){
+					
 				}
 			} 
 			catch (ClassNotFoundException | IOException e) {

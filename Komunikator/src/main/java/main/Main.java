@@ -42,6 +42,7 @@ public class Main extends Application {
 
 		System.out.println("Wys³any fxmlLoader: " + fxmlLoader);
 		loginController.setLoginFXMLLoader(fxmlLoader);
+
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Yo! - Login");
