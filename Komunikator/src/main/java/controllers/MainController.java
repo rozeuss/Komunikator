@@ -84,7 +84,9 @@ public class MainController {
 	private FXMLLoader mainThirdFxmlLoader;
 	private FXMLLoader mainFourthFxmlLoader;
 	private FXMLLoader chattingFxmlLoader;
-	private FXMLLoader personEditDialogFxmlLoader;
+	
+	private FXMLLoader loginFxmlLoader;
+
 
 
 	private String showProfileUserName;
@@ -110,7 +112,6 @@ public class MainController {
 	private static final String FXML_CHATTING_FXML = "/fxml/Chatting.fxml";
 
 	private static final String FXML_OPTIONS_FXML = "/fxml/Options.fxml";
-	
 
 
 	@FXML
@@ -225,19 +226,18 @@ public class MainController {
 	            profileItem.setOnAction(new EventHandler<ActionEvent>(){
 
 	    					@Override
-	    					public void handle(ActionEvent event) {    				
+	    					public void handle(ActionEvent event) {  
+	    						
 	    						showProfileUserName = row.getItem().getFirstName() + " " + row.getItem().getLastName();
 	    						setCenter(getMainFourthFxmlLoader());
 	    						MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
-
 	    						controller.setProfileNameLabelText(showProfileUserName);
-	    						
+	    						System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + mainFxmlLoader);
+	    						mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
 	    						for (User u : friendsData){
 	    							if(u.getUserName().equals(row.getItem().getUserName()))
 	    							{
 	    								User item = row.getItem();
-	    					//			controller.setUsernameTextField(row.getItem().getUserName());
-	    					//			controller.setAgeTextField(row.getItem().getAge());
 	    								setFriendData(item);
 	    							}
 
@@ -291,9 +291,29 @@ public class MainController {
 	}
 
 	@FXML
-	public void menuItemCloseOnAction() {
+	public void menuItemCloseOnAction() {	
 		Optional<ButtonType> result = DialogsUtils.confirmationDialog("Exit", "Attention! It's dangerous!");
 		if (result.get() == ButtonType.OK) {
+			System.out.println("Kontroler tutaj " + loginFxmlLoader.<LoginController>getController());
+			try {
+				loginFxmlLoader.<LoginController>getController().getIn().close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				loginFxmlLoader.<LoginController>getController().getOut().close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				loginFxmlLoader.<LoginController>getController().getSocket().close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			Platform.exit();
 			System.exit(0);
 		}
@@ -376,23 +396,8 @@ public class MainController {
 
 	
 
-	 
-	    /**
-	     * Constructor
-	     */
+
 	    public MainController() {
-	    	
-	    //	userData.add(loggedUserData.getFriends().get(0));
-	    //	System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0) + "\n\n");
-	        // Add some sample data
-	     //   personData.add(new Person("Hans", "Muster"));
-	      //  personData.add(new Person("Ruth", "Mueller"));
-
-
-	        
-	        //createFxmlControllers();
-
-	      //  createFxmlControllers();
 	    }
 
 
@@ -425,13 +430,28 @@ public class MainController {
 			return chattingFxmlLoader;
 		}
 		
-		public FXMLLoader getPersonEditDialogFxmlLoader() {
-			return personEditDialogFxmlLoader;
-		}
 
 		private MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController;
+
+
+
+		private FXMLLoader mainFxmlLoader;
+
+
+
+		private Parent mainFourthFxmlRoot;
+
+
+
+		private MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController;
 		
-		public void createFxmlControllers(){
+		public void createFxmlControllers(FXMLLoader loginFxmlLoader){
+	//		mainFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml")); 
+			System.out.println("Otrzymany loginFXMLLoader " + loginFxmlLoader);
+			this.loginFxmlLoader = loginFxmlLoader;
+			System.out.println("Controller logina: " + this.loginFxmlLoader.<LoginController>getController());
+			
+			
 			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 
 			MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
 			
@@ -454,13 +474,24 @@ public class MainController {
 			mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController().createSender();
 			
 			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
+			try {
+				this.mainFourthFxmlRoot = (Parent)mainFourthFxmlLoader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
+			mainFourthButtonOfVBoxController.setMainFourthButtonOfVBoxControllerRoot(mainFourthFxmlRoot);
+			
 			MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
-
+			
+			
 			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
 			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
+			
+
 		}
 
-		User loggedUserData;
+		private User loggedUserData;
 		Friends friendsLoggedUserData;
 		
 		 private ObservableList<User> friendsData = FXCollections.observableArrayList();
@@ -471,7 +502,7 @@ public class MainController {
 
 
 		public void setUser(User dataObject) {
-			this.loggedUserData = dataObject;
+			this.setLoggedUserData(dataObject);
 
 		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
 
@@ -530,6 +561,7 @@ public class MainController {
 			controller.setUsernameTextField(loggedUserData.getUserName());
 			controller.setYourProfileNameLabelText();
 			controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));
+			controller.getEditButton().setDisable(false);
 		}
 		
 		public void setFriendData(User friend){
@@ -544,7 +576,53 @@ public class MainController {
 			controller.setUsernameTextField(friend.getUserName());
 			controller.setProfileNameLabelText(showProfileUserName);
 			controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
-		
+			controller.getEditButton().setDisable(true);
+			controller.getApplyButton().setDisable(true);
+		}
+
+
+
+
+
+		/**
+		 * @return the loggedUserData
+		 */
+		public User getLoggedUserData() {
+			return loggedUserData;
+		}
+
+
+
+
+
+		/**
+		 * @param loggedUserData the loggedUserData to set
+		 */
+		public void setLoggedUserData(User loggedUserData) {
+			this.loggedUserData = loggedUserData;
+		}
+
+
+
+
+
+		/**
+		 * @return the mainFxmlLoader
+		 */
+		public FXMLLoader getMainFxmlLoader() {
+			return mainFxmlLoader;
+		}
+
+
+
+
+
+		/**
+		 * @param mainFxmlLoader the mainFxmlLoader to set
+		 */
+		public void setMainFxmlLoader(FXMLLoader mainFxmlLoader) {
+			this.mainFxmlLoader = mainFxmlLoader;
+	
 		}
 
 
