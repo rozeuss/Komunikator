@@ -432,12 +432,7 @@ public class MainController {
 		private MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController;
 		
 		public void createFxmlControllers(FXMLLoader loginFxmlLoader){
-<<<<<<< HEAD
 			this.sender = new Sender(out);
-	//		mainFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml")); 
-			System.out.println("Otrzymany loginFXMLLoader " + loginFxmlLoader);
-=======
->>>>>>> NewWorkingBranch
 			this.loginFxmlLoader = loginFxmlLoader;
 			
 			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 

@@ -126,14 +126,7 @@ public class LoginController implements Initializable {
 		
 
 		try{
-<<<<<<< HEAD
 			Socket socket = new Socket("10.8.233.88", 1056);
-			//Socket socket = new Socket("127.0.0.1", 1056);
-=======
-			//Socket socket = new Socket("10.8.236.72", 1056);
-
-			Socket socket = new Socket("127.0.0.1", 1056);
->>>>>>> NewWorkingBranch
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			this.setSocket(socket, out, in);	
