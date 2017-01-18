@@ -37,21 +37,6 @@ public class PersonEditDialogController {
     @FXML
     private TextField cityField;
 
-/*
- * 
- * 
- * 
- * 
- * DODAC WPROWADZANIE PLCI Z POPRZEDNIEGO
- * 
- * EMAIL REGEX
- * 
- * WIEK POPRAWNIE
- *  
- * SET DISABLED NA EDIT JAK PROFIL ZNAJOMEGO OTWIERAM
- * 
- * 
- */
     private static final String REGEX = "";
     private static Pattern pattern = Pattern.compile(REGEX);
     private static Matcher matcher;
@@ -229,23 +214,6 @@ public class PersonEditDialogController {
     }
 
 
-	@FXML public void loadAvatarButtonOnAction() {               
-	FileChooser fileChooser = new FileChooser();
-	FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-    FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-    fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-    fileChooser.setTitle("Select your profile image");
-    File file = fileChooser.showOpenDialog(new Stage());
-    if(file != null){
-    try {
-        BufferedImage bufferedImage = ImageIO.read(file);
-        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-        myImageView.setImage(image);
-    } catch (IOException ex) {
-        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-    }
-    }
-	}
 
 
 

@@ -75,6 +75,11 @@ public class MainController {
     private Parent mainControllerRoot;
 	private Socket socket;
 	private ObjectOutputStream out;
+	public ObjectOutputStream getOut() {
+		return out;
+	}
+
+
 	private ObjectInputStream in;
 	private FXMLLoader mainThirdFxmlLoader;
 	private FXMLLoader mainFirstFxmlLoader;
@@ -212,8 +217,9 @@ public class MainController {
 	    						setCenter(getMainFourthFxmlLoader());
 	    						MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 	    						controller.setProfileNameLabelText(showProfileUserName);
-	    						System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + mainFxmlLoader);
-	    						mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
+	    			//			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
+	    						if(mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().getApplyButton().isDisabled()==false)
+	    							mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().changeEditable();
 	    						for (User u : friendsData){
 	    							if(u.getUserName().equals(row.getItem().getUserName()))
 	    							{
@@ -242,7 +248,6 @@ public class MainController {
 
 	    					@Override
 	    					public void handle(ActionEvent event) {
-	    						//System.out.println(personTable.getSelectionModel().getSelectedItem().toString());
 	    						Optional<ButtonType> result = DialogsUtils.confirmationDialog("Deleting friend", "Do you really want to kill your friendship?");
 	    						if (result.get() == ButtonType.OK) {
 	    						int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
@@ -362,7 +367,8 @@ public class MainController {
 
 	@FXML
 	public void menuItemCaspianOnAction() {
-		Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
+	Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
+	
 	}
 
 	@FXML
@@ -426,11 +432,13 @@ public class MainController {
 		private MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController;
 		
 		public void createFxmlControllers(FXMLLoader loginFxmlLoader){
+<<<<<<< HEAD
 			this.sender = new Sender(out);
 	//		mainFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml")); 
 			System.out.println("Otrzymany loginFXMLLoader " + loginFxmlLoader);
+=======
+>>>>>>> NewWorkingBranch
 			this.loginFxmlLoader = loginFxmlLoader;
-			System.out.println("Controller logina: " + this.loginFxmlLoader.<LoginController>getController());
 			
 			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 
 			try {
@@ -494,18 +502,8 @@ public class MainController {
 			mainThirdButtonOfVBoxController.setLoggedUser(loggedUserData);
 			mainFirstButtonOfVBoxController.setLoggedUser(loggedUserData);
 			this.setLoggedUserData(dataObject);
-
 		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
 
-		    System.out.println( "Info o uzytkowniku " + 
-		    dataObject.getAge()+
-		    dataObject.getCity()+
-		    dataObject.getCountry()+
-		    dataObject.geteMail()+
-		    dataObject.getLastName()+
-		    dataObject.getFirstName()+
-		    dataObject.getGender()
-		    );
 		}
 	
 
@@ -513,9 +511,6 @@ public class MainController {
 			this.friendsLoggedUserData = dataObject;
 		
 			if(dataObject.getFriends().size() != 0){
-				System.out.println("To powinno byc Karolina: " +
-						dataObject.getFriends().get(0).getFirstName()
-						);
 					   ArrayList<User> friendList = dataObject.getFriends();  
 					   for(User user: friendList){
 						   friendsData.add(user);
@@ -543,6 +538,7 @@ public class MainController {
 		public void setLoggedUserData(){
 
 			MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
+		
 			controller.setAgeTextField(loggedUserData.getAge());
 			controller.setCityTextField(loggedUserData.getCity());
 			controller.setCountryTextField(loggedUserData.getCountry());
@@ -553,7 +549,7 @@ public class MainController {
 			controller.setUsernameTextField(loggedUserData.getUserName());
 			controller.setYourProfileNameLabelText();
 			controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));
-			controller.getEditButton().setDisable(false);
+			controller.init();
 		}
 		
 		public void setFriendData(User friend){
@@ -568,8 +564,8 @@ public class MainController {
 			controller.setUsernameTextField(friend.getUserName());
 			controller.setProfileNameLabelText(showProfileUserName);
 			controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
+			controller.init();
 			controller.getEditButton().setDisable(true);
-			controller.getApplyButton().setDisable(true);
 		}
 
 
