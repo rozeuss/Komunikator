@@ -3,9 +3,11 @@ package validators;
 
 public class StringsValidator {
 	public boolean isAlpha(String name) {
+		if(!name.isEmpty()){
 		if(Character.isUpperCase(name.codePointAt(0))) return name.matches("[a-zA-Z]+");
 		else return false;
-			
+		}
+		else return false;
 	}
 	
 //	public boolean isValidUsername(String name){
