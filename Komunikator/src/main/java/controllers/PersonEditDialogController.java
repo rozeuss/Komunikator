@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -115,6 +116,7 @@ public class PersonEditDialogController {
 	@FXML ImageView myImageView;
 
 	MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController;
+	private Parent personEditDialogRoot;
 
 
     public void setMainFourthButtonOfVBoxController(MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController) {
@@ -130,9 +132,6 @@ public class PersonEditDialogController {
     
 
 
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
 
     /**
      * Sets the person to be edited in the dialog.
@@ -219,7 +218,6 @@ public class PersonEditDialogController {
         } else {
 
             Alert alert = new Alert(AlertType.ERROR);
-            alert.initOwner(dialogStage);
             alert.setTitle("Invalid Fields");
             alert.setHeaderText("Please correct invalid fields");
             alert.setContentText(errorMessage);
@@ -247,5 +245,12 @@ public class PersonEditDialogController {
         Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
     }
     }
+	}
+
+
+
+	public void setPersonEditDialogControllerRoot(Parent personEditDialogRoot) {
+		this.personEditDialogRoot = personEditDialogRoot;
+		
 	}
 }

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<HBox fx:id="rootHBox" prefHeight="479.0" prefWidth="413.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PersonEditDialogController">
+<HBox prefHeight="479.0" prefWidth="413.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PersonEditDialogController">
    <children>
       <AnchorPane prefHeight="270.0" prefWidth="413.0">
          <children>

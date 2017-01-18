@@ -23,8 +23,12 @@ public class DataConnectionWorker implements Runnable {
 	private LoginController loginController;
 	private MainController mainController;
 	private SplashController splashController;
-	
-	
+	private boolean isRunning = true;
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
+
 	public DataConnectionWorker(Socket socket, ObjectOutputStream out, ObjectInputStream in, LoginController loginController) throws IOException {
 		this.socket = socket;
 		this.out = out;
@@ -38,7 +42,8 @@ public class DataConnectionWorker implements Runnable {
 
 	@Override
 	public void run() {
-		while(true) {
+		
+		while(isRunning) {
 			try {
 				System.out.println("DataConnectionWorker - przed czytaniem obiektu");
 				dataObject = receiver.read(in);
@@ -61,5 +66,17 @@ public class DataConnectionWorker implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void close() {
+		this.setRunning(false);
+		try {
+			this.in.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		
 	}
 }

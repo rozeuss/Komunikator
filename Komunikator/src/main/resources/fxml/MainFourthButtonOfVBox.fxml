@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -37,6 +38,11 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </ImageView>
+                        <Button fx:id="loadAvatarButton" mnemonicParsing="false" onAction="#loadAvatarButtonOnAction" text="Load avatar" visible="false">
+                           <VBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Button>
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="204.0" prefWidth="137.0" spacing="17.0">
@@ -99,6 +105,7 @@
                         <TextField fx:id="countryTextField" editable="false" promptText="&lt;country&gt;" />
                         <TextField fx:id="cityTextField" editable="false" promptText="&lt;city&gt;" />
                         <TextField fx:id="genderTextField" editable="false" promptText="&lt;gender&gt;" />
+                        <ComboBox fx:id="genderComboBox" prefHeight="31.0" prefWidth="213.0" visible="false" />
                      </children>
                      <HBox.margin>
                         <Insets left="10.0" top="10.0" />
@@ -124,7 +131,7 @@
             <HBox alignment="BOTTOM_RIGHT" focusTraversable="true" minHeight="300.0" minWidth="174.0" prefHeight="543.0" prefWidth="182.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
                   <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonOnAction" text="Edit" />
-                  <Button disable="true" mnemonicParsing="false" text="Apply" />
+                  <Button fx:id="applyButton" disable="true" mnemonicParsing="false" onAction="#applyButtonOnAction" text="Apply" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
