@@ -41,6 +41,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.Main;
 import sun.awt.AppContext;
+import transferData.Sender;
 import transferDataContainers.FoundedUsers;
 import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
@@ -75,9 +76,8 @@ public class MainController {
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	private FXMLLoader mainFirstFxmlLoader;
-	private FXMLLoader mainSecondFxmlLoader;
 	private FXMLLoader mainThirdFxmlLoader;
+	private FXMLLoader mainFirstFxmlLoader;
 	private FXMLLoader mainFourthFxmlLoader;
 	private FXMLLoader chattingFxmlLoader;
 	private FXMLLoader personEditDialogFxmlLoader;
@@ -85,6 +85,9 @@ public class MainController {
 	private String showProfileUserName;
 	private ArrayList<Invitation> invitations;
 	private Parent mainThirdFxmlRoot;
+	private Parent mainFirstFxmlRoot;
+	private FXMLLoader mainSecondFxmlLoader;
+	private Sender sender;
 
 	
 	public String getShowProfileUserName() {
@@ -268,7 +271,8 @@ public class MainController {
 	}
 
 	@FXML
-	public void menuItemCloseOnAction() {	
+	public void menuItemCloseOnAction() {
+		
 		Optional<ButtonType> result = DialogsUtils.confirmationDialog("Exit", "Attention! It's dangerous!");
 		if (result.get() == ButtonType.OK) {
 			System.out.println("Kontroler tutaj " + loginFxmlLoader.<LoginController>getController());
@@ -291,6 +295,14 @@ public class MainController {
 				e.printStackTrace();
 			}
 
+			try {
+				sender.send("quit");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			Platform.exit();
 			System.exit(0);
 		}
@@ -407,30 +419,28 @@ public class MainController {
 			return chattingFxmlLoader;
 		}
 		
-
 		private MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController;
-
-
-
 		private FXMLLoader mainFxmlLoader;
-
-
-
 		private Parent mainFourthFxmlRoot;
-
-
-
 		private MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController;
+		private MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController;
 		
 		public void createFxmlControllers(FXMLLoader loginFxmlLoader){
+			this.sender = new Sender(out);
 	//		mainFxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml")); 
 			System.out.println("Otrzymany loginFXMLLoader " + loginFxmlLoader);
 			this.loginFxmlLoader = loginFxmlLoader;
 			System.out.println("Controller logina: " + this.loginFxmlLoader.<LoginController>getController());
 			
-			
 			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 
-			MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
+			try {
+				this.mainFirstFxmlRoot = (Parent)mainFirstFxmlLoader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
+			mainFirstButtonOfVBoxController.setMainFirstButtonOfVBoxControllerRoot(mainFirstFxmlRoot);
+			mainFirstButtonOfVBoxController.createSender(out);
 			
 			mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML)); 
 			MainSecondButtonOfVBoxController mainSecondButtonOfVBoxController = mainSecondFxmlLoader.<MainSecondButtonOfVBoxController>getController();
@@ -482,6 +492,7 @@ public class MainController {
 		public void setUser(User dataObject) {
 			this.loggedUserData = dataObject;
 			mainThirdButtonOfVBoxController.setLoggedUser(loggedUserData);
+			mainFirstButtonOfVBoxController.setLoggedUser(loggedUserData);
 			this.setLoggedUserData(dataObject);
 
 		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
@@ -526,6 +537,7 @@ public class MainController {
 
 		public void addInvitations(OverdueInvitations dataObject) {
 			this.invitations = dataObject.getInvitations();
+			mainFirstButtonOfVBoxController.setInvitationList(invitations);
 		}
 
 		public void setLoggedUserData(){

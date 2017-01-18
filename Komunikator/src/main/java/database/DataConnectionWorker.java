@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import controllers.LoginController;
@@ -46,14 +47,21 @@ public class DataConnectionWorker implements Runnable {
 		while(isRunning) {
 			try {
 				System.out.println("DataConnectionWorker - przed czytaniem obiektu");
+				
 				dataObject = receiver.read(in);
 				
 				if(dataObject instanceof OverdueInvitations){
 					mainController.addInvitations((OverdueInvitations)dataObject);
+					OverdueInvitations dom = (OverdueInvitations)dataObject;
+					System.out.println("dom  " + dom.getClass());
+					System.out.println("iwitycaje  SOM NIESTETY PUSTE :("+dom.getInvitations());
+					ArrayList<Invitation> inv = dom.getInvitations();
+					System.out.println("Odbieram paczke zaproszen ");
+					System.out.println("size listy : W DATACONN " + inv.size());
 					splashController.getSplashScreen().setIsDataLoaded(true);
 				}
 				else if(dataObject instanceof User){
-					mainController.setUser((User)(dataObject));
+					mainController.setUser((User)dataObject);
 				}
 				else if(dataObject instanceof Friends){
 					mainController.addFriends((Friends)dataObject);
@@ -73,9 +81,16 @@ public class DataConnectionWorker implements Runnable {
 					
 				}
 			} 
-			catch (ClassNotFoundException | IOException e) {
+			catch(SocketException se)
+			{
+				System.out.println("CONNECTION LOST");
+			}
+			catch (ClassNotFoundException | IOException e)
+			{
+				
 				e.printStackTrace();
 			}
+
 		}
 	}
 

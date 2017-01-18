@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="628.0" prefWidth="763.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainFirstButtonOfVBoxController">
+<BorderPane prefHeight="628.0" prefWidth="763.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainFirstButtonOfVBoxController">
    <top>
       <Label styleClass="label-header" text="Notifications" BorderPane.alignment="TOP_LEFT">
          <BorderPane.margin>
