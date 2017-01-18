@@ -124,7 +124,7 @@ public class LoginController implements Initializable {
 		}*/
 		this.loginButtonActionEvent = event;
 		
-		try{
+		try{ //10.8.236.72
 			Socket socket = new Socket("127.0.0.1", 1056);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
@@ -185,7 +185,7 @@ public class LoginController implements Initializable {
 		mainController = mainFxmlLoader.<MainController>getController();
 		mainController.setMainControllerRoot(mainControllerRoot);
 		mainController.setMainFxmlLoader(mainFxmlLoader);
-		System.out.println("ELO TU KURWA "+mainFxmlLoader);
+	
 	}
 	
 	public void setSettingsOfMainController(){

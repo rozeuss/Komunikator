@@ -13,11 +13,13 @@ public class EmailValidator {
 
 
     public EmailValidator(String email) {
+    	if(email == null) valid = false;
+    	else{
             matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
             if (matcher.matches())
                 valid = true;
             else valid = false;
-
+    	}
 
 
     }
