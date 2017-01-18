@@ -117,7 +117,6 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		incorrectCredentialsLabel.setVisible(false);
 	}
 
@@ -129,7 +128,6 @@ public class LoginController implements Initializable {
 
 	@FXML
 	public void newAccountButtonOnAction(ActionEvent event) {
-		
 		Pane borderPane = FxmlUtils.fxmlLoader(FXML_NEW_ACCOUNT_FXML);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		Scene scene = new Scene(borderPane);
@@ -173,7 +171,6 @@ public class LoginController implements Initializable {
 	}
 	
 	public void setSplashScene(){
-		
 		((Node) (loginButtonActionEvent.getSource())).getScene().getWindow().hide();
 		messageLabel.setText("Welcome: " + txtUsername.getText());
 

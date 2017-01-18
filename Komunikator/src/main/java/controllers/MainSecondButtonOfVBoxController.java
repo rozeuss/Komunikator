@@ -27,15 +27,14 @@ public class MainSecondButtonOfVBoxController {
 
 	@FXML SplitPane splitPane;
 
-	ObservableList<String> items =FXCollections.observableArrayList (
-		    "Single", "Double", "Suite", "Family App");
+	ObservableList<String> items =FXCollections.observableArrayList ("one");
 
 	@FXML ListView<String> listView;
 	
 	public void initialize(){
 		listView.setItems(items);
-		listView.getItems().addAll("One", "Two", "Three");
-		listView.getSelectionModel().select(0); // TUTAJ TRZA DODAC TEGO DISABLE 
+		//listView.getItems().addAll("One", "Two", "Three");
+		//.getSelectionModel().select(0); // TUTAJ TRZA DODAC TEGO DISABLE 
 
 	        listView.setCellFactory(lv -> {
 
