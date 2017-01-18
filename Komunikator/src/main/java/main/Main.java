@@ -39,27 +39,10 @@ public class Main extends Application {
 		fxmlLoader = new FXMLLoader(getClass().getResource(FXML_LOGIN_FXML)); 
 		Parent root = (Parent)fxmlLoader.load();
 		LoginController loginController = fxmlLoader.<LoginController>getController();
-<<<<<<< HEAD
-		
-		try{
-			//Socket socket = new Socket("192.168.1.102", 1056);
-			Socket socket = new Socket("127.0.0.1", 1056);
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-			loginController.setSocket(socket, out, in);	
-			System.out.println("login  " +  in.getClass());
-			System.out.println(out.getClass());
-			System.out.println(socket.getClass());
-			loginController.setSettingsOfMainController();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-=======
 
 		System.out.println("Wys³any fxmlLoader: " + fxmlLoader);
 		loginController.setLoginFXMLLoader(fxmlLoader);
->>>>>>> NewWorkingBranch
+
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Yo! - Login");

@@ -80,15 +80,8 @@ public class MainController {
 	private FXMLLoader mainThirdFxmlLoader;
 	private FXMLLoader mainFourthFxmlLoader;
 	private FXMLLoader chattingFxmlLoader;
-<<<<<<< HEAD
 	private FXMLLoader personEditDialogFxmlLoader;
-=======
-	
 	private FXMLLoader loginFxmlLoader;
-
-
-
->>>>>>> NewWorkingBranch
 	private String showProfileUserName;
 	private ArrayList<Invitation> invitations;
 	private Parent mainThirdFxmlRoot;
@@ -458,8 +451,7 @@ public class MainController {
 			mainThirdButtonOfVBoxController.createSender();
 			
 			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
-<<<<<<< HEAD
-=======
+
 			try {
 				this.mainFourthFxmlRoot = (Parent)mainFourthFxmlLoader.load();
 			} catch (IOException e) {
@@ -470,7 +462,6 @@ public class MainController {
 			
 			MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 			
->>>>>>> NewWorkingBranch
 			
 			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
 			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
@@ -479,11 +470,7 @@ public class MainController {
 		}
 
 		private User loggedUserData;
-<<<<<<< HEAD
 		private Friends friendsLoggedUserData;
-=======
-		Friends friendsLoggedUserData;
->>>>>>> NewWorkingBranch
 		
 		 private ObservableList<User> friendsData = FXCollections.observableArrayList();
 		 
@@ -493,12 +480,9 @@ public class MainController {
 
 
 		public void setUser(User dataObject) {
-<<<<<<< HEAD
 			this.loggedUserData = dataObject;
 			mainThirdButtonOfVBoxController.setLoggedUser(loggedUserData);
-=======
 			this.setLoggedUserData(dataObject);
->>>>>>> NewWorkingBranch
 
 		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
 

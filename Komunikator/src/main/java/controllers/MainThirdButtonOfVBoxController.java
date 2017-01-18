@@ -67,7 +67,11 @@ public class MainThirdButtonOfVBoxController {
 	@FXML
 	private void sendInvitationButtonOnAction(MouseEvent event) throws Exception {	
 		sender.setOut(out);
-		Invitation invitation = new Invitation(loggedUser, receiverUser);
+		System.out.println("Ja : " + loggedUser.getUserName());
+		System.out.println("Ktos : " + receiverUser.getUserName());
+		Invitation invitation = new Invitation(new User(loggedUser.getUserName()), new User(receiverUser.getUserName()));
+		System.out.println("invitaion : " + invitation.getClass());
+		System.out.println("out : " + out.getClass());
 		sender.send(invitation);
 		//sendInvitationButton.setDisable(true);
 	}

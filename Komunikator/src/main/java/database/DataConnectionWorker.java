@@ -60,16 +60,7 @@ public class DataConnectionWorker implements Runnable {
 				}
 				else if(dataObject instanceof UnreadMessages){
 
-				} else if(dataObject instanceof FoundedUsers){
-					System.out.println("Jestem w instance of FoundedUsers" );
-					
-					ArrayList <User> list = new ArrayList<User>(((FoundedUsers) dataObject).getFoundedUsers());
-					System.out.println("Rozmiar listy " + list.size());
-					
-					for(User user: list){
-						System.out.println("wyswietlam nik usera " + user.getUserName());
-						//UsersTV.getItems().add(new User(user.getFirstName()));
-					}
+				} else if(dataObject instanceof FoundedUsers){	
 					mainController.setFoundedUsers((FoundedUsers)dataObject);
 				}
 				else if(dataObject instanceof InvitationConfirmation){
