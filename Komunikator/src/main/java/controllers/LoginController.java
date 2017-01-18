@@ -55,6 +55,18 @@ public class LoginController implements Initializable {
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
         
 	private Socket socket;
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public ObjectOutputStream getOut() {
+		return out;
+	}
+
+	public ObjectInputStream getIn() {
+		return in;
+	}
+
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private Confirmation loginConfirmation;
@@ -62,6 +74,10 @@ public class LoginController implements Initializable {
 	private MainController mainController;
 	private SplashController splashController;
 	private DataConnectionWorker dataConnectionWorker;
+	public DataConnectionWorker getDataConnectionWorker() {
+		return dataConnectionWorker;
+	}
+
 	private User user;
 	private Parent mainControllerRoot;
 	
@@ -86,8 +102,11 @@ public class LoginController implements Initializable {
 	@FXML
 	private Button newAccountButton;
 
+	private FXMLLoader loginFXMLLoader;
 
-	
+	FXMLLoader mainFxmlLoader;
+
+
 	@FXML
 	private void loginButtonOnAction(ActionEvent event) throws Exception {		
 		loginConfirmation =  new Confirmation();
@@ -105,12 +124,26 @@ public class LoginController implements Initializable {
 		}*/
 		this.loginButtonActionEvent = event;
 		
+		try{
+			Socket socket = new Socket("127.0.0.1", 1056);
+			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			this.setSocket(socket, out, in);	
+			System.out.println("login  " +  in.getClass());
+			System.out.println(out.getClass());
+			System.out.println(socket.getClass());
+			this.setSettingsOfMainController();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
 		user = new User(txtUsername.getText());
 		
 		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials, this);
 
 		Thread thread = new Thread(loginConnectionWorker);
+		
+		
 		thread.run();
 
 	}
@@ -141,14 +174,16 @@ public class LoginController implements Initializable {
 	public LoginController() {
 		LOGGER.log(Level.FINE, "LOG IN Controller created");
         credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();	
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FXML));
+		this.mainFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FXML));
 		try {
-			this.mainControllerRoot = (Parent)fxmlLoader.load();
+			this.mainControllerRoot = (Parent)mainFxmlLoader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		mainController = fxmlLoader.<MainController>getController();
+		mainController = mainFxmlLoader.<MainController>getController();
 		mainController.setMainControllerRoot(mainControllerRoot);
+		mainController.setMainFxmlLoader(mainFxmlLoader);
+		System.out.println("ELO TU KURWA "+mainFxmlLoader);
 	}
 	
 	public void setSettingsOfMainController(){
@@ -156,7 +191,9 @@ public class LoginController implements Initializable {
 		System.out.println(out.getClass());
 		System.out.println(socket.getClass());
 		mainController.setSocket(socket, out, in);
-		mainController.createFxmlControllers();
+		mainController.createFxmlControllers(this.loginFXMLLoader);
+	//	mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
+		System.out.println("TU JESZCZE JEST " + mainController.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController());
 	}
 
 
@@ -250,5 +287,15 @@ public class LoginController implements Initializable {
 
 	public User getUser() {
 		return user;
+	}
+
+	public void setLoginFXMLLoader(FXMLLoader fxmlLoader) {
+		System.out.println("Otrzymany LoginLoader " + fxmlLoader);
+		this.loginFXMLLoader=fxmlLoader;
+		
+	}
+	
+	public FXMLLoader getLoginFXMLLoader() {
+		return loginFXMLLoader;
 	}
 }
