@@ -29,6 +29,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -48,6 +49,7 @@ import transferDataContainers.Invitation;
 import transferDataContainers.OverdueInvitations;
 import transferDataContainers.User;
 import transferDataContainers.UserData;
+
 import utils.DialogsUtils;
 import utils.FxmlUtils;
 
@@ -157,6 +159,24 @@ public class MainController {
 		}
 	}
 
+    private void createTabDynamically(String firstName, String lastName, String userName) {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/secondView.fxml"));
+        SecondViewController secondView = new SecondViewController();
+        ChattingController chattingController = getChattingFxmlLoader().<ChattingController>getController();
+        Tab myDynamicTab = chattingController.getMyDynamicTab();
+        setCenter(getChattingFxmlLoader());
+        try {
+        	secondView.setSecondFXML(loader);
+            Parent parent = loader.load();
+            myDynamicTab = new Tab(""+firstName+" "+lastName+" "+"["+userName+"]");
+            myDynamicTab.setContent(parent); 
+           	chattingController.getTabPane().getTabs().add(myDynamicTab);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+	
 	@FXML
 	private void initialize() {
 		mainRightVBoxController.setMainController(this);
@@ -188,9 +208,10 @@ public class MainController {
 	                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
 	                    User rowData = row.getItem();
 	                    System.out.println("Klikasz ziomka: " + rowData.getFirstName() + " " + rowData.getLastName());
-						//setCenter(FXML_CHATTING_FXML);
 	                    setCenter(getChattingFxmlLoader());
-
+	    				createTabDynamically(row.getItem().getFirstName(),
+						row.getItem().getLastName(),
+						row.getItem().getUserName());
 	                }
 	            });
 	            
@@ -200,8 +221,14 @@ public class MainController {
 					@Override
 					public void handle(ActionEvent event) {
 						System.out.println("elodwazero");
-						//setCenter(FXML_CHATTING_FXML);
-						
+				//		for (User u : friendsData){
+					//		if(u.getUserName().equals(row.getItem().getUserName()))
+					//		{
+								createTabDynamically(row.getItem().getFirstName(),
+								row.getItem().getLastName(),
+								row.getItem().getUserName());
+					//		}
+					//	}
 						setCenter(getChattingFxmlLoader());
 					}
 	            	
@@ -212,38 +239,23 @@ public class MainController {
 
 	    					@Override
 	    					public void handle(ActionEvent event) {  
-	    						
+	    						MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 	    						showProfileUserName = row.getItem().getFirstName() + " " + row.getItem().getLastName();
 	    						setCenter(getMainFourthFxmlLoader());
-	    						MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 	    						controller.setProfileNameLabelText(showProfileUserName);
 	    			//			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
-	    						if(mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().getApplyButton().isDisabled()==false)
-	    							mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().changeEditable();
+	    						if(controller.getApplyButton().isDisabled()==false)
+	    							controller.changeEditable();
 	    						for (User u : friendsData){
 	    							if(u.getUserName().equals(row.getItem().getUserName()))
 	    							{
 	    								User item = row.getItem();
-	    								setFriendData(item);
-	    							}
-
-	    							
-	    						}
-	    						
-
-	    						
-	    						
-	    						
-	    		
-	    			
-	    					
-	    					}
-	    	            	
+	    								controller.setFriendData(item);
+	    							}	    							
+	    						}	    					    				    					
+	    					}	    	            	
 	    	            });
-	            
-	        //    deleteFriendItem.setOnAction(event -> personTable.getItems().remove(cell.getItem()));
-
-	            
+	             
 	            deleteFriendItem.setOnAction(new EventHandler<ActionEvent>(){
 
 	    					@Override
@@ -341,7 +353,7 @@ public class MainController {
 	public void menuItemProfileOnAction() {
 		//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
 		setCenter(getMainFourthFxmlLoader());
-		setLoggedUserData();
+		getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController().setLoggedUserData();
 	}
 
 	@FXML
@@ -485,7 +497,7 @@ public class MainController {
 		private User loggedUserData;
 		private Friends friendsLoggedUserData;
 		
-		 private ObservableList<User> friendsData = FXCollections.observableArrayList();
+		private ObservableList<User> friendsData = FXCollections.observableArrayList();
 		 
 		public ObservableList<User> getFriendsData() {
 			return friendsData;
@@ -530,38 +542,7 @@ public class MainController {
 			mainFirstButtonOfVBoxController.setInvitationList(invitations);
 		}
 
-		public void setLoggedUserData(){
 
-			MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
-		
-			controller.setAgeTextField(loggedUserData.getAge());
-			controller.setCityTextField(loggedUserData.getCity());
-			controller.setCountryTextField(loggedUserData.getCountry());
-			controller.setEmailTextField(loggedUserData.geteMail());
-			controller.setFirstNameTextField(loggedUserData.getFirstName());
-			controller.setLastNameTextField(loggedUserData.getLastName());
-			controller.setGenderTextField(loggedUserData.getGender());
-			controller.setUsernameTextField(loggedUserData.getUserName());
-			controller.setYourProfileNameLabelText();
-			controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));
-			controller.init();
-		}
-		
-		public void setFriendData(User friend){
-			MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
-			controller.setAgeTextField(friend.getAge());
-			controller.setCityTextField(friend.getCity());
-			controller.setCountryTextField(friend.getCountry());
-			controller.setEmailTextField(friend.geteMail());
-			controller.setFirstNameTextField(friend.getFirstName());
-			controller.setLastNameTextField(friend.getLastName());
-			controller.setGenderTextField(friend.getGender());
-			controller.setUsernameTextField(friend.getUserName());
-			controller.setProfileNameLabelText(showProfileUserName);
-			controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
-			controller.init();
-			controller.getEditButton().setDisable(true);
-		}
 
 
 

@@ -26,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.Main;
 import sun.util.locale.provider.AvailableLanguageTags;
 import transferData.Sender;
 import transferDataContainers.EditedUserData;
@@ -36,8 +37,6 @@ import validators.EmailValidator;
 import validators.StringsValidator;
 
 public class MainFourthButtonOfVBoxController {
-
-	MainController mainController;
 
 	private FXMLLoader mainFXMLLoader;
 
@@ -323,4 +322,44 @@ public class MainFourthButtonOfVBoxController {
 		this.mainFourthButtonOfVBoxControllerRoot = main;
 	}
 
+	
+	
+	
+	
+	public void setLoggedUserData(){
+
+		MainFourthButtonOfVBoxController controller = mainFXMLLoader.<MainController>getController().getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController();
+		User loggedUserData = mainFXMLLoader.<MainController>getController().getLoggedUserData();
+		controller.setAgeTextField(loggedUserData.getAge());
+		controller.setCityTextField(loggedUserData.getCity());
+		controller.setCountryTextField(loggedUserData.getCountry());
+		controller.setEmailTextField(loggedUserData.geteMail());
+		controller.setFirstNameTextField(loggedUserData.getFirstName());
+		controller.setLastNameTextField(loggedUserData.getLastName());
+		controller.setGenderTextField(loggedUserData.getGender());
+		controller.setUsernameTextField(loggedUserData.getUserName());
+		controller.setYourProfileNameLabelText();
+		controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));
+		controller.init();
+	}
+	
+
+	
+	public void setFriendData(User friend){
+		MainFourthButtonOfVBoxController controller = mainFXMLLoader.<MainController>getController().getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController();
+		MainController mainController =  mainFXMLLoader.<MainController>getController();
+		controller.setAgeTextField(friend.getAge());
+		controller.setCityTextField(friend.getCity());
+		controller.setCountryTextField(friend.getCountry());
+		controller.setEmailTextField(friend.geteMail());
+		controller.setFirstNameTextField(friend.getFirstName());
+		controller.setLastNameTextField(friend.getLastName());
+		controller.setGenderTextField(friend.getGender());
+		controller.setUsernameTextField(friend.getUserName());
+		controller.setProfileNameLabelText(mainController.getShowProfileUserName());
+		controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
+		controller.init();
+		controller.getEditButton().setDisable(true);
+	}
+	
 }

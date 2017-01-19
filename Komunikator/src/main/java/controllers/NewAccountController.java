@@ -59,16 +59,12 @@ public class NewAccountController implements Initializable {
 	private TextField firstNameTextField;
 	@FXML
 	private TextField lastNameTextField;
-
 	@FXML
 	private Button cancelButton;
-
 	@FXML
 	Text welldefinedUsername;
-
 	@FXML
 	Button createAccountButton;
-
 	@FXML
 	Text welldefinedPassword;
 	@FXML
