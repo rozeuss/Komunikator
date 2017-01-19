@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -14,6 +15,11 @@ import javafx.scene.control.Tab;
 
 public class ChattingController {
 
+	
+	private FXMLLoader mainFXMLLoader;
+
+	
+	
 	@FXML
 	private TabPane tabPane;
 
@@ -64,6 +70,20 @@ public class ChattingController {
 	 */
 	public void setMyDynamicTab(Tab myDynamicTab) {
 		this.myDynamicTab = myDynamicTab;
+	}
+
+	/**
+	 * @return the mainFXMLLoader
+	 */
+	public FXMLLoader getMainFXMLLoader() {
+		return mainFXMLLoader;
+	}
+
+	/**
+	 * @param mainFXMLLoader the mainFXMLLoader to set
+	 */
+	public void setMainFXMLLoader(FXMLLoader mainFXMLLoader) {
+		this.mainFXMLLoader = mainFXMLLoader;
 	}
 
 

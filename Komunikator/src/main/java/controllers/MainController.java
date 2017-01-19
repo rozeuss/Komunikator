@@ -163,11 +163,12 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/secondView.fxml"));
         SecondViewController secondView = new SecondViewController();
         ChattingController chattingController = getChattingFxmlLoader().<ChattingController>getController();
-        Tab myDynamicTab = chattingController.getMyDynamicTab();
         setCenter(getChattingFxmlLoader());
+        Tab myDynamicTab = chattingController.getMyDynamicTab();
         try {
         	secondView.setSecondFXML(loader);
             Parent parent = loader.load();
+
             myDynamicTab = new Tab(""+firstName+" "+lastName+" "+"["+userName+"]");
             myDynamicTab.setContent(parent); 
            	chattingController.getTabPane().getTabs().add(myDynamicTab);
@@ -221,15 +222,12 @@ public class MainController {
 					@Override
 					public void handle(ActionEvent event) {
 						System.out.println("elodwazero");
-				//		for (User u : friendsData){
-					//		if(u.getUserName().equals(row.getItem().getUserName()))
-					//		{
+						setCenter(getChattingFxmlLoader());
 								createTabDynamically(row.getItem().getFirstName(),
 								row.getItem().getLastName(),
 								row.getItem().getUserName());
-					//		}
-					//	}
-						setCenter(getChattingFxmlLoader());
+
+
 					}
 	            	
 	            });
