@@ -1,5 +1,9 @@
 package controllers;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -8,141 +12,227 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.Main;
+import transferData.Sender;
+import transferDataContainers.Confirmation;
 import transferDataContainers.LoginCredentials;
 import transferDataContainers.RegistrationInformation;
 import utils.FxmlUtils;
+import validators.AgeValidator;
+import validators.EmailValidator;
+import validators.StringsValidator;
+import javafx.scene.control.ComboBox;
 
-public class NewAccountController implements Initializable{
-    private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName() );
-    private Pattern emailPattern = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-    private Matcher emailPatternMatcher;
-    
-    @FXML
-    private TextField usernameTextField;
-    @FXML
-    private TextField passwordTextField;
-    @FXML
-    private TextField ageTextField;
-    @FXML
-    private TextField firstNameTextField;
-    @FXML
-    private TextField lastNameTextField;
-    
-	StringProperty nameProperty = new SimpleStringProperty();
+public class NewAccountController implements Initializable {
+	private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
+	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
-	// widocznosc/ niewidocznosc label OK imie
-	BooleanProperty nameOkProperty = new SimpleBooleanProperty(false);
-
-	public BooleanProperty getNameOkProperty() {
-		return nameOkProperty;
-	}
-	
-	public BooleanProperty getPasswordOkProperty() {
-		return passwordOkProperty;
-	}
-
-
-	// textfield naziwsko
-	StringProperty passwordProperty = new SimpleStringProperty();
-
-	// wylaczenie/wlaczenie pola nazwisko
-	BooleanProperty disablePasswordProperty = new SimpleBooleanProperty(true);
-
-	// widocznosc/ niewidocznosc label OK naziwsko
-	BooleanProperty passwordOkProperty = new SimpleBooleanProperty(false);
-
-	// textfield - rok urodzenia
-	IntegerProperty yearProperty = new SimpleIntegerProperty();
-
-	// przyjmuje wartosc checkBox
-	BooleanProperty confirmProperty = new SimpleBooleanProperty(false);
-
-	// obliczony wiek
-	StringProperty ageProperty = new SimpleStringProperty();
-
-	// wlacz/wylacz przycisk
-	BooleanProperty buttonProperty = new SimpleBooleanProperty(false);
-
-	// aktualny rok
-	IntegerProperty actualYearProperty = new SimpleIntegerProperty(LocalDate.now().getYear());
-    
-	@FXML 
+	@FXML
+	private TextField usernameTextField;
+	@FXML
+	private TextField passwordTextField;
+	@FXML
+	private TextField ageTextField;
+	@FXML
+	private TextField firstNameTextField;
+	@FXML
+	private TextField lastNameTextField;
+	@FXML
 	private Button cancelButton;
+	@FXML
+	Text welldefinedUsername;
+	@FXML
+	Button createAccountButton;
+	@FXML
+	Text welldefinedPassword;
+	@FXML
+	TextField emailTextField;
+	@FXML
+	TextField countryTextField;
+	@FXML
+	TextField cityTextField;
+	@FXML
+	ComboBox<String> genderComboBox;
+	ObservableList<String> options = FXCollections.observableArrayList("Male", "Female", "Other");
+	private EmailValidator emailValidator;
+	private AgeValidator ageValidator;
+	private StringsValidator firstNameValidator;
+	private StringsValidator lastNameValidator;
+	private StringsValidator countryNameValidator;
+	private StringsValidator cityNameValidator;
 
-	@FXML Text welldefinedUsername;
-
-	@FXML Button createAccountButton;
-
-	@FXML Text welldefinedPassword;
-	
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
-		usernameTextField.textProperty().bindBidirectional(nameProperty);
-		passwordTextField.textProperty().bindBidirectional(passwordProperty);
+		genderComboBox.setItems(options);
+		genderComboBox.setValue(options.get(0));
 
-		
-		//createAccountButton.disableProperty().bind(disablePasswordProperty);
+		BooleanBinding booleanBinding = usernameTextField.textProperty().isEqualTo("")
+				.or(passwordTextField.textProperty().isEqualTo("")
+						.or(firstNameTextField.textProperty().isEqualTo("")
+								.or(lastNameTextField.textProperty().isEqualTo("")
+										.or(ageTextField.textProperty().isEqualTo("")
+												.or(emailTextField.textProperty().isEqualTo("")
+														.or(cityTextField.textProperty().isEqualTo("")
+																.or(countryTextField.textProperty().isEqualTo("")
 
-		welldefinedUsername.visibleProperty().bind(getNameOkProperty());
-		welldefinedPassword.visibleProperty().bind(getPasswordOkProperty());
+		)))))));
 
-		createAccountButton.disableProperty().bind(getPasswordOkProperty().not());
+		createAccountButton.disableProperty().bind(booleanBinding);
+
 	}
 
+	@FXML
+	public void cancelButtonOnAction(ActionEvent event) {
 
-	@FXML public void cancelButtonOnAction(ActionEvent event) {
-		
 		Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
-        Stage stage  = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setTitle("Yo! - Login");
 		stage.setResizable(false);
 		stage.show();
-		
+
 	}
-	
-	
-	   public NewAccountController(){
-	       LOGGER.log(Level.FINE, "SIGN UP Controller created");
-	       nameOkProperty.bind(nameProperty.isNotEmpty());
-	       passwordOkProperty.bind(passwordProperty.isNotEmpty());
-	    }
 
+	private boolean isInputValid() {
+		String errorMessage = "";
+		emailValidator = new EmailValidator(emailTextField.getText());
+		ageValidator = new AgeValidator(ageTextField.getText());
+		firstNameValidator = new StringsValidator();
+		lastNameValidator = new StringsValidator();
+		countryNameValidator = new StringsValidator();
+		cityNameValidator = new StringsValidator();
 
-
-
-	@FXML public void createAccountButtonOnAction(ActionEvent event) {
-		/*registrationStatus =  new RegistrationStatus();	
-		LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
+		if (firstNameValidator.isAlpha(firstNameTextField.getText()) == false || firstNameTextField.getText().length() == 0) {
+			errorMessage += "No valid first name!\n";
+		}
 		
-		ConnectionWorker connectionWorker = new ConnectionWorker(socket, out, in, loginCredentials, this);
-		Thread thread = new Thread(connectionWorker);
-		thread.run();*/
+		if (lastNameValidator.isAlpha(lastNameTextField.getText()) == false || lastNameTextField.getText().length() == 0) {
+			errorMessage += "No valid last name!\n";
+		}
+
+		if (emailTextField.getText() == null || emailValidator.isValid() == false) {
+			errorMessage += "No valid email!\n";
+		}
+
+		if (ageTextField.getText() == null || ageValidator.isValid() == false
+				|| Integer.valueOf(ageTextField.getText()) > 150) {
+			errorMessage += "No valid age!\n";
+		}
+
+		if (countryNameValidator.isAlpha(countryTextField.getText()) == false || countryTextField.getText().length() == 0) {
+			errorMessage += "No valid country!\n";
+		}
+
+		if (cityNameValidator.isAlpha(cityTextField.getText()) == false || cityTextField.getText().length() == 0) {
+			errorMessage += "No valid city!\n";
+		}
+
+		if (genderComboBox.getSelectionModel().getSelectedItem() == null) {
+			errorMessage += "No valid gender!\n";
+		}
+
+		if (errorMessage.length() == 0) {
+			return true;
+		} else {
+
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Invalid Fields");
+			alert.setHeaderText("Please correct invalid fields");
+			alert.setContentText(errorMessage);
+
+			alert.showAndWait();
+
+			return false;
+		}
+	}
+
+	public NewAccountController() {
+		LOGGER.log(Level.FINE, "SIGN UP Controller created");
+	}
+
+	@FXML
+	public void createAccountButtonOnAction(ActionEvent event) {
+		if(isInputValid()){
+		Thread t = new Thread() {
+			public void run() {
+				Socket socket = null;
+				ObjectOutputStream out = null;
+				ObjectInputStream in = null;
+
+				try {
+					System.out.println("1");
+					socket = new Socket("127.0.0.1", 1056);
+					System.out.println("2");
+					out = new ObjectOutputStream(socket.getOutputStream());
+					System.out.println("3");
+					in = new ObjectInputStream(socket.getInputStream());
+					System.out.println("4");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				Sender sender = new Sender(out);
+
+				try {
+					System.out.println("siema");
+					sender.send(new RegistrationInformation(
+							// "kwas2",
+							// "kwas2",
+							// "kwas2",
+							// "kwas2",
+							// "kwas2",
+							// 1,
+							// "kwas2","kwas2",null));
+							// System.out.println("siema222");
+							usernameTextField.getText(), passwordTextField.getText(), firstNameTextField.getText(),
+							lastNameTextField.getText(), emailTextField.getText(),
+							Integer.valueOf(ageTextField.getText()), "Male", countryTextField.getText(),
+							cityTextField.getText()));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				try {
+					Confirmation confirmation = (Confirmation) in.readObject();
+					System.out.println("Potwierdzenie: " + confirmation);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				System.out.println(usernameTextField.getText() + " " + passwordTextField.getText() + " "
+						+ firstNameTextField.getText() + " " + lastNameTextField.getText() + " "
+						+ ageTextField.getText());
+
+			}
+		};
+		t.start();
+
+	}
 	}
 }
-
-
-
-

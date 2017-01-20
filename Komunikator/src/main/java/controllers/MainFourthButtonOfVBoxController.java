@@ -1,9 +1,16 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Parent;
@@ -17,7 +24,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.Main;
 import sun.util.locale.provider.AvailableLanguageTags;
 import transferData.Sender;
 import transferDataContainers.EditedUserData;
@@ -25,32 +34,35 @@ import transferDataContainers.User;
 import utils.FxmlUtils;
 import validators.AgeValidator;
 import validators.EmailValidator;
+import validators.StringsValidator;
 
 public class MainFourthButtonOfVBoxController {
 
-	
-	
-	
-	MainController mainController;
-	
 	private FXMLLoader mainFXMLLoader;
-	
-	@FXML TextField usernameTextField;
-	@FXML TextField firstNameTextField;
-	@FXML TextField lastNameTextField;
-	@FXML TextField emailTextField;
-	@FXML TextField ageTextField;
-	@FXML TextField countryTextField;
-	@FXML TextField cityTextField;
-	@FXML TextField genderTextField;
+
+	@FXML
+	TextField usernameTextField;
+	@FXML
+	TextField firstNameTextField;
+	@FXML
+	TextField lastNameTextField;
+	@FXML
+	TextField emailTextField;
+	@FXML
+	TextField ageTextField;
+	@FXML
+	TextField countryTextField;
+	@FXML
+	TextField cityTextField;
+	@FXML
+	TextField genderTextField;
 	@FXML
 	private ImageView userProfileImage;
 
 	@FXML
 	private Button editButton;
-	@FXML Label profileNameLabel;
-
-
+	@FXML
+	Label profileNameLabel;
 
 	@FXML
 	private Button applyButton;
@@ -94,243 +106,139 @@ public class MainFourthButtonOfVBoxController {
 	public void setProfileNameLabelText(String profileNameLabelText) {
 		profileNameLabel.setText(profileNameLabelText + "'s profile");
 	}
-	
+
 	public void setYourProfileNameLabelText() {
 		profileNameLabel.setText("Your profile");
 	}
-	
 
-/*	Scene SCENA;
+	public void createFxmlControllers() {
+
+	}
+
+	ObservableList<String> options = FXCollections.observableArrayList("Male", "Female", "Other");
 
 	@FXML
-	public void editButtonOnAction(ActionEvent event) {	
-	if(flag == true){
-			flag = false;
-			System.out.println("2 PERSON EDIT" + personEditDialogFxmlLoader.getController().toString());
-			
-			Stage stage = new Stage();
-			//Scene scene = new Scene(personEditDialogFxmlLoader.getRoot());
-			Scene scene = new Scene(personEditDialogRoot);
-			this.SCENA = scene;
-			stage.setHeight(600);
-			stage.setWidth(450);
-			stage.setTitle("Edit profile");
-			stage.setMinHeight(600);
-			stage.setMinWidth(450);
-			stage.getIcons().add(
-					   new Image(
-					      SplashController.class.getResourceAsStream( "../images/icon.png" ))); 
-			stage.setScene(scene);
-			stage.show();
-			this.KURDEBELE = scene.getRoot();
-			System.out.println(scene.getRoot());
-			
-			PersonEditDialogController controller = personEditDialogFxmlLoader.<PersonEditDialogController>getController();
-			controller.setCountryField(countryTextField.getText());
-			controller.setAgeField(ageTextField.getText());
-			controller.setCityField(cityTextField.getText());
-			controller.setFirstNameField(firstNameTextField.getText());
-			controller.setLastNameField(lastNameTextField.getText());
-			controller.setEmailField(emailTextField.getText());
-			controller.setMyImageView(userProfileImage.getImage());
-	}
-	else
-	{
-		System.out.println("Tutaj kurdebele? " + this.KURDEBELE);
-		System.out.println(personEditDialogFxmlLoader.getRoot().toString());	
-		Stage stage = new Stage();
-		SCENA.getWindow().isShowing();
-	}
-	*/		
-/*			//fxmlLoader.setRoot(null);
-			//fxmlLoader.setController(null);
-			if(personEditDialogFxmlLoader.getRoot() == null) {
-				root = (Parent)personEditDialogFxmlLoader.load();
-			//	System.out.println(root);
-			//	newRoot = root;
-				System.out.println("1 PERSON EDIT" + personEditDialogFxmlLoader.getController().toString());
-				Stage stage = new Stage();
-				Scene scene = new Scene(root);
-	//			System.out.println(root);
-				stage.setHeight(600);
-				stage.setWidth(450);
-				stage.setTitle("Edit profile");
-				stage.setMinHeight(600);
-				stage.setMinWidth(450);
-				stage.getIcons().add(
-						   new Image(
-						      SplashController.class.getResourceAsStream( "../images/icon.png" ))); 
-				stage.setScene(scene);
-				stage.show();
-	
-				PersonEditDialogController controller = personEditDialogFxmlLoader.<PersonEditDialogController>getController();
-				controller.setCountryField(countryTextField.getText());
-				controller.setAgeField(ageTextField.getText());
-				controller.setCityField(cityTextField.getText());
-				controller.setFirstNameField(firstNameTextField.getText());
-				controller.setLastNameField(lastNameTextField.getText());
-				controller.setEmailField(emailTextField.getText());
-				controller.setMyImageView(userProfileImage.getImage());
-	
-			}
-			else {
-				System.out.println("2 PERSON EDIT" + personEditDialogFxmlLoader.getController().toString());
-				
-				Stage stage = new Stage();
-				//Scene scene = new Scene(personEditDialogFxmlLoader.getRoot());
-				Scene scene = new Scene(personEditDialogRoot);
-				stage.setHeight(600);
-				stage.setWidth(450);
-				stage.setTitle("Edit profile");
-				stage.setMinHeight(600);
-				stage.setMinWidth(450);
-				stage.getIcons().add(
-						   new Image(
-						      SplashController.class.getResourceAsStream( "../images/icon.png" ))); 
-				stage.setScene(scene);
-				stage.show();
-				this.KURDEBELE = scene.getRoot();
-				System.out.println(scene.getRoot());
-				
-				PersonEditDialogController controller = personEditDialogFxmlLoader.<PersonEditDialogController>getController();
-				controller.setCountryField(countryTextField.getText());
-				controller.setAgeField(ageTextField.getText());
-				controller.setCityField(cityTextField.getText());
-				controller.setFirstNameField(firstNameTextField.getText());
-				controller.setLastNameField(lastNameTextField.getText());
-				controller.setEmailField(emailTextField.getText());
-				controller.setMyImageView(userProfileImage.getImage());
+	ComboBox<String> genderComboBox;
 
-			}
-		
-			*/
-	//	} catch (IOException e1) {
-	//		e1.printStackTrace();
-	//	}
-	/*	
-		Stage stage = new Stage();
-		Scene scene = new Scene(borderPane);
-		stage.setHeight(600);
-		stage.setWidth(450);
-		stage.setScene(scene);
-		stage.setTitle("Edit profile");
-		stage.setMinHeight(600);
-		stage.setMinWidth(450);
-		stage.getIcons().add(
-				   new Image(
-				      SplashController.class.getResourceAsStream( "../images/icon.png" ))); 
-		System.out.println("Person edit controller: " + personEditDialogFxmlLoader.toString());
-		stage.show();
-		
-	}	*/
-	
-	public void createFxmlControllers(){
-	
-	}
-	/*
-	 * 
-	 * 			mainThirdFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_THIRD_BUTTON_OF_V_BOX_FXML)); 
-			try {
-				this.mainThirdFxmlRoot = (Parent)mainThirdFxmlLoader.load();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
-			mainThirdButtonOfVBoxController.setMainThirdButtonOfVBoxControllerRoot(mainThirdFxmlRoot);
-	 * 
-
-	 * 
-
-	 */
-	
-	ObservableList<String> options = 
-		    FXCollections.observableArrayList(
-		        "Male",
-		        "Female",
-		        "Other"
-		    );
-
-
-	@FXML ComboBox<String> genderComboBox;
-
-	@FXML Button loadAvatarButton;
+	@FXML
+	Button loadAvatarButton;
 
 	private EmailValidator emailValidator;
 
 	private AgeValidator ageValidator;
 
 	private Parent mainFourthButtonOfVBoxControllerRoot;
-	
-	 public void editButtonOnAction(ActionEvent event){
-		 System.out.println("A TEN SIE ZGADZ" + this.mainFXMLLoader);
-		 System.out.println("A MOZE KONTROLERL" + this.mainFXMLLoader.<MainController>getController().getLoggedUserData().getFirstName());
-		 changeEditable();
-		 usernameTextField.setDisable(true);
-		 genderTextField.setTranslateY(100);
-		 genderTextField.setVisible(false);
-		 
-		 genderComboBox.setTranslateY(-40);
-		 genderComboBox.setVisible(true);
-		 genderComboBox.setItems(options);
-		 genderComboBox.setValue(genderTextField.getText());;
-		 editButton.setDisable(true);
-		 getApplyButton().setDisable(false);
-		
+
+	private StringsValidator firstNameValidator;
+
+	private StringsValidator lastNameValidator;
+
+	private StringsValidator countryNameValidator;
+
+	private StringsValidator cityNameValidator;
+
+	public Parent getMainFourthButtonOfVBoxControllerRoot() {
+		return mainFourthButtonOfVBoxControllerRoot;
 	}
-		
-		public void changeEditable() {
-			boolean state = firstNameTextField.isEditable();
-			
-			firstNameTextField.setEditable(!state);
-			lastNameTextField.setEditable(!state);
-			emailTextField.setEditable(!state);
-			ageTextField.setEditable(!state);
-			countryTextField.setEditable(!state);
-			cityTextField.setEditable(!state);
-			genderTextField.setEditable(!state);
-		}
-	 
-	
+
+	public void editButtonOnAction(ActionEvent event) {
+		changeEditable();
+		loadAvatarButton.setVisible(true);
+		usernameTextField.setDisable(true);
+		genderTextField.setTranslateY(100);
+		genderTextField.setVisible(false);
+		genderComboBox.setTranslateY(-40);
+		genderComboBox.setVisible(true);
+		genderComboBox.setItems(options);
+		genderComboBox.setValue(genderTextField.getText());
+		editButton.setDisable(true);
+		getApplyButton().setDisable(false);
+
+	}
+
+	public void changeEditable() {
+		boolean state = firstNameTextField.isEditable();
+		firstNameTextField.setEditable(!state);
+		lastNameTextField.setEditable(!state);
+		emailTextField.setEditable(!state);
+		ageTextField.setEditable(!state);
+		countryTextField.setEditable(!state);
+		cityTextField.setEditable(!state);
+		genderTextField.setEditable(!state);
+	}
+
 	public MainFourthButtonOfVBoxController() {
 		createFxmlControllers();
 	}
 
-	
-	public void initialize(){
+	public void initialize() {
 
 	}
-
 
 	public Button getEditButton() {
 		return editButton;
 	}
 
-	@FXML public void applyButtonOnAction() {
+	@FXML
+	public void applyButtonOnAction() {
 
-		if(isInputValid()){
-		 changeEditable();
-		 
-		 updateData();
-		 usernameTextField.setDisable(false);
-		 editButton.setDisable(false);
-		 getApplyButton().setDisable(true);
-		 
-		 genderTextField.setTranslateY(0);
-		 genderTextField.setVisible(true);
-		 genderTextField.setText(genderComboBox.getSelectionModel().getSelectedItem().toString());
-		 
-		 genderComboBox.setTranslateY(40);
-		 genderComboBox.setVisible(false);
-
+		if (isInputValid()) {
+			changeEditable();
+			updateData();
+			loadAvatarButton.setVisible(false);
+			usernameTextField.setDisable(false);
+			editButton.setDisable(false);
+			getApplyButton().setDisable(true);
+			genderTextField.setTranslateY(0);
+			genderTextField.setVisible(true);
+			genderTextField.setText(genderComboBox.getSelectionModel().getSelectedItem().toString());
+			genderComboBox.setTranslateY(40);
+			genderComboBox.setVisible(false);
 		}
 	}
 
-	@FXML public void loadAvatarButtonOnAction() {}
-	
-	public void updateData(){
-	//	mainFXMLLoader
-		//Sender sender = new Sender();
-		User loggedUserData = mainFXMLLoader.<MainController>getController().getLoggedUserData();
+	public void init() {
+		boolean state = true;
+		firstNameTextField.setEditable(!state);
+		lastNameTextField.setEditable(!state);
+		emailTextField.setEditable(!state);
+		ageTextField.setEditable(!state);
+		countryTextField.setEditable(!state);
+		cityTextField.setEditable(!state);
+		genderTextField.setEditable(!state);
+		loadAvatarButton.setVisible(false);
+		usernameTextField.setDisable(false);
+		editButton.setDisable(false);
+		getApplyButton().setDisable(true);
+		genderTextField.setTranslateY(0);
+		genderTextField.setVisible(true);
+		genderComboBox.setTranslateY(40);
+		genderComboBox.setVisible(false);
+	}
+
+	@FXML
+	public void loadAvatarButtonOnAction() {
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+		FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+		fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+		fileChooser.setTitle("Select your profile image");
+		File file = fileChooser.showOpenDialog(new Stage());
+		if (file != null) {
+			try {
+				BufferedImage bufferedImage = ImageIO.read(file);
+				Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+				userProfileImage.setImage(image);
+			} catch (IOException ex) {
+				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
+
+	public void updateData() {
+		Sender sender = new Sender(mainFXMLLoader.<MainController> getController().getOut());
+		System.out.println("sender");
+		User loggedUserData = mainFXMLLoader.<MainController> getController().getLoggedUserData();
 		loggedUserData.setFirstName(firstNameTextField.getText());
 		loggedUserData.setAge(Integer.valueOf(ageTextField.getText()));
 		loggedUserData.setCity(cityTextField.getText());
@@ -338,70 +246,120 @@ public class MainFourthButtonOfVBoxController {
 		loggedUserData.seteMail(emailTextField.getText());
 		loggedUserData.setLastName(lastNameTextField.getText());
 		loggedUserData.setGender(genderComboBox.getValue());
-		
-		//new EditedUser(loggedUserData)
+		EditedUserData editedUserData = new EditedUserData(loggedUserData);
+		System.out.println(editedUserData);
+		try {
+			sender.send(editedUserData);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	   private boolean isInputValid() {
-	        String errorMessage = "";
-	        emailValidator = new EmailValidator(emailTextField.getText());
-	        ageValidator = new AgeValidator(ageTextField.getText());
+	private boolean isInputValid() {
+		String errorMessage = "";
+		emailValidator = new EmailValidator(emailTextField.getText());
+		ageValidator = new AgeValidator(ageTextField.getText());
+		firstNameValidator = new StringsValidator();
+		lastNameValidator = new StringsValidator();
+		countryNameValidator = new StringsValidator();
+		cityNameValidator = new StringsValidator();
 
-	        if (firstNameTextField.getText() == null || firstNameTextField.getText().length() == 0) {
-	            errorMessage += "No valid first name!\n"; 
-	        }
-	        
-	        if (lastNameTextField.getText() == null || lastNameTextField.getText().length() == 0) {
-	            errorMessage += "No valid last name!\n"; 
-	        }
-	        
-	        if (emailTextField.getText() == null || emailValidator.isValid() == false){
-	        	errorMessage += "No valid email!\n"; 
-	        }   
-	      
-	        if(ageTextField.getText() == null || ageValidator.isValid() == false || Integer.valueOf(ageTextField.getText())>150) {
-	        	errorMessage += "No valid age!\n";
-	        }
+		if (firstNameValidator.isAlpha(firstNameTextField.getText()) == false || firstNameTextField.getText().length() == 0) {
+			errorMessage += "No valid first name!\n";
+		}
+		
+		if (lastNameValidator.isAlpha(lastNameTextField.getText()) == false || lastNameTextField.getText().length() == 0) {
+			errorMessage += "No valid last name!\n";
+		}
 
-	        if (countryTextField.getText() == null || countryTextField.getText().length() == 0) {
-	            errorMessage += "No valid country!\n"; 
-	        }
-	        
-	        if (cityTextField.getText() == null || cityTextField.getText().length() == 0) {
-	            errorMessage += "No valid city!\n"; 
-	        }
+		if (emailTextField.getText() == null || emailValidator.isValid() == false) {
+			errorMessage += "No valid email!\n";
+		}
 
-	        if (errorMessage.length() == 0) {
-	            return true;
-	        } else {
+		if (ageTextField.getText() == null || ageValidator.isValid() == false
+				|| Integer.valueOf(ageTextField.getText()) > 150) {
+			errorMessage += "No valid age!\n";
+		}
 
-	            Alert alert = new Alert(AlertType.ERROR);
-	            alert.setTitle("Invalid Fields");
-	            alert.setHeaderText("Please correct invalid fields");
-	            alert.setContentText(errorMessage);
-	            
-	            alert.showAndWait();
-	            
-	            return false;
-	        }
-	    }
+		if (countryNameValidator.isAlpha(countryTextField.getText()) == false || countryTextField.getText().length() == 0) {
+			errorMessage += "No valid country!\n";
+		}
+
+		if (cityNameValidator.isAlpha(cityTextField.getText()) == false || cityTextField.getText().length() == 0) {
+			errorMessage += "No valid city!\n";
+		}
+
+		if (genderComboBox.getSelectionModel().getSelectedItem() == null) {
+			errorMessage += "No valid gender!\n";
+		}
+
+		if (errorMessage.length() == 0) {
+			return true;
+		} else {
+
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Invalid Fields");
+			alert.setHeaderText("Please correct invalid fields");
+			alert.setContentText(errorMessage);
+
+			alert.showAndWait();
+
+			return false;
+		}
+	}
+
 
 	public Button getApplyButton() {
 		return applyButton;
 	}
 
-
-
-
 	public void setMainFXMLLoader(FXMLLoader mainFXMLLoader) {
 		this.mainFXMLLoader = mainFXMLLoader;
-		System.out.println("OTRZYMANY " + mainFXMLLoader);
 	}
 
 	public void setMainFourthButtonOfVBoxControllerRoot(Parent main) {
-		this.mainFourthButtonOfVBoxControllerRoot=main;
+		this.mainFourthButtonOfVBoxControllerRoot = main;
 	}
 
 	
+	
+	
+	
+	public void setLoggedUserData(){
 
+		MainFourthButtonOfVBoxController controller = mainFXMLLoader.<MainController>getController().getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController();
+		User loggedUserData = mainFXMLLoader.<MainController>getController().getLoggedUserData();
+		controller.setAgeTextField(loggedUserData.getAge());
+		controller.setCityTextField(loggedUserData.getCity());
+		controller.setCountryTextField(loggedUserData.getCountry());
+		controller.setEmailTextField(loggedUserData.geteMail());
+		controller.setFirstNameTextField(loggedUserData.getFirstName());
+		controller.setLastNameTextField(loggedUserData.getLastName());
+		controller.setGenderTextField(loggedUserData.getGender());
+		controller.setUsernameTextField(loggedUserData.getUserName());
+		controller.setYourProfileNameLabelText();
+		controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));
+		controller.init();
+	}
+	
+
+	
+	public void setFriendData(User friend){
+		MainFourthButtonOfVBoxController controller = mainFXMLLoader.<MainController>getController().getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController();
+		MainController mainController =  mainFXMLLoader.<MainController>getController();
+		controller.setAgeTextField(friend.getAge());
+		controller.setCityTextField(friend.getCity());
+		controller.setCountryTextField(friend.getCountry());
+		controller.setEmailTextField(friend.geteMail());
+		controller.setFirstNameTextField(friend.getFirstName());
+		controller.setLastNameTextField(friend.getLastName());
+		controller.setGenderTextField(friend.getGender());
+		controller.setUsernameTextField(friend.getUserName());
+		controller.setProfileNameLabelText(mainController.getShowProfileUserName());
+		controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
+		controller.init();
+		controller.getEditButton().setDisable(true);
+	}
+	
 }

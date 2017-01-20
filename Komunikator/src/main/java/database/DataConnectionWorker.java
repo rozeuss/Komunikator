@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
 
 import controllers.LoginController;
 import controllers.MainController;
@@ -36,8 +38,7 @@ public class DataConnectionWorker implements Runnable {
 		this.loginController = loginController;
 		this.mainController = loginController.getMainController();
 		this.splashController = loginController.getSplashController();
-		this.receiver = new Receiver();
-		//dataObject = new Object();
+		this.receiver = new Receiver();   
 	}
 
 	@Override
@@ -46,25 +47,50 @@ public class DataConnectionWorker implements Runnable {
 		while(isRunning) {
 			try {
 				System.out.println("DataConnectionWorker - przed czytaniem obiektu");
+				
 				dataObject = receiver.read(in);
 				
 				if(dataObject instanceof OverdueInvitations){
 					mainController.addInvitations((OverdueInvitations)dataObject);
+					OverdueInvitations dom = (OverdueInvitations)dataObject;
+					System.out.println("dom  " + dom.getClass());
+					System.out.println("iwitycaje  SOM NIESTETY PUSTE :("+dom.getInvitations());
+					ArrayList<Invitation> inv = dom.getInvitations();
+					System.out.println("Odbieram paczke zaproszen ");
+					System.out.println("size listy : W DATACONN " + inv.size());
 					splashController.getSplashScreen().setIsDataLoaded(true);
 				}
-				if(dataObject instanceof User){
-					mainController.setUser((User)(dataObject));
+				else if(dataObject instanceof User){
+					mainController.setUser((User)dataObject);
 				}
-				if(dataObject instanceof Friends){
+				else if(dataObject instanceof Friends){
 					mainController.addFriends((Friends)dataObject);
 				}
-				if(dataObject instanceof UnreadMessages){
+				else if(dataObject instanceof UnreadMessages){
 
+				} else if(dataObject instanceof FoundedUsers){	
+					mainController.setFoundedUsers((FoundedUsers)dataObject);
+				}
+				else if(dataObject instanceof InvitationConfirmation){
+					System.out.println("Odbieram invitation confirmation ");	
+				}
+				else if(dataObject instanceof Invitation){
+					System.out.println("Odbieram invitation ");	
+				}
+				else if(dataObject instanceof NewFriend){
+					
 				}
 			} 
-			catch (ClassNotFoundException | IOException e) {
+			catch(SocketException se)
+			{
+				System.out.println("CONNECTION LOST");
+			}
+			catch (ClassNotFoundException | IOException e)
+			{
+				
 				e.printStackTrace();
 			}
+
 		}
 	}
 

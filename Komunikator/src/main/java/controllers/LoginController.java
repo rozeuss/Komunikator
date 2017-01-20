@@ -124,6 +124,7 @@ public class LoginController implements Initializable {
 		}*/
 		this.loginButtonActionEvent = event;
 		
+
 		try{
 			Socket socket = new Socket("127.0.0.1", 1056);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -150,7 +151,6 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		incorrectCredentialsLabel.setVisible(false);
 	}
 
@@ -162,7 +162,6 @@ public class LoginController implements Initializable {
 
 	@FXML
 	public void newAccountButtonOnAction(ActionEvent event) {
-		
 		Pane borderPane = FxmlUtils.fxmlLoader(FXML_NEW_ACCOUNT_FXML);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		Scene scene = new Scene(borderPane);
@@ -185,7 +184,7 @@ public class LoginController implements Initializable {
 		mainController = mainFxmlLoader.<MainController>getController();
 		mainController.setMainControllerRoot(mainControllerRoot);
 		mainController.setMainFxmlLoader(mainFxmlLoader);
-		System.out.println("ELO TU KURWA "+mainFxmlLoader);
+	
 	}
 	
 	public void setSettingsOfMainController(){
@@ -210,7 +209,6 @@ public class LoginController implements Initializable {
 	}
 	
 	public void setSplashScene(){
-		
 		((Node) (loginButtonActionEvent.getSource())).getScene().getWindow().hide();
 		messageLabel.setText("Welcome: " + txtUsername.getText());
 

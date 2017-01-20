@@ -73,6 +73,11 @@ public class SplashController implements Initializable {
 						      Main.class.getResourceAsStream( "../images/icon.png" ))); 
 				//stage.initStyle(StageStyle.TRANSPARENT);
 				stage.show();
+		//mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
+		
+				mainController.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainController.getMainFxmlLoader());
+				mainController.getChattingFxmlLoader().<ChattingController>getController().setMainFXMLLoader(mainController.getMainFxmlLoader());
+				mainController.getChattingFxmlLoader().<ChattingController>getController().setChattingFXMLloader(mainController.getChattingFxmlLoader());
 				rootAnchorPane.getScene().getWindow().hide();
 		    }
 		});

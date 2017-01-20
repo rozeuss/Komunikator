@@ -20,5 +20,4 @@ public class FoundedUsers implements Serializable {
 		this.foundedUsers = foundedUsers;
 	}
 	
-	
 }

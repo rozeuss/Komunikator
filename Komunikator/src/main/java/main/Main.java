@@ -40,8 +40,6 @@ public class Main extends Application {
 		Parent root = (Parent)fxmlLoader.load();
 		LoginController loginController = fxmlLoader.<LoginController>getController();
 
-		
-		System.out.println("Wys³any fxmlLoader: " + fxmlLoader);
 		loginController.setLoginFXMLLoader(fxmlLoader);
 
 		Scene scene = new Scene(root);
