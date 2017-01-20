@@ -13,11 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tab;
 
-public class ChattingController {
+public class ChattingController implements Initializable {
 
 	
 	private FXMLLoader mainFXMLLoader;
-
+	private FXMLLoader chattingFXMLloader;
 	
 	
 	@FXML
@@ -52,11 +52,6 @@ public class ChattingController {
 		}
       }
 
-	@FXML public void sendMessageButtonOnAction() {
-
-        chatTextField.clear();
-
-	}
 
 	/**
 	 * @return the myDynamicTab
@@ -84,6 +79,26 @@ public class ChattingController {
 	 */
 	public void setMainFXMLLoader(FXMLLoader mainFXMLLoader) {
 		this.mainFXMLLoader = mainFXMLLoader;
+		System.out.println("Z CHATTING CONTROLER mainloader" + mainFXMLLoader);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+	}
+
+	/**
+	 * @return the chattingFXMLloader
+	 */
+	public FXMLLoader getChattingFXMLloader() {
+		return chattingFXMLloader;
+	}
+
+	/**
+	 * @param chattingFXMLloader the chattingFXMLloader to set
+	 */
+	public void setChattingFXMLloader(FXMLLoader chattingFXMLloader) {
+		this.chattingFXMLloader = chattingFXMLloader;
+		System.out.println("CHATTING FXML LODAER " + chattingFXMLloader);
 	}
 
 

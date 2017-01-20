@@ -12,10 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class SecondViewController{
+public class SecondViewController implements Initializable{
 
     @FXML private Label secondInfoLbl;
-	private FXMLLoader firstFXML;
+	private static FXMLLoader chattingFXMLLoader;
 	private FXMLLoader secondFXML;
 	@FXML Button sendMessageButton;
 	@FXML TextField chatTextField;
@@ -23,14 +23,18 @@ public class SecondViewController{
 
 
     
-    public void setFirstFXML(FXMLLoader first){
-    	this.firstFXML = first;
+    public void setChattingFXMLLoader(FXMLLoader chattingFXMLLoader){
+    	SecondViewController.chattingFXMLLoader = chattingFXMLLoader;
+    	System.out.println("first " + chattingFXMLLoader);
     }
+
+
+    
 
 	public void setSecondFXML(FXMLLoader loader) {
 		// TODO Auto-generated method stub
 		this.secondFXML = loader;
-		System.out.println("loader"+loader);
+		System.out.println("Unikalny loader dla taba "+ loader);
 		
 	}
 
@@ -44,10 +48,20 @@ public class SecondViewController{
       }
 
 	@FXML public void sendMessageButtonOnAction() {
-
+		System.out.println(chattingFXMLLoader);
+		System.out.println(chattingFXMLLoader.<ChattingController>getController().getMainFXMLLoader().<MainController>getController().getLoggedUserData()
+				.getFirstName());
         chatTextField.clear();
 
 	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		System.out.println("SIEMA");
+		
+	}
+
 
 
 	

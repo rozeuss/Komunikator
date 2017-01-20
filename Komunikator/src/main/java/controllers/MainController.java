@@ -87,12 +87,12 @@ public class MainController {
 	private FXMLLoader mainFirstFxmlLoader;
 	private FXMLLoader mainFourthFxmlLoader;
 	private FXMLLoader chattingFxmlLoader;
-	private FXMLLoader personEditDialogFxmlLoader;
 	private FXMLLoader loginFxmlLoader;
 	private String showProfileUserName;
 	private ArrayList<Invitation> invitations;
 	private Parent mainThirdFxmlRoot;
 	private Parent mainFirstFxmlRoot;
+	private Parent chattingFxmlRoot;
 	private FXMLLoader mainSecondFxmlLoader;
 	private Sender sender;
 
@@ -146,11 +146,9 @@ public class MainController {
 		try {
 			if(fxmlLoader.getRoot() == null) {
 				root = (Parent)fxmlLoader.load();
-				System.out.println("1 " + fxmlLoader.getController().toString());
 				borderPane.setCenter(root);
 			}
 			else {
-				System.out.println("2 " + fxmlLoader.getController().toString());
 				borderPane.setCenter(fxmlLoader.getRoot());
 			}
 			
@@ -172,6 +170,8 @@ public class MainController {
             myDynamicTab = new Tab(""+firstName+" "+lastName+" "+"["+userName+"]");
             myDynamicTab.setContent(parent); 
            	chattingController.getTabPane().getTabs().add(myDynamicTab);
+           	chattingController.getTabPane().getSelectionModel().select(myDynamicTab);
+            secondView.setChattingFXMLLoader(getChattingFxmlLoader());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -208,7 +208,6 @@ public class MainController {
 	            row.setOnMouseClicked(event -> {
 	                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
 	                    User rowData = row.getItem();
-	                    System.out.println("Klikasz ziomka: " + rowData.getFirstName() + " " + rowData.getLastName());
 	                    setCenter(getChattingFxmlLoader());
 	    				createTabDynamically(row.getItem().getFirstName(),
 						row.getItem().getLastName(),
@@ -221,7 +220,6 @@ public class MainController {
 
 					@Override
 					public void handle(ActionEvent event) {
-						System.out.println("elodwazero");
 						setCenter(getChattingFxmlLoader());
 								createTabDynamically(row.getItem().getFirstName(),
 								row.getItem().getLastName(),
@@ -440,6 +438,7 @@ public class MainController {
 		private Parent mainFourthFxmlRoot;
 		private MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController;
 		private MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController;
+		private ChattingController chattingController;
 		
 		public void createFxmlControllers(FXMLLoader loginFxmlLoader){
 			this.sender = new Sender(out);
@@ -482,14 +481,18 @@ public class MainController {
 			}
 			mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 			mainFourthButtonOfVBoxController.setMainFourthButtonOfVBoxControllerRoot(mainFourthFxmlRoot);
+						
 			
-			MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
 			
 			
-			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 
-			ChattingController chattingController = chattingFxmlLoader.<ChattingController>getController();
-			
-
+			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 			
+			try {
+				this.chattingFxmlRoot = (Parent)chattingFxmlLoader.load();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			chattingController = chattingFxmlLoader.<ChattingController>getController();
 		}
 
 		private User loggedUserData;
