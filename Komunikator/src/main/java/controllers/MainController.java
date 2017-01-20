@@ -47,6 +47,7 @@ import transferDataContainers.FoundedUsers;
 import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
 import transferDataContainers.OverdueInvitations;
+import transferDataContainers.UnreadMessages;
 import transferDataContainers.User;
 import transferDataContainers.UserData;
 
@@ -83,6 +84,11 @@ public class MainController {
 
 
 	private ObjectInputStream in;
+	public ObjectInputStream getIn() {
+		return in;
+	}
+
+
 	private FXMLLoader mainThirdFxmlLoader;
 	private FXMLLoader mainFirstFxmlLoader;
 	private FXMLLoader mainFourthFxmlLoader;
@@ -569,22 +575,12 @@ public class MainController {
 
 
 
-
-
-		/**
-		 * @return the mainFxmlLoader
-		 */
 		public FXMLLoader getMainFxmlLoader() {
 			return mainFxmlLoader;
 		}
 
 
 
-
-
-		/**
-		 * @param mainFxmlLoader the mainFxmlLoader to set
-		 */
 		public void setMainFxmlLoader(FXMLLoader mainFxmlLoader) {
 			this.mainFxmlLoader = mainFxmlLoader;
 	
@@ -592,5 +588,13 @@ public class MainController {
 
 		public void setFoundedUsers(FoundedUsers dataObject) {
 			mainThirdButtonOfVBoxController.setFoundedUsers(dataObject);	
+		}
+
+		
+		private UnreadMessages unreadMessages;
+		public void addUnreadMessages(UnreadMessages dataObject) {
+		//	this.unreadMessages = dataObject.getInvitations();
+		//	mainFirstButtonOfVBoxController.setInvitationList(invitations);
+			
 		}
 }

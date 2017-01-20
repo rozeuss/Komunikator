@@ -8,7 +8,7 @@
 
 <VBox fx:id="container" prefHeight="693.0" prefWidth="774.0" spacing="20.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SecondViewController">
    <children>
-      <TextArea editable="false" prefHeight="354.0" prefWidth="734.0">
+      <TextArea fx:id="conversationTextArea" editable="false" prefHeight="354.0" prefWidth="734.0" wrapText="true">
          <VBox.margin>
             <Insets />
          </VBox.margin>
