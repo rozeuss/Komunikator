@@ -67,6 +67,7 @@ public class DataConnectionWorker implements Runnable {
 					mainController.addFriends((Friends)dataObject);
 				}
 				else if(dataObject instanceof UnreadMessages){
+					mainController.addUnreadMessages((UnreadMessages)dataObject);
 
 				} else if(dataObject instanceof FoundedUsers){	
 					mainController.setFoundedUsers((FoundedUsers)dataObject);
