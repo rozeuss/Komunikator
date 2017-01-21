@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -30,7 +31,7 @@ public class SecondViewController implements Initializable{
 	@FXML TextArea conversationTextArea;
 	private Sender sender;
 	private Message message;
-
+	private String username;
     
     public void setChattingFXMLLoader(FXMLLoader chattingFXMLLoader){
     	SecondViewController.chattingFXMLLoader = chattingFXMLLoader;
@@ -82,22 +83,22 @@ public class SecondViewController implements Initializable{
 				.getMessage()
 				.getTextContent()+"\n");
         chatTextField.clear();
+        System.out.println(username);
 
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 	}
  
 
-	private String username;
 	
 	public void setUsername(String username) {
 		// TODO Auto-generated method stub
 		this.username = username;
 		System.out.println("username wybrany " + username);
 	}
+
 
 
 	
