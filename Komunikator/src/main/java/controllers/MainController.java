@@ -46,6 +46,7 @@ import transferData.Sender;
 import transferDataContainers.FoundedUsers;
 import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
+import transferDataContainers.Message;
 import transferDataContainers.OverdueInvitations;
 import transferDataContainers.UnreadMessages;
 import transferDataContainers.User;
@@ -172,7 +173,7 @@ public class MainController {
         try {
         	secondView.setSecondFXML(loader);
             Parent parent = loader.load();
-
+            secondView.setUsername(userName);
             myDynamicTab = new Tab(""+firstName+" "+lastName+" "+"["+userName+"]");
             myDynamicTab.setContent(parent); 
            	chattingController.getTabPane().getTabs().add(myDynamicTab);
@@ -499,6 +500,8 @@ public class MainController {
 				e1.printStackTrace();
 			}
 			chattingController = chattingFxmlLoader.<ChattingController>getController();
+			chattingController.setSocket(socket, out, in);
+			chattingController.createSender();
 		}
 
 		private User loggedUserData;
@@ -592,9 +595,20 @@ public class MainController {
 
 		
 		private UnreadMessages unreadMessages;
-		public void addUnreadMessages(UnreadMessages dataObject) {
+		public void setUnreadMessages(UnreadMessages dataObject) {
 		//	this.unreadMessages = dataObject.getInvitations();
 		//	mainFirstButtonOfVBoxController.setInvitationList(invitations);
 			
+		}
+
+		private Message message;
+		
+		public Message getMessage() {
+			return message;
+		}
+		
+		public void setMessage(Message dataObject) {
+			// TODO Auto-generated method stub
+			message = dataObject;	
 		}
 }

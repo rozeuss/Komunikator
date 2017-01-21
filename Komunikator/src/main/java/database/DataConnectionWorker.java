@@ -67,7 +67,7 @@ public class DataConnectionWorker implements Runnable {
 					mainController.addFriends((Friends)dataObject);
 				}
 				else if(dataObject instanceof UnreadMessages){
-					mainController.addUnreadMessages((UnreadMessages)dataObject);
+					mainController.setUnreadMessages((UnreadMessages)dataObject);
 
 				} else if(dataObject instanceof FoundedUsers){	
 					mainController.setFoundedUsers((FoundedUsers)dataObject);
@@ -80,6 +80,9 @@ public class DataConnectionWorker implements Runnable {
 				}
 				else if(dataObject instanceof NewFriend){
 					
+				}
+				else if(dataObject instanceof Message){
+					mainController.setMessage((Message)dataObject);
 				}
 			} 
 			catch(SocketException se)
