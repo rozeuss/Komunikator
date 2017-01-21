@@ -1,5 +1,8 @@
 package controllers;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -9,6 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import transferData.Sender;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tab;
@@ -18,7 +23,14 @@ public class ChattingController implements Initializable {
 	
 	private FXMLLoader mainFXMLLoader;
 	private FXMLLoader chattingFXMLloader;
-	
+	private Sender sender;
+	public Sender getSender() {
+		return sender;
+	}
+
+	private Socket socket;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
 	
 	@FXML
 	private TabPane tabPane;
@@ -102,6 +114,14 @@ public class ChattingController implements Initializable {
 	}
 
 
-
+	public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
+		this.socket = socket;
+		this.in = in;
+		this.out = out;
+	}
+	
+	public void createSender(){
+		this.sender = new Sender(out);
+	}
 	
 }

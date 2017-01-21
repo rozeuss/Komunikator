@@ -1,4 +1,5 @@
 package controllers;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -14,6 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import main.Main;
+import transferData.Sender;
+import transferDataContainers.Message;
 import javafx.scene.control.TextArea;
 
 public class SecondViewController implements Initializable{
@@ -24,8 +28,8 @@ public class SecondViewController implements Initializable{
 	@FXML Button sendMessageButton;
 	@FXML TextField chatTextField;
 	@FXML TextArea conversationTextArea;
-
-
+	private Sender sender;
+	private Message message;
 
     
     public void setChattingFXMLLoader(FXMLLoader chattingFXMLLoader){
@@ -35,7 +39,9 @@ public class SecondViewController implements Initializable{
 
 
     public void addMessageToConversationTextArea(String text){
-    	conversationTextArea.appendText("\n" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()) + " userName" + " " +text);
+    	conversationTextArea.appendText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())
+    			+ " " + chattingFXMLLoader.<ChattingController>getController().getMainFXMLLoader().<MainController>getController().getLoggedUserData()
+    			.getUserName() + ":" + " " +text  + "\n");
     }
 
 	public void setSecondFXML(FXMLLoader loader) {
@@ -48,27 +54,49 @@ public class SecondViewController implements Initializable{
 	@FXML public void chatTFonKeyReleased(KeyEvent e) {
 		if(e.getCode().equals(KeyCode.ENTER))
 		{
-        addMessageToConversationTextArea(chatTextField.getText());
-        chatTextField.clear();
-        
+   //     addMessageToConversationTextArea(chatTextField.getText());
+       // chatTextField.clear();
+        sendMessageButtonOnAction();
 		}
       }
 
 	@FXML public void sendMessageButtonOnAction() {
-		System.out.println(chattingFXMLLoader);
-		System.out.println(chattingFXMLLoader.<ChattingController>getController().getMainFXMLLoader().<MainController>getController().getLoggedUserData()
-				.getFirstName());
-		chattingFXMLLoader.<ChattingController>getController().getMainFXMLLoader().<MainController>getController().getOut();
-		addMessageToConversationTextArea(chatTextField.getText());
+		message = new Message(chattingFXMLLoader.<ChattingController>getController().
+				getMainFXMLLoader().<MainController>getController().getLoggedUserData().getUserName(),
+				chattingFXMLLoader.<ChattingController>getController().
+				getMainFXMLLoader().<MainController>getController().getLoggedUserData().getUserName(),
+				chatTextField.getText(),
+				LocalDateTime.now()	
+				);
+		System.out.println(chattingFXMLLoader.<ChattingController>getController().getSender());
+		try {
+			chattingFXMLLoader.<ChattingController>getController().getSender().send(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//addMessageToConversationTextArea(chatTextField.getText());
+		conversationTextArea.appendText(chattingFXMLLoader.<ChattingController>getController()
+				.getMainFXMLLoader()
+				.<MainController>getController()
+				.getMessage()
+				.getTextContent()+"\n");
         chatTextField.clear();
 
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+	}
+ 
+
+	private String username;
+	
+	public void setUsername(String username) {
 		// TODO Auto-generated method stub
-		System.out.println("SIEMA");
-		
+		this.username = username;
+		System.out.println("username wybrany " + username);
 	}
 
 
