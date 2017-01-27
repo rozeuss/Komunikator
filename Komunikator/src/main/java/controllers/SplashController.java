@@ -76,6 +76,7 @@ public class SplashController implements Initializable {
 		//mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
 		
 				mainController.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainController.getMainFxmlLoader());
+				mainController.getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().setMainFXMLLoader(mainController.getMainFxmlLoader());
 				mainController.getChattingFxmlLoader().<ChattingController>getController().setMainFXMLLoader(mainController.getMainFxmlLoader());
 				mainController.getChattingFxmlLoader().<ChattingController>getController().setChattingFXMLloader(mainController.getChattingFxmlLoader());
 				rootAnchorPane.getScene().getWindow().hide();
