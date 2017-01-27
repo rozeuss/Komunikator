@@ -17,6 +17,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -142,6 +143,7 @@ public class MainController {
 	ToggleGroup styleGroup;
 	@FXML
 	CheckMenuItem menuItemAlwaysOnTop;
+
 	@FXML
 	
 	private void tableViewOnMouseClicked(){
@@ -163,27 +165,41 @@ public class MainController {
 			e1.printStackTrace();
 		}
 	}
-
+	
+	private boolean isTabOpened;
+	private ObservableList<String> openedTabsUsernames = FXCollections.observableArrayList();
     private void createTabDynamically(String firstName, String lastName, String userName) {
+    	if(!openedTabsUsernames.contains(userName)){
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/secondView.fxml"));
         SecondViewController secondView = new SecondViewController();
         ChattingController chattingController = getChattingFxmlLoader().<ChattingController>getController();
         setCenter(getChattingFxmlLoader());
         Tab myDynamicTab = chattingController.getMyDynamicTab();
         try {
-        	secondView.setSecondFXML(loader);
-            Parent parent = loader.load();
+        	openedTabsUsernames.add(userName);
             secondView.setUsername(userName);
+        	secondView.setSecondFXML(loader);
+            secondView.setChattingFXMLLoader(getChattingFxmlLoader());
+        	loader.setController(secondView);
+            Parent parent = loader.load();
             myDynamicTab = new Tab(""+firstName+" "+lastName+" "+"["+userName+"]");
             myDynamicTab.setContent(parent); 
+    		myDynamicTab.setOnClosed(new EventHandler<Event>()
+    		{
+    		    @Override
+    		    public void handle(Event arg0) 
+    		    {
+    		        openedTabsUsernames.remove(userName);
+    		    }
+    		});
            	chattingController.getTabPane().getTabs().add(myDynamicTab);
            	chattingController.getTabPane().getSelectionModel().select(myDynamicTab);
-            secondView.setChattingFXMLLoader(getChattingFxmlLoader());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }else chattingController.getTabPane().getSelectionModel().select(openedTabsUsernames.indexOf(userName));
     }
-
 	
 	@FXML
 	private void initialize() {
