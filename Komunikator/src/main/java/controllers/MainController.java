@@ -168,12 +168,17 @@ public class MainController {
 		}
 	}
 	
+	//SecondViewController secondView;
+	private ArrayList<SecondViewController> secondViewsControllers = new ArrayList<SecondViewController>();
 	private boolean isTabOpened;
 	private ObservableList<String> openedTabsUsernames = FXCollections.observableArrayList();
     private void createTabDynamically(String firstName, String lastName, String userName) {
     	if(!openedTabsUsernames.contains(userName)){
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/secondView.fxml"));
+        //SecondViewController secondView = new SecondViewController();
         SecondViewController secondView = new SecondViewController();
+        secondViewsControllers.add(secondView);
+        
         ChattingController chattingController = getChattingFxmlLoader().<ChattingController>getController();
         setCenter(getChattingFxmlLoader());
         Tab myDynamicTab = chattingController.getMyDynamicTab();
@@ -637,6 +642,14 @@ public class MainController {
 		private StringProperty messageTEXT;
 		public void setMessage(Message dataObject) {
 			// TODO Auto-generated method stub
+			//this.secondView.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
+			SecondViewController secondViewController = null;
+			for(SecondViewController controller : this.secondViewsControllers){
+				if(dataObject.getSender().equals(controller.getUsername())){
+					secondViewController = controller;
+				}
+			}
+			secondViewController.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
 			message = dataObject;	
 			System.out.println("Wiadomosc od: " + message.getSender() + " Do: " + getLoggedUserData().getUserName()
 					+" Treœæ: "+ message.getTextContent());

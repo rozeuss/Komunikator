@@ -47,11 +47,13 @@ public class SecondViewController implements Initializable{
     }
 
 
-    public void addMessageToConversationTextArea(String text){
+    public void addMessageToConversationTextArea(String text, String sender){
     	conversationTextArea.setStyle("-fx-text-fill: red;");
-    	conversationTextArea.appendText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())
+    	/*conversationTextArea.appendText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())
     			+ " " + chattingFXMLLoader.<ChattingController>getController().getMainFXMLLoader().<MainController>getController().getLoggedUserData()
-    			.getUserName() + ":" + " " +text  + "\n");
+    			.getUserName() + ":" + " " +text  + "\n");*/
+    	conversationTextArea.appendText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())
+		+ " " + sender + ":" + " " +text  + "\n");
     }
 
 	public void setSecondFXML(FXMLLoader loader) {
@@ -71,13 +73,21 @@ public class SecondViewController implements Initializable{
       }
 
 	@FXML public void sendMessageButtonOnAction() {
-		message = new Message(chattingFXMLLoader.<ChattingController>getController().
+		/*message = new Message(chattingFXMLLoader.<ChattingController>getController().
 				getMainFXMLLoader().<MainController>getController().getLoggedUserData().getUserName(),
 				chattingFXMLLoader.<ChattingController>getController().
 				getMainFXMLLoader().<MainController>getController().getLoggedUserData().getUserName(),
 				chatTextField.getText(),
 				LocalDateTime.now()	
-				);
+				);*/
+		
+		message = new Message(chattingFXMLLoader.<ChattingController>getController().
+		getMainFXMLLoader().<MainController>getController().getLoggedUserData().getUserName(),
+		this.username,
+		chatTextField.getText(),
+		LocalDateTime.now()	
+		);
+		
 		System.out.println(chattingFXMLLoader.<ChattingController>getController().getSender());
 		try {
 			chattingFXMLLoader.<ChattingController>getController().getSender().send(message);
@@ -85,13 +95,15 @@ public class SecondViewController implements Initializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		addMessageToConversationTextArea(chatTextField.getText());
+		addMessageToConversationTextArea(chatTextField.getText(), chattingFXMLLoader.<ChattingController>getController().
+				getMainFXMLLoader().<MainController>getController().getLoggedUserData().getUserName());
 
-		conversationTextArea.appendText(chattingFXMLLoader.<ChattingController>getController()
+		/*conversationTextArea.appendText(chattingFXMLLoader.<ChattingController>getController()
 				.getMainFXMLLoader()
 				.<MainController>getController()
 				.getMessage()
-				.getTextContent()+"\n");
+				.getTextContent()+"\n");*/
+
         chatTextField.clear();
         System.out.println(username);
 
@@ -107,6 +119,12 @@ public class SecondViewController implements Initializable{
 		// TODO Auto-generated method stub
 		this.username = username;
 	}
+	
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.username;
+	}
+
 
 
 
