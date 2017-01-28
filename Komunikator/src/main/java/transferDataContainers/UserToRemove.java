@@ -2,12 +2,12 @@ package transferDataContainers;
 
 import java.io.Serializable;
 
-public class EditedUserData implements Serializable {
+public class UserToRemove implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private User user;
 	
-	public EditedUserData(User user) {
+	public UserToRemove(User user) {
 		this.user = user;
 	}
 

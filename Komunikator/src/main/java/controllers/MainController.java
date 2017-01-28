@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -100,6 +101,7 @@ public class MainController {
 	private ArrayList<Invitation> invitations;
 	private Parent mainThirdFxmlRoot;
 	private Parent mainFirstFxmlRoot;
+	private Parent mainSecondFxmlRoot;
 	private Parent chattingFxmlRoot;
 	private FXMLLoader mainSecondFxmlLoader;
 	private Sender sender;
@@ -180,6 +182,7 @@ public class MainController {
             secondView.setUsername(userName);
         	secondView.setSecondFXML(loader);
             secondView.setChattingFXMLLoader(getChattingFxmlLoader());
+            secondView.setMainFxmlLoader(mainFxmlLoader);
         	loader.setController(secondView);
             Parent parent = loader.load();
             myDynamicTab = new Tab(""+firstName+" "+lastName+" "+"["+userName+"]");
@@ -477,8 +480,14 @@ public class MainController {
 			mainFirstButtonOfVBoxController.setMainFirstButtonOfVBoxControllerRoot(mainFirstFxmlRoot);
 			mainFirstButtonOfVBoxController.createSender(out);
 			
-			mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML)); 
-			MainSecondButtonOfVBoxController mainSecondButtonOfVBoxController = mainSecondFxmlLoader.<MainSecondButtonOfVBoxController>getController();
+			mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML)); 	
+			try {
+				this.mainSecondFxmlRoot = (Parent)mainSecondFxmlLoader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
 			
 			mainThirdFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_THIRD_BUTTON_OF_V_BOX_FXML)); 
 			try {
@@ -549,6 +558,7 @@ public class MainController {
 						   friendsData.add(user);
 					   }
 			}
+			getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().getListView().setItems(friendsData);
 	}
 		
 		
@@ -623,8 +633,13 @@ public class MainController {
 			return message;
 		}
 		
+		
+		private StringProperty messageTEXT;
 		public void setMessage(Message dataObject) {
 			// TODO Auto-generated method stub
 			message = dataObject;	
+			System.out.println("Wiadomosc od: " + message.getSender() + " Do: " + getLoggedUserData().getUserName()
+					+" Treœæ: "+ message.getTextContent());
+			
 		}
 }
