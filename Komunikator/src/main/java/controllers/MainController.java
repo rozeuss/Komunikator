@@ -60,37 +60,37 @@ import utils.FxmlUtils;
 public class MainController {
 	@FXML
 	private TableView<User> groupTable;
-   @FXML
-    private TableView<User> personTable;
-    @FXML
-    private TableColumn<User, String> firstNameColumn;
-    @FXML
-    private TableColumn<User, String> lastNameColumn;
-    @FXML
-    private Label firstNameLabel;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private Label streetLabel;
-    @FXML
-    private Label postalCodeLabel;
-    @FXML
-    private Label cityLabel;
-    @FXML
-    private Label birthdayLabel;
-    private Parent mainControllerRoot;
+	@FXML
+	private TableView<User> personTable;
+	@FXML
+	private TableColumn<User, String> firstNameColumn;
+	@FXML
+	private TableColumn<User, String> lastNameColumn;
+	@FXML
+	private Label firstNameLabel;
+	@FXML
+	private Label lastNameLabel;
+	@FXML
+	private Label streetLabel;
+	@FXML
+	private Label postalCodeLabel;
+	@FXML
+	private Label cityLabel;
+	@FXML
+	private Label birthdayLabel;
+	private Parent mainControllerRoot;
 	private Socket socket;
 	private ObjectOutputStream out;
+
 	public ObjectOutputStream getOut() {
 		return out;
 	}
 
-
 	private ObjectInputStream in;
+
 	public ObjectInputStream getIn() {
 		return in;
 	}
-
 
 	private FXMLLoader mainThirdFxmlLoader;
 	private FXMLLoader mainFirstFxmlLoader;
@@ -106,26 +106,23 @@ public class MainController {
 	private FXMLLoader mainSecondFxmlLoader;
 	private Sender sender;
 
-	
 	public String getShowProfileUserName() {
 		return showProfileUserName;
 	}
 
-
 	private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
 
 	private static final String FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML = "/fxml/MainFourthButtonOfVBox.fxml";
-	
+
 	private static final String FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML = "/fxml/MainFirstButtonOfVBox.fxml";
 
 	private static final String FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML = "/fxml/MainSecondButtonOfVBox.fxml";
-	
+
 	private static final String FXML_MAIN_THIRD_BUTTON_OF_V_BOX_FXML = "/fxml/MainThirdButtonOfVBox.fxml";
-	
+
 	private static final String FXML_CHATTING_FXML = "/fxml/Chatting.fxml";
 
 	private static final String FXML_OPTIONS_FXML = "/fxml/Options.fxml";
-
 
 	@FXML
 	private MainRightVBoxController mainRightVBoxController;
@@ -147,176 +144,163 @@ public class MainController {
 	CheckMenuItem menuItemAlwaysOnTop;
 
 	@FXML
-	
-	private void tableViewOnMouseClicked(){
+
+	private void tableViewOnMouseClicked() {
 		System.out.println("elo");
 	}
-    
+
 	public void setCenter(FXMLLoader fxmlLoader) {
 		Parent root = null;
 		try {
-			if(fxmlLoader.getRoot() == null) {
-				root = (Parent)fxmlLoader.load();
+			if (fxmlLoader.getRoot() == null) {
+				root = (Parent) fxmlLoader.load();
 				borderPane.setCenter(root);
-			}
-			else {
+			} else {
 				borderPane.setCenter(fxmlLoader.getRoot());
 			}
-			
+
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
-	
-	//SecondViewController secondView;
+
+	// SecondViewController secondView;
 	private ArrayList<SecondViewController> secondViewsControllers = new ArrayList<SecondViewController>();
 	private boolean isTabOpened;
 	private ObservableList<String> openedTabsUsernames = FXCollections.observableArrayList();
-    private void createTabDynamically(String firstName, String lastName, String userName) {
-    	if(!openedTabsUsernames.contains(userName)){
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/secondView.fxml"));
-        //SecondViewController secondView = new SecondViewController();
-        SecondViewController secondView = new SecondViewController();
-        secondViewsControllers.add(secondView);
-        
-        ChattingController chattingController = getChattingFxmlLoader().<ChattingController>getController();
-        setCenter(getChattingFxmlLoader());
-        Tab myDynamicTab = chattingController.getMyDynamicTab();
-        try {
-        	openedTabsUsernames.add(userName);
-            secondView.setUsername(userName);
-        	secondView.setSecondFXML(loader);
-            secondView.setChattingFXMLLoader(getChattingFxmlLoader());
-            secondView.setMainFxmlLoader(mainFxmlLoader);
-        	loader.setController(secondView);
-            Parent parent = loader.load();
-            myDynamicTab = new Tab(""+firstName+" "+lastName+" "+"["+userName+"]");
-            myDynamicTab.setContent(parent); 
-    		myDynamicTab.setOnClosed(new EventHandler<Event>()
-    		{
-    		    @Override
-    		    public void handle(Event arg0) 
-    		    {
-    		        openedTabsUsernames.remove(userName);
-    		    }
-    		});
-           	chattingController.getTabPane().getTabs().add(myDynamicTab);
-           	chattingController.getTabPane().getSelectionModel().select(myDynamicTab);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }else chattingController.getTabPane().getSelectionModel().select(openedTabsUsernames.indexOf(userName));
-    }
-	
+	private void createTabDynamically(String firstName, String lastName, String userName) {
+		if (!openedTabsUsernames.contains(userName)) {
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/secondView.fxml"));
+			// SecondViewController secondView = new SecondViewController();
+			SecondViewController secondView = new SecondViewController();
+			secondViewsControllers.add(secondView);
+
+			ChattingController chattingController = getChattingFxmlLoader().<ChattingController>getController();
+			setCenter(getChattingFxmlLoader());
+			Tab myDynamicTab = chattingController.getMyDynamicTab();
+			try {
+				openedTabsUsernames.add(userName);
+				secondView.setUsername(userName);
+				secondView.setSecondFXML(loader);
+				secondView.setChattingFXMLLoader(getChattingFxmlLoader());
+				secondView.setMainFxmlLoader(mainFxmlLoader);
+				loader.setController(secondView);
+				Parent parent = loader.load();
+				myDynamicTab = new Tab("" + firstName + " " + lastName + " " + "[" + userName + "]");
+				myDynamicTab.setContent(parent);
+				myDynamicTab.setOnClosed(new EventHandler<Event>() {
+					@Override
+					public void handle(Event arg0) {
+						openedTabsUsernames.remove(userName);
+					}
+				});
+				chattingController.getTabPane().getTabs().add(myDynamicTab);
+				chattingController.getTabPane().getSelectionModel().select(myDynamicTab);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			chattingController.getTabPane().getSelectionModel().select(openedTabsUsernames.indexOf(userName));
+	}
+
 	@FXML
 	private void initialize() {
 		mainRightVBoxController.setMainController(this);
-		
-	//	userData.add(loggedUserData.getFriends().get(0));
-	    //	System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0) + "\n\n");
-		
-		 personTable.setItems(this.getFriendsData());
-		 firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFirstName()));
-	     lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName())); 
-	     personTable.setRowFactory(new Callback<TableView<User>, TableRow<User>>() {
-	         
-	    	 @Override  
-	          public TableRow<User> call(TableView<User> tableView) {
-	            final TableRow<User> row = new TableRow<>();
-	            final ContextMenu rowMenu = new ContextMenu();
-	            ContextMenu tableMenu = tableView.getContextMenu();
-	            if (tableMenu != null) {
-	              rowMenu.getItems().addAll(tableMenu.getItems());
-	              rowMenu.getItems().add(new SeparatorMenuItem());
-	            }
-	            MenuItem chatItem = new MenuItem("Chat");
-	            MenuItem profileItem = new MenuItem("Show profile");
-	            MenuItem deleteFriendItem = new MenuItem("Delete friend");
-	            
-	            
-	            
-	            row.setOnMouseClicked(event -> {
-	                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-	                    User rowData = row.getItem();
-	                    setCenter(getChattingFxmlLoader());
-	    				createTabDynamically(row.getItem().getFirstName(),
-						row.getItem().getLastName(),
-						row.getItem().getUserName());
-	                }
-	            });
-	            
-	            
-	            chatItem.setOnAction(new EventHandler<ActionEvent>(){
+
+		// userData.add(loggedUserData.getFriends().get(0));
+		// System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0)
+		// + "\n\n");
+
+		personTable.setItems(this.getFriendsData());
+		firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFirstName()));
+		lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName()));
+		personTable.setRowFactory(new Callback<TableView<User>, TableRow<User>>() {
+
+			@Override
+			public TableRow<User> call(TableView<User> tableView) {
+				final TableRow<User> row = new TableRow<>();
+				final ContextMenu rowMenu = new ContextMenu();
+				ContextMenu tableMenu = tableView.getContextMenu();
+				if (tableMenu != null) {
+					rowMenu.getItems().addAll(tableMenu.getItems());
+					rowMenu.getItems().add(new SeparatorMenuItem());
+				}
+				MenuItem chatItem = new MenuItem("Chat");
+				MenuItem profileItem = new MenuItem("Show profile");
+				MenuItem deleteFriendItem = new MenuItem("Delete friend");
+
+				row.setOnMouseClicked(event -> {
+					if (event.getClickCount() == 2 && (!row.isEmpty())) {
+						User rowData = row.getItem();
+						setCenter(getChattingFxmlLoader());
+						createTabDynamically(row.getItem().getFirstName(), row.getItem().getLastName(),
+								row.getItem().getUserName());
+					}
+				});
+
+				chatItem.setOnAction(new EventHandler<ActionEvent>() {
 
 					@Override
 					public void handle(ActionEvent event) {
 						setCenter(getChattingFxmlLoader());
-								createTabDynamically(row.getItem().getFirstName(),
-								row.getItem().getLastName(),
+						createTabDynamically(row.getItem().getFirstName(), row.getItem().getLastName(),
 								row.getItem().getUserName());
 
-
 					}
-	            	
-	            });
-	            
-	            
-	            profileItem.setOnAction(new EventHandler<ActionEvent>(){
 
-	    					@Override
-	    					public void handle(ActionEvent event) {  
-	    						MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
-	    						showProfileUserName = row.getItem().getFirstName() + " " + row.getItem().getLastName();
-	    						setCenter(getMainFourthFxmlLoader());
-	    						controller.setProfileNameLabelText(showProfileUserName);
-	    			//			mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
-	    						if(controller.getApplyButton().isDisabled()==false)
-	    							controller.changeEditable();
-	    						for (User u : friendsData){
-	    							if(u.getUserName().equals(row.getItem().getUserName()))
-	    							{
-	    								User item = row.getItem();
-	    								controller.setFriendData(item);
-	    							}	    							
-	    						}	    					    				    					
-	    					}	    	            	
-	    	            });
-	             
-	            deleteFriendItem.setOnAction(new EventHandler<ActionEvent>(){
+				});
 
-	    					@Override
-	    					public void handle(ActionEvent event) {
-	    						Optional<ButtonType> result = DialogsUtils.confirmationDialog("Deleting friend", "Do you really want to kill your friendship?");
-	    						if (result.get() == ButtonType.OK) {
-	    						int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
-	    						String selectedName = personTable.getSelectionModel().getSelectedItem().getFirstName();
-								personTable.getItems().remove(selectedIndex);
-	    						System.out.println("Usunieto poprawnie uzytkownika: " + selectedName);
-	    						}
-	    					}
-	    	            	
-	    	            });
-	            
-	            
-	            rowMenu.getItems().addAll(chatItem, profileItem, deleteFriendItem);
-	            row.contextMenuProperty().bind(
-	                Bindings.when(Bindings.isNotNull(row.itemProperty()))
-	                .then(rowMenu)
-	                .otherwise((ContextMenu) null));
-	            return row;
-	          }
-	        });
-	      
-	      
-	      
+				profileItem.setOnAction(new EventHandler<ActionEvent>() {
 
+					@Override
+					public void handle(ActionEvent event) {
+						MainFourthButtonOfVBoxController controller = mainFourthFxmlLoader
+								.<MainFourthButtonOfVBoxController>getController();
+						showProfileUserName = row.getItem().getFirstName() + " " + row.getItem().getLastName();
+						setCenter(getMainFourthFxmlLoader());
+						controller.setProfileNameLabelText(showProfileUserName);
+						// mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
+						if (controller.getApplyButton().isDisabled() == false)
+							controller.changeEditable();
+						for (User u : friendsData) {
+							if (u.getUserName().equals(row.getItem().getUserName())) {
+								User item = row.getItem();
+								controller.setFriendData(item);
+							}
+						}
+					}
+				});
+
+				deleteFriendItem.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						Optional<ButtonType> result = DialogsUtils.confirmationDialog("Deleting friend",
+								"Do you really want to kill your friendship?");
+						if (result.get() == ButtonType.OK) {
+							int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+							String selectedName = personTable.getSelectionModel().getSelectedItem().getFirstName();
+							personTable.getItems().remove(selectedIndex);
+							System.out.println("Usunieto poprawnie uzytkownika: " + selectedName);
+						}
+					}
+
+				});
+
+				rowMenu.getItems().addAll(chatItem, profileItem, deleteFriendItem);
+				row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty())).then(rowMenu)
+						.otherwise((ContextMenu) null));
+				return row;
+			}
+		});
 
 	}
 
 	@FXML
 	public void menuItemCloseOnAction() {
-		
+
 		Optional<ButtonType> result = DialogsUtils.confirmationDialog("Exit", "Attention! It's dangerous!");
 		if (result.get() == ButtonType.OK) {
 			System.out.println("Kontroler tutaj " + loginFxmlLoader.<LoginController>getController());
@@ -345,8 +329,7 @@ public class MainController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
+
 			Platform.exit();
 			System.exit(0);
 		}
@@ -374,11 +357,9 @@ public class MainController {
 		stage.show();
 	}
 
-	
-
 	@FXML
 	public void menuItemProfileOnAction() {
-		//setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
+		// setCenter(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML);
 		setCenter(getMainFourthFxmlLoader());
 		getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController().setLoggedUserData();
 	}
@@ -406,8 +387,8 @@ public class MainController {
 
 	@FXML
 	public void menuItemCaspianOnAction() {
-	Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
-	
+		Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
+
 	}
 
 	@FXML
@@ -428,231 +409,205 @@ public class MainController {
 		DialogsUtils.dialogAboutApplication();
 	}
 
-	
-
-
-	    public MainController() {
-	    }
-
-
-
-	    
-		public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
-			this.socket = socket;
-			this.out = out;
-			this.in = in;
-		}
-		
-		public FXMLLoader getMainFirstFxmlLoader() {
-			return mainFirstFxmlLoader;
-		}
-		
-		public FXMLLoader getMainSecondFxmlLoader() {
-			return mainSecondFxmlLoader;
-		}
-		
-		public FXMLLoader getMainThirdFxmlLoader() {
-			return mainThirdFxmlLoader;
-		}
-		
-		public FXMLLoader getMainFourthFxmlLoader() {
-			return mainFourthFxmlLoader;
-		}
-		
-		
-		public FXMLLoader getChattingFxmlLoader() {
-			return chattingFxmlLoader;
-		}
-		
-		private MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController;
-		private FXMLLoader mainFxmlLoader;
-		private Parent mainFourthFxmlRoot;
-		private MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController;
-		private MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController;
-		private ChattingController chattingController;
-		
-		public void createFxmlControllers(FXMLLoader loginFxmlLoader){
-			this.sender = new Sender(out);
-			this.loginFxmlLoader = loginFxmlLoader;
-			
-			mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML)); 
-			try {
-				this.mainFirstFxmlRoot = (Parent)mainFirstFxmlLoader.load();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
-			mainFirstButtonOfVBoxController.setMainFirstButtonOfVBoxControllerRoot(mainFirstFxmlRoot);
-			mainFirstButtonOfVBoxController.createSender(out);
-			
-			mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML)); 	
-			try {
-				this.mainSecondFxmlRoot = (Parent)mainSecondFxmlLoader.load();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			
-			
-			mainThirdFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_THIRD_BUTTON_OF_V_BOX_FXML)); 
-			try {
-				this.mainThirdFxmlRoot = (Parent)mainThirdFxmlLoader.load();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
-			mainThirdButtonOfVBoxController.setMainThirdButtonOfVBoxControllerRoot(mainThirdFxmlRoot);
-
-			System.out.println("mainThirdButtonOfVBoxController " +  in.getClass());
-			System.out.println(out.getClass());
-			System.out.println(socket.getClass());
-			mainThirdButtonOfVBoxController.setSocket(socket, out, in);
-			mainThirdButtonOfVBoxController.createSender();
-			
-			mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML)); 
-
-			try {
-				this.mainFourthFxmlRoot = (Parent)mainFourthFxmlLoader.load();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
-			mainFourthButtonOfVBoxController.setMainFourthButtonOfVBoxControllerRoot(mainFourthFxmlRoot);
-						
-			
-			
-			
-			chattingFxmlLoader  = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML)); 			
-			try {
-				this.chattingFxmlRoot = (Parent)chattingFxmlLoader.load();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			chattingController = chattingFxmlLoader.<ChattingController>getController();
-			chattingController.setSocket(socket, out, in);
-			chattingController.createSender();
-		}
-
-		private User loggedUserData;
-		private Friends friendsLoggedUserData;
-		
-		private ObservableList<User> friendsData = FXCollections.observableArrayList();
-		 
-		public ObservableList<User> getFriendsData() {
-			return friendsData;
-		}
-
-
-		public void setUser(User dataObject) {
-			this.loggedUserData = dataObject;
-			mainThirdButtonOfVBoxController.setLoggedUser(loggedUserData);
-			mainFirstButtonOfVBoxController.setLoggedUser(loggedUserData);
-			this.setLoggedUserData(dataObject);
-		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
-
-		}
-	
-
-		public void addFriends(Friends dataObject) {
-			this.friendsLoggedUserData = dataObject;
-		
-			if(dataObject.getFriends().size() != 0){
-					   ArrayList<User> friendList = dataObject.getFriends();  
-					   for(User user: friendList){
-						   friendsData.add(user);
-					   }
-			}
-			getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().getListView().setItems(friendsData);
+	public MainController() {
 	}
-		
-		
-		public Parent getMainControllerRoot() {
-			return mainControllerRoot;
+
+	public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
+		this.socket = socket;
+		this.out = out;
+		this.in = in;
+	}
+
+	public FXMLLoader getMainFirstFxmlLoader() {
+		return mainFirstFxmlLoader;
+	}
+
+	public FXMLLoader getMainSecondFxmlLoader() {
+		return mainSecondFxmlLoader;
+	}
+
+	public FXMLLoader getMainThirdFxmlLoader() {
+		return mainThirdFxmlLoader;
+	}
+
+	public FXMLLoader getMainFourthFxmlLoader() {
+		return mainFourthFxmlLoader;
+	}
+
+	public FXMLLoader getChattingFxmlLoader() {
+		return chattingFxmlLoader;
+	}
+
+	private MainThirdButtonOfVBoxController mainThirdButtonOfVBoxController;
+	private FXMLLoader mainFxmlLoader;
+	private Parent mainFourthFxmlRoot;
+	private MainFourthButtonOfVBoxController mainFourthButtonOfVBoxController;
+	private MainFirstButtonOfVBoxController mainFirstButtonOfVBoxController;
+	private ChattingController chattingController;
+
+	public void createFxmlControllers(FXMLLoader loginFxmlLoader) {
+		this.sender = new Sender(out);
+		this.loginFxmlLoader = loginFxmlLoader;
+
+		mainFirstFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FIRST_BUTTON_OF_V_BOX_FXML));
+		try {
+			this.mainFirstFxmlRoot = (Parent) mainFirstFxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
+		mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
+		mainFirstButtonOfVBoxController.setMainFirstButtonOfVBoxControllerRoot(mainFirstFxmlRoot);
+		mainFirstButtonOfVBoxController.createSender(out);
 
-		
-		public void setMainControllerRoot(Parent mainControllerRoot) {
-			this.mainControllerRoot = mainControllerRoot;
-		}
-
-
-		public void addInvitations(OverdueInvitations dataObject) {
-			this.invitations = dataObject.getInvitations();
-			mainFirstButtonOfVBoxController.setInvitationList(invitations);
-		}
-
-
-
-
-
-
-
-		/**
-		 * @return the loggedUserData
-		 */
-		public User getLoggedUserData() {
-			return loggedUserData;
-		}
-
-
-
-
-
-		/**
-		 * @param loggedUserData the loggedUserData to set
-		 */
-		public void setLoggedUserData(User loggedUserData) {
-			this.loggedUserData = loggedUserData;
-		}
-
-
-
-		public FXMLLoader getMainFxmlLoader() {
-			return mainFxmlLoader;
-		}
-
-
-
-		public void setMainFxmlLoader(FXMLLoader mainFxmlLoader) {
-			this.mainFxmlLoader = mainFxmlLoader;
-	
-		}
-
-		public void setFoundedUsers(FoundedUsers dataObject) {
-			mainThirdButtonOfVBoxController.setFoundedUsers(dataObject);	
+		mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML));
+		try {
+			this.mainSecondFxmlRoot = (Parent) mainSecondFxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		
-		private UnreadMessages unreadMessages;
-		public void setUnreadMessages(UnreadMessages dataObject) {
-		//	this.unreadMessages = dataObject.getInvitations();
-		//	mainFirstButtonOfVBoxController.setInvitationList(invitations);
-			
+		mainThirdFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_THIRD_BUTTON_OF_V_BOX_FXML));
+		try {
+			this.mainThirdFxmlRoot = (Parent) mainThirdFxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
+		mainThirdButtonOfVBoxController.setMainThirdButtonOfVBoxControllerRoot(mainThirdFxmlRoot);
 
-		private Message message;
-		
-		public Message getMessage() {
-			return message;
+		System.out.println("mainThirdButtonOfVBoxController " + in.getClass());
+		System.out.println(out.getClass());
+		System.out.println(socket.getClass());
+		mainThirdButtonOfVBoxController.setSocket(socket, out, in);
+		mainThirdButtonOfVBoxController.createSender();
+
+		mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML));
+
+		try {
+			this.mainFourthFxmlRoot = (Parent) mainFourthFxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		
-		private StringProperty messageTEXT;
-		public void setMessage(Message dataObject) {
-			// TODO Auto-generated method stub
-			//this.secondView.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
-			SecondViewController secondViewController = null;
-			for(SecondViewController controller : this.secondViewsControllers){
-				if(dataObject.getSender().equals(controller.getUsername())){
-					secondViewController = controller;
-				}
+		mainFourthButtonOfVBoxController = mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController();
+		mainFourthButtonOfVBoxController.setMainFourthButtonOfVBoxControllerRoot(mainFourthFxmlRoot);
+
+		chattingFxmlLoader = new FXMLLoader(getClass().getResource(FXML_CHATTING_FXML));
+		try {
+			this.chattingFxmlRoot = (Parent) chattingFxmlLoader.load();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		chattingController = chattingFxmlLoader.<ChattingController>getController();
+		chattingController.setSocket(socket, out, in);
+		chattingController.createSender();
+	}
+
+	private User loggedUserData;
+	private Friends friendsLoggedUserData;
+
+	private ObservableList<User> friendsData = FXCollections.observableArrayList();
+
+	public ObservableList<User> getFriendsData() {
+		return friendsData;
+	}
+
+	public void setUser(User dataObject) {
+		this.loggedUserData = dataObject;
+		mainThirdButtonOfVBoxController.setLoggedUser(loggedUserData);
+		mainFirstButtonOfVBoxController.setLoggedUser(loggedUserData);
+		this.setLoggedUserData(dataObject);
+		welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
+
+	}
+
+	public void addFriends(Friends dataObject) {
+		this.friendsLoggedUserData = dataObject;
+
+		if (dataObject.getFriends().size() != 0) {
+			ArrayList<User> friendList = dataObject.getFriends();
+			for (User user : friendList) {
+				friendsData.add(user);
 			}
-			secondViewController.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
-			message = dataObject;	
-			System.out.println("Wiadomosc od: " + message.getSender() + " Do: " + getLoggedUserData().getUserName()
-					+" Treœæ: "+ message.getTextContent());
-			
 		}
+		getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().getListView().setItems(friendsData);
+	}
+
+	public Parent getMainControllerRoot() {
+		return mainControllerRoot;
+	}
+
+	public void setMainControllerRoot(Parent mainControllerRoot) {
+		this.mainControllerRoot = mainControllerRoot;
+	}
+
+	public void addInvitations(OverdueInvitations dataObject) {
+		this.invitations = dataObject.getInvitations();
+		mainFirstButtonOfVBoxController.setInvitationList(invitations);
+	}
+
+	/**
+	 * @return the loggedUserData
+	 */
+	public User getLoggedUserData() {
+		return loggedUserData;
+	}
+
+	/**
+	 * @param loggedUserData
+	 *            the loggedUserData to set
+	 */
+	public void setLoggedUserData(User loggedUserData) {
+		this.loggedUserData = loggedUserData;
+	}
+
+	public FXMLLoader getMainFxmlLoader() {
+		return mainFxmlLoader;
+	}
+
+	public void setMainFxmlLoader(FXMLLoader mainFxmlLoader) {
+		this.mainFxmlLoader = mainFxmlLoader;
+
+	}
+
+	public void setFoundedUsers(FoundedUsers dataObject) {
+		mainThirdButtonOfVBoxController.setFoundedUsers(dataObject);
+	}
+
+	private UnreadMessages unreadMessages;
+
+	public void setUnreadMessages(UnreadMessages dataObject) {
+		// this.unreadMessages = dataObject.getInvitations();
+		// mainFirstButtonOfVBoxController.setInvitationList(invitations);
+
+	}
+
+	private Message message;
+
+	public Message getMessage() {
+		return message;
+	}
+
+	private StringProperty messageTEXT;
+
+	public void setMessage(Message dataObject) {
+		// TODO Auto-generated method stub
+		// this.secondView.addMessageToConversationTextArea(dataObject.getTextContent(),
+		// dataObject.getSender());
+		SecondViewController secondViewController = null;
+		for (SecondViewController controller : this.secondViewsControllers) {
+			if (dataObject.getSender().equals(controller.getUsername())) {
+				secondViewController = controller;
+			}
+		}
+		secondViewController.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
+		message = dataObject;
+		System.out.println("Wiadomosc od: " + message.getSender() + " Do: " + getLoggedUserData().getUserName()
+				+ " Treœæ: " + message.getTextContent());
+
+	}
+
+	public void setNewInvitation(Invitation dataObject) {
+		this.mainFirstButtonOfVBoxController.addNewInvitation(dataObject);
+	}
 }

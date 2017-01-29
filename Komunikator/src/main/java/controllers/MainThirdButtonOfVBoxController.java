@@ -67,26 +67,19 @@ public class MainThirdButtonOfVBoxController {
 	@FXML
 	private void sendInvitationButtonOnAction(MouseEvent event) throws Exception {	
 		sender.setOut(out);
-		System.out.println("Ja : " + loggedUser.getUserName());
-		System.out.println("Ktos : " + receiverUser.getUserName());
 		Invitation invitation = new Invitation(new User(loggedUser.getUserName()), new User(receiverUser.getUserName()));
-		System.out.println("invitaion : " + invitation.getClass());
-		System.out.println("out : " + out.getClass());
 		sender.send(invitation);
 		sendInvitationButton.setDisable(true);
 	}
 	
 	@FXML
 	private void usersTVOnMouseClicked(MouseEvent event) throws Exception {
-		System.out.println("jestem w mouse clicked ");
-		System.out.println("to co row " + UsersTV.getSelectionModel().selectedItemProperty().get().getUserName());
 		receiverUser =  UsersTV.getSelectionModel().selectedItemProperty().get();
 		sendInvitationButton.setDisable(false);	
 	}
 
 	@FXML
 	private void searcherTAOnKeyReleased(KeyEvent event) throws Exception {
-		System.out.println("wysylam usera aby uzyskac founded userow");
 		String str = "";
 		if(!searcherTA.getText().equals("")){
 			str = searcherTA.getText();

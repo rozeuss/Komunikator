@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ public class MainFirstButtonOfVBoxController {
 
 	private ObservableList<String> observableInvitationsSenders = FXCollections.observableArrayList ();
 	private ArrayList<Invitation> invitationList = new ArrayList<Invitation>();
+	private ArrayList<String> invitationsSenders = new ArrayList<String>();
 	private Sender sender;
 	private Parent mainFirstFxmlRoot;
 	@FXML
@@ -37,22 +39,35 @@ public class MainFirstButtonOfVBoxController {
 	}
 
 	public void setInvitationList(ArrayList<Invitation> invitationList){
+		
+		for(String sender: invitationsSenders){
+			System.out.println("wyswietlam sendrow :  " + sender);
+		}
+		
+		if(invitationsSenders != null){
+			//observableInvitationsSenders.removeAll(invitationsSenders);
+			observableInvitationsSenders = FXCollections.observableArrayList ();
+			System.out.println("usunelam observableInvitationsSenders");
+		}
+		
 		this.invitationList = invitationList;
-		System.out.println("jestem tu");
-		ArrayList<String> invitationsSenders = new ArrayList<String>();
-		//invitationsSenders.add("Kasia");
-		//invitationsSenders.add("Basia");
+		this.invitationsSenders = new ArrayList<String>();
 		
 		for(Invitation invitation: invitationList){
-			invitationsSenders.add(invitation.getSender().getUserName() + " sent you a friend request");
-			System.out.println("klasa user name " + invitation.getSender().getUserName().getClass());
-			System.out.println("Wyswietlamy senderow " + invitation.getSender().getUserName()); 
+			invitationsSenders.add(invitation.getSender().getUserName());
 		}
+		
 		observableInvitationsSenders.addAll(invitationsSenders);
-		listView.setItems(observableInvitationsSenders);
+		Platform.runLater(new Runnable() {
 
-		//listView.getSelectionModel().select(0); // TUTAJ TRZA DODAC TEGO DISABLE 
-
+			@Override
+			public void run() {
+				listView.setItems(observableInvitationsSenders);
+			}
+		});
+		
+		
+		if(observableInvitationsSenders!=null){
 	        listView.setCellFactory(lv -> {ListCell<String> cell = new ListCell<>();
 	        ContextMenu contextMenu = new ContextMenu();
 	        MenuItem editItem = new MenuItem();
@@ -60,6 +75,14 @@ public class MainFirstButtonOfVBoxController {
 	        editItem.setOnAction(event -> {
 	        String item = cell.getItem();
 	        InvitationConfirmation invitationConfirmation = new InvitationConfirmation(new User(cell.getItem()), loggedUser, true);
+	        
+	        System.out.println("Invitation receiver name = " + loggedUser);
+	        System.out.println("Invitation sender name = " + cell.getItem());
+	        System.out.println("Invitation receiver = " + invitationConfirmation.getReceiver());
+	        System.out.println("Invitation loged user " + invitationConfirmation.getSender());
+	        System.out.println("Invitation confirmation " + invitationConfirmation.isConfirmed());
+	        System.out.println("Invitation = " + invitationConfirmation);
+	        
 	        try {
 				sender.send(invitationConfirmation);
 			} catch (IOException e) {
@@ -71,17 +94,24 @@ public class MainFirstButtonOfVBoxController {
 	        
 	        deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
 	        deleteItem.setOnAction(event -> {
-		        listView.getItems().remove(cell.getItem());
-		        System.out.println("klikniete delete lus " + cell.getItem().getClass() + "user class" + loggedUser.getUserName());
-		        String userName = (String)cell.getItem();
+	        	
+	        	String userName = (String)cell.getItem();
+		        listView.getItems().remove(cell.getItem());    
 		        String logdUser = (String)loggedUser.getUserName();
 		        InvitationConfirmation invitationConfirmation = new InvitationConfirmation(new User(userName), new User(logdUser), false);
+		        System.out.println("Invitation receiver name = " + logdUser);
+		        System.out.println("Invitation sender name = " + userName);
+		        System.out.println("Invitation receiver = " + invitationConfirmation.getReceiver());
+		        System.out.println("Invitation loged user " + invitationConfirmation.getSender());
+		        System.out.println("Invitation confirmation " + invitationConfirmation.isConfirmed());
 		        System.out.println("Invitation = " + invitationConfirmation);
 		        try {
 					sender.send(invitationConfirmation);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+		        
+		        removeInvitationFromInvitationList(userName);
 	        });
 	        contextMenu.getItems().addAll(editItem, deleteItem);
 	        cell.textProperty().bind(cell.itemProperty());
@@ -94,6 +124,7 @@ public class MainFirstButtonOfVBoxController {
 	            });
 	            return cell ;
 	        }); 
+		}
 	}
 	
 	public void createSender(ObjectOutputStream out){
@@ -106,6 +137,35 @@ public class MainFirstButtonOfVBoxController {
 	
 	public void setLoggedUser(User user){
 		this.loggedUser = user;
+	}
+
+	public void addNewInvitation(Invitation dataObject) {
+		this.invitationList.add(dataObject);	
+		
+		for(Invitation invitation: invitationList){
+			System.out.println("Jestem tu w add New invitation" + invitation.getSender().getUserName());
+		}
+		setInvitationList(invitationList);
+	}
+	
+	public void removeInvitationFromInvitationList(String userName){
+		ArrayList<Invitation> tmpInvitationList = new ArrayList<Invitation>();
+		ArrayList<Invitation> InvitationToRemove = new ArrayList<Invitation>();
+		tmpInvitationList = this.invitationList;
+		
+		for(Invitation invitation: invitationList){
+			System.out.println("przed " + invitation.getSender().getUserName());
+		}
+		
+		for(Invitation invitation: tmpInvitationList){
+			if(invitation.getSender().getUserName() == userName)
+				InvitationToRemove.add(invitation);
+		}
+		invitationList.removeAll(InvitationToRemove);
+		
+		for(Invitation invitation: invitationList){
+			System.out.println("po " + invitation.getSender().getUserName());
+		}
 	}
 
 }
