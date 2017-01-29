@@ -3,9 +3,11 @@ package controllers;
 import java.io.IOException;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -15,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import transferDataContainers.User;
 import utils.FxmlUtils;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,18 +30,18 @@ public class MainSecondButtonOfVBoxController {
 
 	@FXML SplitPane splitPane;
 
-	ObservableList<String> items =FXCollections.observableArrayList ("one");
+	ObservableList<User> items =FXCollections.observableArrayList();
 
-	@FXML ListView<String> listView;
+	@FXML
+	private ListView<User> listView;
 	
 	public void initialize(){
-		listView.setItems(items);
+		//listView.setItems(mainFXMLLoader.<MainController>getController().getFriendsData());
 		//listView.getItems().addAll("One", "Two", "Three");
 		//.getSelectionModel().select(0); // TUTAJ TRZA DODAC TEGO DISABLE 
+	        getListView().setCellFactory(lv -> {
 
-	        listView.setCellFactory(lv -> {
-
-	            ListCell<String> cell = new ListCell<>();
+	            ListCell<User> cell = new ListCell<>();
 
 	            ContextMenu contextMenu = new ContextMenu();
 
@@ -46,16 +49,22 @@ public class MainSecondButtonOfVBoxController {
 	            MenuItem editItem = new MenuItem();
 	            editItem.textProperty().bind(Bindings.format("Edit \"%s\"", cell.itemProperty()));
 	            editItem.setOnAction(event -> {
-	                String item = cell.getItem();
+	               User item = cell.getItem();
 	                // code to edit item...
 	            });
 	            MenuItem deleteItem = new MenuItem();
 	            deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
-	            deleteItem.setOnAction(event -> listView.getItems().remove(cell.getItem()));
+	            deleteItem.setOnAction(event -> getListView().getItems().remove(cell.getItem()));
 	            contextMenu.getItems().addAll(editItem, deleteItem);
+	            
+	            
+	            
+	          // WYSWIETLANIE NAZWY :(
+	           //cell.textProperty().bind(cell.itemProperty().asString());
+	           
+	           cell.textProperty().bind(cell.itemProperty().asString());
 
-	            cell.textProperty().bind(cell.itemProperty());
-
+	           
 	            cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
 	                if (isNowEmpty) {
 	                    cell.setContextMenu(null);
@@ -77,12 +86,12 @@ public class MainSecondButtonOfVBoxController {
 	
 	private void avoidBlankSpacesOnListView() throws IOException
     {
-    String item = listView.getSelectionModel().getSelectedItem().toString();
+    String item = getListView().getSelectionModel().getSelectedItem().toString();
 
         if(item != tempItem)
         {
            //click, do something
-        	System.out.println("clicked on " + listView.getSelectionModel().getSelectedItem());
+        	System.out.println("clicked on " + getListView().getSelectionModel().getSelectedItem());
         }
         tempItem = item;    
 }
@@ -117,6 +126,32 @@ public class MainSecondButtonOfVBoxController {
 		stage.show();
 		
 		
+	}
+
+	private FXMLLoader mainFXMLLoader;
+
+	public void setMainFXMLLoader(FXMLLoader mainFxmlLoader) {
+		// TODO Auto-generated method stub
+		this.mainFXMLLoader = mainFxmlLoader;
+		System.out.println("Z secondButton: + " + mainFXMLLoader);
+	}
+
+
+
+	/**
+	 * @return the listView
+	 */
+	public ListView<User> getListView() {
+		return listView;
+	}
+
+
+
+	/**
+	 * @param listView the listView to set
+	 */
+	public void setListView(ListView<User> listView) {
+		this.listView = listView;
 	}
 	
 }

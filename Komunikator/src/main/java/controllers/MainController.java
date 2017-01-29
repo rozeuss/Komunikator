@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,6 +45,7 @@ import javafx.util.Callback;
 import main.Main;
 import sun.awt.AppContext;
 import transferData.Sender;
+import transferDataContainers.EndOfFriendship;
 import transferDataContainers.FoundedUsers;
 import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
@@ -100,6 +102,7 @@ public class MainController {
 	private ArrayList<Invitation> invitations;
 	private Parent mainThirdFxmlRoot;
 	private Parent mainFirstFxmlRoot;
+	private Parent mainSecondFxmlRoot;
 	private Parent chattingFxmlRoot;
 	private FXMLLoader mainSecondFxmlLoader;
 	private Sender sender;
@@ -166,12 +169,17 @@ public class MainController {
 		}
 	}
 	
+	//SecondViewController secondView;
+	private ArrayList<SecondViewController> secondViewsControllers = new ArrayList<SecondViewController>();
 	private boolean isTabOpened;
 	private ObservableList<String> openedTabsUsernames = FXCollections.observableArrayList();
     private void createTabDynamically(String firstName, String lastName, String userName) {
     	if(!openedTabsUsernames.contains(userName)){
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/secondView.fxml"));
+        //SecondViewController secondView = new SecondViewController();
         SecondViewController secondView = new SecondViewController();
+        secondViewsControllers.add(secondView);
+        
         ChattingController chattingController = getChattingFxmlLoader().<ChattingController>getController();
         setCenter(getChattingFxmlLoader());
         Tab myDynamicTab = chattingController.getMyDynamicTab();
@@ -180,6 +188,7 @@ public class MainController {
             secondView.setUsername(userName);
         	secondView.setSecondFXML(loader);
             secondView.setChattingFXMLLoader(getChattingFxmlLoader());
+            secondView.setMainFxmlLoader(mainFxmlLoader);
         	loader.setController(secondView);
             Parent parent = loader.load();
             myDynamicTab = new Tab(""+firstName+" "+lastName+" "+"["+userName+"]");
@@ -283,6 +292,13 @@ public class MainController {
 	    						if (result.get() == ButtonType.OK) {
 	    						int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
 	    						String selectedName = personTable.getSelectionModel().getSelectedItem().getFirstName();
+	    						EndOfFriendship endOfFriendship = new EndOfFriendship(loggedUserData, row.getItem());
+	    						try {
+									sender.send(endOfFriendship);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								personTable.getItems().remove(selectedIndex);
 	    						System.out.println("Usunieto poprawnie uzytkownika: " + selectedName);
 	    						}
@@ -477,8 +493,14 @@ public class MainController {
 			mainFirstButtonOfVBoxController.setMainFirstButtonOfVBoxControllerRoot(mainFirstFxmlRoot);
 			mainFirstButtonOfVBoxController.createSender(out);
 			
-			mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML)); 
-			MainSecondButtonOfVBoxController mainSecondButtonOfVBoxController = mainSecondFxmlLoader.<MainSecondButtonOfVBoxController>getController();
+			mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML)); 	
+			try {
+				this.mainSecondFxmlRoot = (Parent)mainSecondFxmlLoader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
 			
 			mainThirdFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_THIRD_BUTTON_OF_V_BOX_FXML)); 
 			try {
@@ -549,6 +571,7 @@ public class MainController {
 						   friendsData.add(user);
 					   }
 			}
+			getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().getListView().setItems(friendsData);
 	}
 		
 		
@@ -625,6 +648,17 @@ public class MainController {
 		
 		public void setMessage(Message dataObject) {
 			// TODO Auto-generated method stub
+			//this.secondView.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
+			SecondViewController secondViewController = null;
+			for(SecondViewController controller : this.secondViewsControllers){
+				if(dataObject.getSender().equals(controller.getUsername())){
+					secondViewController = controller;
+				}
+			}
+			secondViewController.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
 			message = dataObject;	
+			System.out.println("Wiadomosc od: " + message.getSender() + " Do: " + getLoggedUserData().getUserName()
+					+" Treœæ: "+ message.getTextContent());
+			
 		}
 }
