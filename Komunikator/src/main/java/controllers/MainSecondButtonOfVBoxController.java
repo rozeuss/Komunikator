@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.beans.binding.Bindings;
@@ -31,37 +32,27 @@ public class MainSecondButtonOfVBoxController {
 	@FXML SplitPane splitPane;
 
 	ObservableList<User> items = FXCollections.observableArrayList();
-
+        
+        File folder = new File("C:\\Users\\ADMIN\\Desktop\\ProjektZD\\Komunikator\\Komunikator\\src\\main\\resources\\conversations");
+        File[] listOfFiles = folder.listFiles();
+        
 	@FXML
 	private ListView<User> listView;
 	
 	public void initialize(){
-		getListView().setCellFactory(lv -> {
-
-	            ListCell<User> cell = new ListCell<>();
-
+                    getListView().setCellFactory(lv -> {
+                    ListCell<User> cell = new ListCell<>();
+                    
+		    
 	            ContextMenu contextMenu = new ContextMenu();
 
 
 	            MenuItem editItem = new MenuItem();
-                    /*
-	            editItem.textProperty().bind(Bindings.format("Edit \"%s\"", cell.itemProperty()));
-	            editItem.setOnAction(event -> {
-	               User item = cell.getItem();
-	                // code to edit item...
-	            });
-	            MenuItem deleteItem = new MenuItem();
-	            deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
-	            deleteItem.setOnAction(event -> getListView().getItems().remove(cell.getItem()));
-	            contextMenu.getItems().addAll(editItem, deleteItem);
-	            
-	            */
-	            
-	          // WYSWIETLANIE NAZWY :(
+                    // WYSWIETLANIE NAZWY :(
                     cell.textProperty().bind(cell.itemProperty().asString());
-
-	           
-	            cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+                    
+                    //cell.textProperty().setValue(listOfFiles[0].getName());
+                    cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
 	                if (isNowEmpty) {
 	                    cell.setContextMenu(null);
 	                } else {
@@ -83,12 +74,13 @@ public class MainSecondButtonOfVBoxController {
     private void avoidBlankSpacesOnListView() throws IOException
     {
     String item = getListView().getSelectionModel().getSelectedItem().toString();
-
+                   
         if(item != tempItem)
         {
-
+             
         }
         tempItem = item;    
+        
     }
 	
 	
@@ -114,7 +106,6 @@ public class MainSecondButtonOfVBoxController {
 		stage.getIcons().add(
 				   new Image(
 				      this.getClass().getResourceAsStream( "../images/icon.png" ))); 
-		// stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
 		
 		
@@ -125,15 +116,10 @@ public class MainSecondButtonOfVBoxController {
 	public void setMainFXMLLoader(FXMLLoader mainFxmlLoader) {
 		// TODO Auto-generated method stub
 		this.mainFXMLLoader = mainFxmlLoader;
-		System.out.println("Z secondButton: + " + mainFXMLLoader);
+                
 	}
 
-
-
-	/**
-	 * @return the listView
-	 */
-	public ListView<User> getListView() {
+        public ListView<User> getListView() {
 		return listView;
 	}
 

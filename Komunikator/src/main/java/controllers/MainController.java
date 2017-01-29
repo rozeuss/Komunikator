@@ -11,7 +11,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -549,7 +548,7 @@ public class MainController {
 			mainThirdButtonOfVBoxController.setLoggedUser(loggedUserData);
 			mainFirstButtonOfVBoxController.setLoggedUser(loggedUserData);
 			this.setLoggedUserData(dataObject);
-		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :-)");
+		    welcomeLabel.setText("Welcome, " + dataObject.getUserName() + " :)");
 
 		}
 	
@@ -582,28 +581,12 @@ public class MainController {
 			this.invitations = dataObject.getInvitations();
 			mainFirstButtonOfVBoxController.setInvitationList(invitations);
 		}
-
-
-
-
-
-
-
-		/**
-		 * @return the loggedUserData
-		 */
-		public User getLoggedUserData() {
+                
+                public User getLoggedUserData() {
 			return loggedUserData;
 		}
-
-
-
-
-
-		/**
-		 * @param loggedUserData the loggedUserData to set
-		 */
-		public void setLoggedUserData(User loggedUserData) {
+                
+                public void setLoggedUserData(User loggedUserData) {
 			this.loggedUserData = loggedUserData;
 		}
 
@@ -639,8 +622,6 @@ public class MainController {
 		}
 		
 		public void setMessage(Message dataObject) {
-			// TODO Auto-generated method stub
-			//this.secondView.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
 			SecondViewController secondViewController = null;
 			for(SecondViewController controller : this.secondViewsControllers){
 				if(dataObject.getSender().equals(controller.getUsername())){
@@ -649,8 +630,5 @@ public class MainController {
 			}
 			secondViewController.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
 			message = dataObject;	
-			System.out.println("Wiadomosc od: " + message.getSender() + " Do: " + getLoggedUserData().getUserName()
-					+" Treœæ: "+ message.getTextContent());
-			
 		}
 }

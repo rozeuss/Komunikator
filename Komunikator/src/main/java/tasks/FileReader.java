@@ -11,13 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files; 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
- *
- * @author ADMIN
- */
 public class FileReader implements Runnable {
     
     private File file;
@@ -25,21 +20,25 @@ public class FileReader implements Runnable {
     FileInputStream fileInputStream;
     BufferedReader bufferedReader;
     private int lineCounter;
+
     public void setFile(String filepath, int lines) throws FileNotFoundException{
+        lineCounter = 0;
         filePath = filepath;
         fileInputStream = new FileInputStream(filePath);
         bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+    }
+    
+    public void setLineCounter(int lineCounter) {
+        this.lineCounter = lineCounter;
     }
     
     
     @Override
     public void run() {
         String line;
-        int counter = 0;
         try {
-            while ((line = bufferedReader.readLine()) != null || counter < 50 ) {
-                //send the line to text area
-                counter++;
+            while ((line = bufferedReader.readLine()) != null) {
+                
             }
         } catch (IOException ex) {
             Logger.getLogger(FileReader.class.getName()).log(Level.SEVERE, null, ex + "\n >>> ERROR WHILE READING A CONVERSATION FILE");

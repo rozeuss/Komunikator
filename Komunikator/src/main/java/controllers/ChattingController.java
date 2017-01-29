@@ -78,10 +78,6 @@ public class ChattingController implements Initializable {
 
 	       
         public void openConversationTab(int clientID, String name, String surname){
-            
-            /*TODO search for already opened tab*/
-            
-            
             Tab tab = new Tab();
             try {
                 tab.setContent(FXMLLoader.load(getClass().getResource("/fxml/Conversation.fxml")));
@@ -94,31 +90,19 @@ public class ChattingController implements Initializable {
         }
 
 
-	/**
-	 * @return the myDynamicTab
-	 */
 	public Tab getMyDynamicTab() {
 		return myDynamicTab;
 	}
 
-	/**
-	 * @param myDynamicTab the myDynamicTab to set
-	 */
 	public void setMyDynamicTab(Tab myDynamicTab) {
 		this.myDynamicTab = myDynamicTab;
 	}
 
 
-	/**
-	 * @return the mainFXMLLoader
-	 */
 	public FXMLLoader getMainFXMLLoader() {
 		return mainFXMLLoader;
 	}
 
-	/**
-	 * @param mainFXMLLoader the mainFXMLLoader to set
-	 */
 	public void setMainFXMLLoader(FXMLLoader mainFXMLLoader) {
 		this.mainFXMLLoader = mainFXMLLoader;
 		System.out.println("Z CHATTING CONTROLER mainloader" + mainFXMLLoader);
@@ -129,21 +113,12 @@ public class ChattingController implements Initializable {
 
 	}
 
-	
-	
-	/**
-	 * @return the chattingFXMLloader
-	 */
 	public FXMLLoader getChattingFXMLloader() {
 		return chattingFXMLloader;
 	}
 
-	/**
-	 * @param chattingFXMLloader the chattingFXMLloader to set
-	 */
 	public void setChattingFXMLloader(FXMLLoader chattingFXMLloader) {
 		this.chattingFXMLloader = chattingFXMLloader;
-		System.out.println("CHATTING FXML LODAER " + chattingFXMLloader);
 	}
 
 
