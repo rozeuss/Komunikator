@@ -14,8 +14,6 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

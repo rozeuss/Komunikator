@@ -38,6 +38,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
+import security.PasswordHasher;
 import tasks.LogInCredentialsHandlerTrigger;
 import transferDataContainers.*;
 
@@ -137,11 +138,14 @@ public class LoginController implements Initializable {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
+                String pw_hash = PasswordHasher.hashpw(txtPassword.getText(), PasswordHasher.gensalt());
+                LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), "test");
+                System.out.println(pw_hash);
+                pw_hash = null;
 		user = new User(txtUsername.getText());
 		
 		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials, this);
-
+                
 		Thread thread = new Thread(loginConnectionWorker);
 		
 		
@@ -257,7 +261,7 @@ public class LoginController implements Initializable {
 
 	@FXML public void txtPasswordOnKeyReleased( KeyEvent e) {
 		if(e.getCode().equals(KeyCode.ENTER)) {
-			loginButton.fire();
+		loginButton.fire();
 	        System.out.println("Wcisnieto ENTER! Robimy clear");
 	        txtUsername.clear();
 	        txtPassword.clear();
