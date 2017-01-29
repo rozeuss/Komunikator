@@ -237,7 +237,6 @@ public class MainFourthButtonOfVBoxController {
 
 	public void updateData() {
 		Sender sender = new Sender(mainFXMLLoader.<MainController> getController().getOut());
-		System.out.println("sender");
 		User loggedUserData = mainFXMLLoader.<MainController> getController().getLoggedUserData();
 		loggedUserData.setFirstName(firstNameTextField.getText());
 		loggedUserData.setAge(Integer.valueOf(ageTextField.getText()));
@@ -247,11 +246,9 @@ public class MainFourthButtonOfVBoxController {
 		loggedUserData.setLastName(lastNameTextField.getText());
 		loggedUserData.setGender(genderComboBox.getValue());
 		EditedUserData editedUserData = new EditedUserData(loggedUserData);
-		System.out.println(editedUserData);
 		try {
 			sender.send(editedUserData);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -265,11 +262,13 @@ public class MainFourthButtonOfVBoxController {
 		countryNameValidator = new StringsValidator();
 		cityNameValidator = new StringsValidator();
 
-		if (firstNameValidator.isAlpha(firstNameTextField.getText()) == false || firstNameTextField.getText().length() == 0) {
+		if (firstNameValidator.isAlpha(firstNameTextField.getText()) == false
+				|| firstNameTextField.getText().length() == 0) {
 			errorMessage += "No valid first name!\n";
 		}
-		
-		if (lastNameValidator.isAlpha(lastNameTextField.getText()) == false || lastNameTextField.getText().length() == 0) {
+
+		if (lastNameValidator.isAlpha(lastNameTextField.getText()) == false
+				|| lastNameTextField.getText().length() == 0) {
 			errorMessage += "No valid last name!\n";
 		}
 
@@ -282,7 +281,8 @@ public class MainFourthButtonOfVBoxController {
 			errorMessage += "No valid age!\n";
 		}
 
-		if (countryNameValidator.isAlpha(countryTextField.getText()) == false || countryTextField.getText().length() == 0) {
+		if (countryNameValidator.isAlpha(countryTextField.getText()) == false
+				|| countryTextField.getText().length() == 0) {
 			errorMessage += "No valid country!\n";
 		}
 
@@ -309,7 +309,6 @@ public class MainFourthButtonOfVBoxController {
 		}
 	}
 
-
 	public Button getApplyButton() {
 		return applyButton;
 	}
@@ -322,14 +321,10 @@ public class MainFourthButtonOfVBoxController {
 		this.mainFourthButtonOfVBoxControllerRoot = main;
 	}
 
-	
-	
-	
-	
-	public void setLoggedUserData(){
-
-		MainFourthButtonOfVBoxController controller = mainFXMLLoader.<MainController>getController().getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController();
-		User loggedUserData = mainFXMLLoader.<MainController>getController().getLoggedUserData();
+	public void setLoggedUserData() {
+		MainFourthButtonOfVBoxController controller = mainFXMLLoader.<MainController> getController()
+				.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController> getController();
+		User loggedUserData = mainFXMLLoader.<MainController> getController().getLoggedUserData();
 		controller.setAgeTextField(loggedUserData.getAge());
 		controller.setCityTextField(loggedUserData.getCity());
 		controller.setCountryTextField(loggedUserData.getCountry());
@@ -339,15 +334,14 @@ public class MainFourthButtonOfVBoxController {
 		controller.setGenderTextField(loggedUserData.getGender());
 		controller.setUsernameTextField(loggedUserData.getUserName());
 		controller.setYourProfileNameLabelText();
-		controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/Onion-300x300.png" )));
+		controller.setUserProfileImage(new Image(Main.class.getResourceAsStream("../images/Onion-300x300.png")));
 		controller.init();
 	}
-	
 
-	
-	public void setFriendData(User friend){
-		MainFourthButtonOfVBoxController controller = mainFXMLLoader.<MainController>getController().getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController();
-		MainController mainController =  mainFXMLLoader.<MainController>getController();
+	public void setFriendData(User friend) {
+		MainFourthButtonOfVBoxController controller = mainFXMLLoader.<MainController> getController()
+				.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController> getController();
+		MainController mainController = mainFXMLLoader.<MainController> getController();
 		controller.setAgeTextField(friend.getAge());
 		controller.setCityTextField(friend.getCity());
 		controller.setCountryTextField(friend.getCountry());
@@ -357,9 +351,9 @@ public class MainFourthButtonOfVBoxController {
 		controller.setGenderTextField(friend.getGender());
 		controller.setUsernameTextField(friend.getUserName());
 		controller.setProfileNameLabelText(mainController.getShowProfileUserName());
-		controller.setUserProfileImage(new Image(Main.class.getResourceAsStream( "../images/icon.png" )));
+		controller.setUserProfileImage(new Image(Main.class.getResourceAsStream("../images/icon.png")));
 		controller.init();
 		controller.getEditButton().setDisable(true);
 	}
-	
+
 }

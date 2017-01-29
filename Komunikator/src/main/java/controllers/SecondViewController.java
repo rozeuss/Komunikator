@@ -37,13 +37,11 @@ public class SecondViewController implements Initializable{
 	
     public void setMainFxmlLoader(FXMLLoader mainFxmlLoader) {
 		this.mainFxmlLoader = mainFxmlLoader;
-		System.out.println("MAAAAAAAAAAAAAAAAAAAAAIN " +mainFxmlLoader);
 	}
 
 
 	public void setChattingFXMLLoader(FXMLLoader chattingFXMLLoader){
     	SecondViewController.chattingFXMLLoader = chattingFXMLLoader;
-    	System.out.println("first " + chattingFXMLLoader);
     }
 
 
@@ -57,17 +55,12 @@ public class SecondViewController implements Initializable{
     }
 
 	public void setSecondFXML(FXMLLoader loader) {
-		// TODO Auto-generated method stub
-		this.secondFXML = loader;
-		System.out.println("Unikalny loader dla taba "+ loader);
-		
+		this.secondFXML = loader;		
 	}
 
 	@FXML public void chatTFonKeyReleased(KeyEvent e) {
 		if(e.getCode().equals(KeyCode.ENTER))
 		{
-   //     addMessageToConversationTextArea(chatTextField.getText());
-       // chatTextField.clear();
         sendMessageButtonOnAction();
 		}
       }

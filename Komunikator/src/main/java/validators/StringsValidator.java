@@ -10,14 +10,14 @@ public class StringsValidator {
 		else return false;
 	}
 	
-//	public boolean isValidUsername(String name){
-//		return false;
-//	}
+	public boolean isValidUsername(String pass) {
+	    String a = "[a-zA-Z]+[0-9]*";
+	    return pass.matches(a);
+	}
 	
-	
-	public boolean isValidLogin(String pass) {
+	public boolean isValidPass(String pass) {
 	    String n = ".*[0-9].*";
-	    String a = ".*[A-Z].*";
+	    String a = ".*[a-z].*";
 	    return pass.matches(n) && pass.matches(a);
 	}
 	

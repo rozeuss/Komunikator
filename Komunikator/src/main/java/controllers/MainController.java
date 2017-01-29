@@ -61,7 +61,7 @@ import utils.FxmlUtils;
 public class MainController {
 	@FXML
 	private TableView<User> groupTable;
-   @FXML
+    @FXML
     private TableView<User> personTable;
     @FXML
     private TableColumn<User, String> firstNameColumn;
@@ -107,10 +107,6 @@ public class MainController {
 	private FXMLLoader mainSecondFxmlLoader;
 	private Sender sender;
 
-	
-	public String getShowProfileUserName() {
-		return showProfileUserName;
-	}
 
 
 	private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
@@ -147,10 +143,16 @@ public class MainController {
 	@FXML
 	CheckMenuItem menuItemAlwaysOnTop;
 
-	@FXML
 	
+	
+	
+	public String getShowProfileUserName() {
+		return showProfileUserName;
+	}
+
+	
+	@FXML
 	private void tableViewOnMouseClicked(){
-		System.out.println("elo");
 	}
     
 	public void setCenter(FXMLLoader fxmlLoader) {
@@ -169,7 +171,6 @@ public class MainController {
 		}
 	}
 	
-	//SecondViewController secondView;
 	private ArrayList<SecondViewController> secondViewsControllers = new ArrayList<SecondViewController>();
 	private boolean isTabOpened;
 	private ObservableList<String> openedTabsUsernames = FXCollections.observableArrayList();
