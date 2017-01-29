@@ -30,16 +30,13 @@ public class MainSecondButtonOfVBoxController {
 
 	@FXML SplitPane splitPane;
 
-	ObservableList<User> items =FXCollections.observableArrayList();
+	ObservableList<User> items = FXCollections.observableArrayList();
 
 	@FXML
 	private ListView<User> listView;
 	
 	public void initialize(){
-		//listView.setItems(mainFXMLLoader.<MainController>getController().getFriendsData());
-		//listView.getItems().addAll("One", "Two", "Three");
-		//.getSelectionModel().select(0); // TUTAJ TRZA DODAC TEGO DISABLE 
-	        getListView().setCellFactory(lv -> {
+		getListView().setCellFactory(lv -> {
 
 	            ListCell<User> cell = new ListCell<>();
 
@@ -47,6 +44,7 @@ public class MainSecondButtonOfVBoxController {
 
 
 	            MenuItem editItem = new MenuItem();
+                    /*
 	            editItem.textProperty().bind(Bindings.format("Edit \"%s\"", cell.itemProperty()));
 	            editItem.setOnAction(event -> {
 	               User item = cell.getItem();
@@ -57,12 +55,10 @@ public class MainSecondButtonOfVBoxController {
 	            deleteItem.setOnAction(event -> getListView().getItems().remove(cell.getItem()));
 	            contextMenu.getItems().addAll(editItem, deleteItem);
 	            
-	            
+	            */
 	            
 	          // WYSWIETLANIE NAZWY :(
-	           //cell.textProperty().bind(cell.itemProperty().asString());
-	           
-	           cell.textProperty().bind(cell.itemProperty().asString());
+                    cell.textProperty().bind(cell.itemProperty().asString());
 
 	           
 	            cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
@@ -84,26 +80,22 @@ public class MainSecondButtonOfVBoxController {
 
 	@FXML Button newGroupButton;
 	
-	private void avoidBlankSpacesOnListView() throws IOException
+    private void avoidBlankSpacesOnListView() throws IOException
     {
     String item = getListView().getSelectionModel().getSelectedItem().toString();
 
         if(item != tempItem)
         {
-           //click, do something
-        	System.out.println("clicked on " + getListView().getSelectionModel().getSelectedItem());
+
         }
         tempItem = item;    
-}
+    }
 	
 	
 	
 	@FXML public void listViewOnMouseClicked(MouseEvent arg0) throws IOException {
-		
-	  //  System.out.println("clicked on " + listView.getSelectionModel().getSelectedItem());
-	    avoidBlankSpacesOnListView();
-
-	}
+            avoidBlankSpacesOnListView();
+        }
 
 
 

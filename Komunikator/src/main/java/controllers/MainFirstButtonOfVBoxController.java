@@ -38,15 +38,9 @@ public class MainFirstButtonOfVBoxController {
 
 	public void setInvitationList(ArrayList<Invitation> invitationList){
 		this.invitationList = invitationList;
-		System.out.println("jestem tu");
 		ArrayList<String> invitationsSenders = new ArrayList<String>();
-		//invitationsSenders.add("Kasia");
-		//invitationsSenders.add("Basia");
-		
 		for(Invitation invitation: invitationList){
 			invitationsSenders.add(invitation.getSender().getUserName() + " sent you a friend request");
-			System.out.println("klasa user name " + invitation.getSender().getUserName().getClass());
-			System.out.println("Wyswietlamy senderow " + invitation.getSender().getUserName()); 
 		}
 		observableInvitationsSenders.addAll(invitationsSenders);
 		listView.setItems(observableInvitationsSenders);
