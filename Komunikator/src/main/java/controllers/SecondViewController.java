@@ -37,19 +37,17 @@ public class SecondViewController implements Initializable{
     private Thread fileThread;
     public void setMainFxmlLoader(FXMLLoader mainFxmlLoader) {
 		this.mainFxmlLoader = mainFxmlLoader;
-		System.out.println("MAAAAAAAAAAAAAAAAAAAAAIN " +mainFxmlLoader);
 	}
 
 
 	public void setChattingFXMLLoader(FXMLLoader chattingFXMLLoader){
     	SecondViewController.chattingFXMLLoader = chattingFXMLLoader;
-    	System.out.println("first " + chattingFXMLLoader);
     }
 
 
     public void addMessageToConversationTextArea(String text, String sender){
                 try {
-                    fileAppender.setFile("C:\\Users\\ADMIN\\Desktop\\ProjektZD\\Komunikator\\Komunikator\\src\\main\\resources\\conversations\\".concat(username).concat(".txt"));
+                    fileAppender.setFile("src/main/resources/conversations".concat(username).concat(".txt"));
                 } catch (IOException ex) {
                     Logger.getLogger(SecondViewController.class.getName()).log(Level.SEVERE, null, ex + "\n >>>COULDNT SET A FILE PATH");
                 }
@@ -63,6 +61,7 @@ public class SecondViewController implements Initializable{
                 fileThread.start();
                 
                 
+                
     	conversationTextArea.appendText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())
 		+ " " + sender + ":" + " " +text  + "\n");
     }
@@ -70,8 +69,6 @@ public class SecondViewController implements Initializable{
 	public void setSecondFXML(FXMLLoader loader) {
 		// TODO Auto-generated method stub
 		this.secondFXML = loader;
-		System.out.println("Unikalny loader dla taba "+ loader);
-		
 	}
 
 	@FXML public void chatTFonKeyReleased(KeyEvent e) {

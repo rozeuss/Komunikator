@@ -49,9 +49,8 @@ public class MainSecondButtonOfVBoxController {
 
 	            MenuItem editItem = new MenuItem();
                     // WYSWIETLANIE NAZWY :(
-                    cell.textProperty().bind(cell.itemProperty().asString());
-                    
-                    //cell.textProperty().setValue(listOfFiles[0].getName());
+                    //cell.textProperty().bind(cell.itemProperty().asString());
+                    cell.textProperty().setValue(listOfFiles[0].getName());
                     cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
 	                if (isNowEmpty) {
 	                    cell.setContextMenu(null);

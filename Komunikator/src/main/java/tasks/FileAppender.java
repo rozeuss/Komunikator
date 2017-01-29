@@ -85,7 +85,7 @@ public class FileAppender implements Runnable {
             
         
 
-
+        setMessageContent(null);
         
     
     }

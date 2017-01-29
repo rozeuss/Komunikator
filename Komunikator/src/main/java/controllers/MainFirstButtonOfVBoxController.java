@@ -59,11 +59,9 @@ public class MainFirstButtonOfVBoxController {
 	        deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
 	        deleteItem.setOnAction(event -> {
 		        listView.getItems().remove(cell.getItem());
-		        System.out.println("klikniete delete lus " + cell.getItem().getClass() + "user class" + loggedUser.getUserName());
 		        String userName = (String)cell.getItem();
 		        String logdUser = (String)loggedUser.getUserName();
 		        InvitationConfirmation invitationConfirmation = new InvitationConfirmation(new User(userName), new User(logdUser), false);
-		        System.out.println("Invitation = " + invitationConfirmation);
 		        try {
 					sender.send(invitationConfirmation);
 				} catch (IOException e) {
