@@ -48,7 +48,7 @@ public class SecondViewController implements Initializable{
 
 
     public void addMessageToConversationTextArea(String text, String sender){
-    	conversationTextArea.setStyle("-fx-text-fill: red;");
+    	//conversationTextArea.setStyle("-fx-text-fill: blue;");
     	/*conversationTextArea.appendText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())
     			+ " " + chattingFXMLLoader.<ChattingController>getController().getMainFXMLLoader().<MainController>getController().getLoggedUserData()
     			.getUserName() + ":" + " " +text  + "\n");*/

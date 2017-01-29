@@ -45,6 +45,7 @@ import javafx.util.Callback;
 import main.Main;
 import sun.awt.AppContext;
 import transferData.Sender;
+import transferDataContainers.EndOfFriendship;
 import transferDataContainers.FoundedUsers;
 import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
@@ -291,6 +292,13 @@ public class MainController {
 	    						if (result.get() == ButtonType.OK) {
 	    						int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
 	    						String selectedName = personTable.getSelectionModel().getSelectedItem().getFirstName();
+	    						EndOfFriendship endOfFriendship = new EndOfFriendship(loggedUserData, row.getItem());
+	    						try {
+									sender.send(endOfFriendship);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								personTable.getItems().remove(selectedIndex);
 	    						System.out.println("Usunieto poprawnie uzytkownika: " + selectedName);
 	    						}
@@ -638,8 +646,6 @@ public class MainController {
 			return message;
 		}
 		
-		
-		private StringProperty messageTEXT;
 		public void setMessage(Message dataObject) {
 			// TODO Auto-generated method stub
 			//this.secondView.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());

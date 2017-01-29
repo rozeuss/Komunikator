@@ -78,10 +78,15 @@ public class MainThirdButtonOfVBoxController {
 	
 	@FXML
 	private void usersTVOnMouseClicked(MouseEvent event) throws Exception {
+		if(UsersTV.getSelectionModel().getSelectedCells().isEmpty()) {
+		System.out.println("nic tu nie ma slepy jestes?");
+		event.consume();}
+		else{
 		System.out.println("jestem w mouse clicked ");
 		System.out.println("to co row " + UsersTV.getSelectionModel().selectedItemProperty().get().getUserName());
 		receiverUser =  UsersTV.getSelectionModel().selectedItemProperty().get();
 		sendInvitationButton.setDisable(false);	
+		}
 	}
 
 	@FXML
@@ -100,7 +105,13 @@ public class MainThirdButtonOfVBoxController {
 	}
 	
 	@FXML
-	private void usersTVOnContextMenuRequest(ActionEvent event) throws Exception {		
+	private void usersTVOnContextMenuRequest(ActionEvent event){	
+		if(UsersTV.getSelectionModel().getSelectedCells().isEmpty()) { 		
+		System.out.println("czego chcesz pajacu nie widzisz ze puste");
+		event.consume();}
+		else{
+
+		}
 	}
 	
 	public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
