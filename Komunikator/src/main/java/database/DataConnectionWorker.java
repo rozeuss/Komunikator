@@ -45,19 +45,11 @@ public class DataConnectionWorker implements Runnable {
 	public void run() {
 		
 		while(isRunning) {
-			try {
-				System.out.println("DataConnectionWorker - przed czytaniem obiektu");
-				
+			try {			
 				dataObject = receiver.read(in);
 				
 				if(dataObject instanceof OverdueInvitations){
 					mainController.addInvitations((OverdueInvitations)dataObject);
-					OverdueInvitations dom = (OverdueInvitations)dataObject;
-					System.out.println("dom  " + dom.getClass());
-					System.out.println("iwitycaje  SOM NIESTETY PUSTE :("+dom.getInvitations());
-					ArrayList<Invitation> inv = dom.getInvitations();
-					System.out.println("Odbieram paczke zaproszen ");
-					System.out.println("size listy : W DATACONN " + inv.size());
 					splashController.getSplashScreen().setIsDataLoaded(true);
 				}
 				else if(dataObject instanceof User){
@@ -72,13 +64,14 @@ public class DataConnectionWorker implements Runnable {
 				} else if(dataObject instanceof FoundedUsers){	
 					mainController.setFoundedUsers((FoundedUsers)dataObject);
 				}
-				else if(dataObject instanceof InvitationConfirmation){
-					System.out.println("Odbieram invitation confirmation ");	
-				}
 				else if(dataObject instanceof Invitation){
-					System.out.println("Odbieram invitation ");	
+					mainController.setNewInvitation((Invitation)dataObject);
 				}
 				else if(dataObject instanceof NewFriend){
+					
+					System.out.println("dostalam nowego przyjaciela");
+					NewFriend friend = (NewFriend)dataObject;
+					System.out.println(friend.getFriend().getUserName());
 					
 				}
 				else if(dataObject instanceof Message){
