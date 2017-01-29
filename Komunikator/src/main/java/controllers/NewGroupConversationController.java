@@ -32,7 +32,7 @@ public class NewGroupConversationController {
 	        friendListListView.setItems(items);
 	        friendListListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	        friendListListView.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)->{
-	        	selectedFriendsListView.setItems(friendListListView.getSelectionModel().getSelectedItems());
+	        selectedFriendsListView.setItems(friendListListView.getSelectionModel().getSelectedItems());
 	        });
 	    }
 

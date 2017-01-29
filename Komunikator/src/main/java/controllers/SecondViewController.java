@@ -47,7 +47,7 @@ public class SecondViewController implements Initializable{
 
     public void addMessageToConversationTextArea(String text, String sender){
                 try {
-                    fileAppender.setFile("src/main/resources/conversations".concat(username).concat(".txt"));
+                    fileAppender.setFile("./src/main/resources/conversations/".concat(username).concat(".txt"));
                 } catch (IOException ex) {
                     Logger.getLogger(SecondViewController.class.getName()).log(Level.SEVERE, null, ex + "\n >>>COULDNT SET A FILE PATH");
                 }
