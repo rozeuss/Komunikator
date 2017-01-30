@@ -26,7 +26,7 @@
         <Label text="Search:" />
         <TextArea fx:id="searcherTA" maxHeight="20.0" maxWidth="300.0" onKeyReleased="#searcherTAOnKeyReleased" prefHeight="20.0" prefWidth="434.0" />
         <Label text="Results:" />
-        <TableView fx:id="UsersTV" onMouseClicked="#usersTVOnMouseClicked" prefHeight="305.0" prefWidth="743.0" VBox.vgrow="ALWAYS">
+        <TableView fx:id="UsersTV" onContextMenuRequested="#usersTVOnContextMenuRequest" onMouseClicked="#usersTVOnMouseClicked" prefHeight="305.0" prefWidth="743.0" VBox.vgrow="ALWAYS">
           <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
           </columnResizePolicy>

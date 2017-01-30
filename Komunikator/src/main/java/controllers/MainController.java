@@ -50,6 +50,7 @@ import transferDataContainers.FoundedUsers;
 import transferDataContainers.Friends;
 import transferDataContainers.Invitation;
 import transferDataContainers.Message;
+import transferDataContainers.NewFriend;
 import transferDataContainers.OverdueInvitations;
 import transferDataContainers.UnreadMessages;
 import transferDataContainers.User;
@@ -214,6 +215,11 @@ public class MainController {
 		// System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0)
 		// + "\n\n");
 
+		
+	}
+	
+	public void updateFriendsList(){
+		
 		personTable.setItems(this.getFriendsData());
 		firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFirstName()));
 		lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName()));
@@ -458,6 +464,7 @@ public class MainController {
 		mainFirstButtonOfVBoxController = mainFirstFxmlLoader.<MainFirstButtonOfVBoxController>getController();
 		mainFirstButtonOfVBoxController.setMainFirstButtonOfVBoxControllerRoot(mainFirstFxmlRoot);
 		mainFirstButtonOfVBoxController.createSender(out);
+		mainFirstButtonOfVBoxController.setMainViewController(this);
 
 		mainSecondFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_SECOND_BUTTON_OF_V_BOX_FXML));
 		try {
@@ -480,6 +487,7 @@ public class MainController {
 		System.out.println(socket.getClass());
 		mainThirdButtonOfVBoxController.setSocket(socket, out, in);
 		mainThirdButtonOfVBoxController.createSender();
+		mainThirdButtonOfVBoxController.setMainController(this);
 
 		mainFourthFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FOURTH_BUTTON_OF_V_BOX_FXML));
 
@@ -530,6 +538,8 @@ public class MainController {
 				friendsData.add(user);
 			}
 		}
+		updateFriendsList();
+		
 		getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().getListView().setItems(friendsData);
 	}
 
@@ -609,5 +619,12 @@ public class MainController {
 
 	public void setNewInvitation(Invitation dataObject) {
 		this.mainFirstButtonOfVBoxController.addNewInvitation(dataObject);
+	}
+
+	public void setNewFriend(NewFriend friend) {
+		
+		User newFriend = friend.getFriend();
+		friendsData.add(newFriend);
+		updateFriendsList();
 	}
 }

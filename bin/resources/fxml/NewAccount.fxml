@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="586.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewAccountController">
+   <children>
+      <TextField fx:id="usernameTextField" layoutX="108.0" layoutY="133.0" prefHeight="37.0" prefWidth="180.0" promptText="Username" />
+      <TextField fx:id="ageTextField" layoutX="108.0" layoutY="231.0" prefHeight="35.0" prefWidth="180.0" promptText="Age" />
+      <TextField fx:id="firstNameTextField" layoutX="108.0" layoutY="184.0" prefHeight="37.0" prefWidth="180.0" promptText="First Name" />
+      <TextField fx:id="lastNameTextField" layoutX="315.0" layoutY="184.0" prefHeight="37.0" prefWidth="180.0" promptText="Last Name" />
+      <PasswordField fx:id="passwordTextField" layoutX="315.0" layoutY="133.0" prefHeight="37.0" prefWidth="180.0" promptText="Password" />
+      <Button fx:id="createAccountButton" layoutX="143.0" layoutY="384.0" mnemonicParsing="false" onAction="#createAccountButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Create" textAlignment="CENTER" />
+      <Button fx:id="cancelButton" layoutX="293.0" layoutY="384.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="30.0" prefWidth="150.0" text="Cancel" textAlignment="CENTER" />
+      <Label layoutX="501.0" layoutY="140.0" text="*" />
+      <Label layoutX="501.0" layoutY="190.0" text="*" />
+      <Label layoutX="259.0" layoutY="440.0" style="-fx-text-fill: white;" text="* - required">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
+      <Text fx:id="welldefinedUsername" fill="#00ff12" layoutX="516.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="✓" visible="false">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="welldefinedPassword" fill="#00ff12" layoutX="516.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="✓" visible="false">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text id="loginID" layoutY="113.0" text="New account" textAlignment="CENTER" wrappingWidth="586.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="46.0" />
+         </font>
+         <stroke>
+            <LinearGradient endX="0.48543689320388345" endY="1.0" startX="0.49029126213592233">
+               <stops>
+                  <Stop color="#00000030" />
+                  <Stop color="#00000030" offset="0.007246376811594203" />
+                  <Stop color="#015669" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+         <fill>
+            <LinearGradient endX="0.47572815533980584" endY="0.825242718446602" startX="0.5145631067961165" startY="0.5242718446601942">
+               <stops>
+                  <Stop color="#0000001c" />
+                  <Stop color="#ffffff00" offset="0.8768115942028986" />
+                  <Stop color="#ffffff00" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Text>
+      <TextField fx:id="emailTextField" layoutX="315.0" layoutY="231.0" prefHeight="35.0" prefWidth="180.0" promptText="E-mail" />
+      <TextField fx:id="countryTextField" layoutX="108.0" layoutY="281.0" prefHeight="35.0" prefWidth="180.0" promptText="Country" />
+      <TextField fx:id="cityTextField" layoutX="315.0" layoutY="281.0" prefHeight="35.0" prefWidth="180.0" promptText="City" />
+      <ComboBox fx:id="genderComboBox" layoutX="226.0" layoutY="331.0" prefWidth="150.0" promptText="Gender" />
+      <Label layoutX="155.0" layoutY="339.0" text="Gender" />
+   </children>
+</AnchorPane>

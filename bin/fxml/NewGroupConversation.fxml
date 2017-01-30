@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox prefHeight="479.0" prefWidth="413.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewGroupConversationController">
+   <children>
+      <AnchorPane prefHeight="270.0" prefWidth="413.0">
+         <children>
+            <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+               <buttons>
+                  <Button fx:id="newGroupButton" mnemonicParsing="false" onAction="#newGroupButtonOnAction" text="New group" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="39.0" prefWidth="162.0" text="Cancel" />
+               </buttons>
+            </ButtonBar>
+            <ListView fx:id="friendListListView" layoutY="94.0" prefHeight="306.0" prefWidth="200.0" />
+            <ListView fx:id="selectedFriendsListView" layoutX="213.0" layoutY="94.0" prefHeight="306.0" prefWidth="200.0" />
+            <HBox alignment="TOP_CENTER" layoutY="69.0" prefHeight="25.0" prefWidth="346.0" spacing="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label text="Friends list" />
+                  <Label text="Selected friends" />
+               </children>
+            </HBox>
+            <Label layoutX="127.0" layoutY="14.0" styleClass="label-header" text="New group" />
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

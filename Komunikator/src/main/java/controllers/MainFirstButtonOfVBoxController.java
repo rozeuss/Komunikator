@@ -33,6 +33,7 @@ public class MainFirstButtonOfVBoxController {
 	@FXML
 	private ListView <String> listView;
 	private User loggedUser;
+	private MainController mainController;
 
 	public void initialize(){
  
@@ -40,21 +41,19 @@ public class MainFirstButtonOfVBoxController {
 
 	public void setInvitationList(ArrayList<Invitation> invitationList){
 		
-		for(String sender: invitationsSenders){
-			System.out.println("wyswietlam sendrow :  " + sender);
-		}
-		
 		if(invitationsSenders != null){
-			//observableInvitationsSenders.removeAll(invitationsSenders);
 			observableInvitationsSenders = FXCollections.observableArrayList ();
-			System.out.println("usunelam observableInvitationsSenders");
 		}
 		
 		this.invitationList = invitationList;
 		this.invitationsSenders = new ArrayList<String>();
 		
 		for(Invitation invitation: invitationList){
-			invitationsSenders.add(invitation.getSender().getUserName());
+			if(!this.mainController.getFriendsData().contains(invitation.getReceiver())){
+				if(!invitationsSenders.contains(invitation.getSender().getUserName()))
+					invitationsSenders.add(invitation.getSender().getUserName());
+			}
+
 		}
 		
 		observableInvitationsSenders.addAll(invitationsSenders);
@@ -73,21 +72,16 @@ public class MainFirstButtonOfVBoxController {
 	        MenuItem editItem = new MenuItem();
 	        editItem.textProperty().bind(Bindings.format("Accept \"%s\"", cell.itemProperty()));
 	        editItem.setOnAction(event -> {
-	        String item = cell.getItem();
+	        String userName = cell.getItem();
 	        InvitationConfirmation invitationConfirmation = new InvitationConfirmation(new User(cell.getItem()), loggedUser, true);
-	        
-	        System.out.println("Invitation receiver name = " + loggedUser);
-	        System.out.println("Invitation sender name = " + cell.getItem());
-	        System.out.println("Invitation receiver = " + invitationConfirmation.getReceiver());
-	        System.out.println("Invitation loged user " + invitationConfirmation.getSender());
-	        System.out.println("Invitation confirmation " + invitationConfirmation.isConfirmed());
-	        System.out.println("Invitation = " + invitationConfirmation);
-	        
+	        System.out.println("wysylam invitation confirmation Sender(1) : " +  userName + " receiver(2) " + loggedUser.getUserName());
+	        listView.getItems().remove(userName);   
 	        try {
 				sender.send(invitationConfirmation);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+	        removeInvitationFromInvitationList(userName);
 	        });
 	        
 	        MenuItem deleteItem = new MenuItem();
@@ -99,12 +93,7 @@ public class MainFirstButtonOfVBoxController {
 		        listView.getItems().remove(cell.getItem());    
 		        String logdUser = (String)loggedUser.getUserName();
 		        InvitationConfirmation invitationConfirmation = new InvitationConfirmation(new User(userName), new User(logdUser), false);
-		        System.out.println("Invitation receiver name = " + logdUser);
-		        System.out.println("Invitation sender name = " + userName);
-		        System.out.println("Invitation receiver = " + invitationConfirmation.getReceiver());
-		        System.out.println("Invitation loged user " + invitationConfirmation.getSender());
-		        System.out.println("Invitation confirmation " + invitationConfirmation.isConfirmed());
-		        System.out.println("Invitation = " + invitationConfirmation);
+		        
 		        try {
 					sender.send(invitationConfirmation);
 				} catch (IOException e) {
@@ -153,19 +142,15 @@ public class MainFirstButtonOfVBoxController {
 		ArrayList<Invitation> InvitationToRemove = new ArrayList<Invitation>();
 		tmpInvitationList = this.invitationList;
 		
-		for(Invitation invitation: invitationList){
-			System.out.println("przed " + invitation.getSender().getUserName());
-		}
-		
 		for(Invitation invitation: tmpInvitationList){
 			if(invitation.getSender().getUserName() == userName)
 				InvitationToRemove.add(invitation);
 		}
 		invitationList.removeAll(InvitationToRemove);
-		
-		for(Invitation invitation: invitationList){
-			System.out.println("po " + invitation.getSender().getUserName());
-		}
+	}
+	
+	public void setMainViewController(MainController mainController){
+		this.mainController = mainController;
 	}
 
 }

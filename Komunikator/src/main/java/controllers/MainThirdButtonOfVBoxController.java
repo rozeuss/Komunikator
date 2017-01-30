@@ -60,6 +60,7 @@ public class MainThirdButtonOfVBoxController {
 	private TextArea searcherTA;
 	private User receiverUser;
 	private User loggedUser;
+	private MainController mainController;
 	
 	public MainThirdButtonOfVBoxController(){
 	}
@@ -68,6 +69,7 @@ public class MainThirdButtonOfVBoxController {
 	private void sendInvitationButtonOnAction(MouseEvent event) throws Exception {	
 		sender.setOut(out);
 		Invitation invitation = new Invitation(new User(loggedUser.getUserName()), new User(receiverUser.getUserName()));
+		System.out.println("wysylam zaproszenie Sender : " +  loggedUser.getUserName() + " receiver " + receiverUser.getUserName());
 		sender.send(invitation);
 		sendInvitationButton.setDisable(true);
 	}
@@ -75,8 +77,9 @@ public class MainThirdButtonOfVBoxController {
 	@FXML
 	private void usersTVOnMouseClicked(MouseEvent event) throws Exception {
 		receiverUser =  UsersTV.getSelectionModel().selectedItemProperty().get();
+		if(receiverUser!=null)
 		sendInvitationButton.setDisable(false);	
-		}
+	}
 	
 
 
@@ -94,16 +97,6 @@ public class MainThirdButtonOfVBoxController {
 		}		
 	}
 	
-	@FXML
-	private void usersTVOnContextMenuRequest(ActionEvent event){	
-		if(UsersTV.getSelectionModel().getSelectedCells().isEmpty()) { 		
-		System.out.println("czego chcesz pajacu nie widzisz ze puste");
-		event.consume();}
-		else{
-
-		}
-	}
-	
 	public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
 		this.socket = socket;
 		this.in = in;
@@ -118,23 +111,8 @@ public class MainThirdButtonOfVBoxController {
 		this.mainThirdButtonOfVBoxControllerRoot = mainThirdButtonOfVBoxControllerRoot;
 	}
 
-	public void showFoundedUsers() {
+	public void showFoundedUsers() {	
 		
-		for(User user: foundedUsersList){
-				setUsersComulnValues(user);	
-		}
-
-	}
-	public void setFoundedUsers(FoundedUsers dataObject){
-		if(foundedUsersList != null)
-		FoundUsers.removeAll(foundedUsersList);
-		foundedUsersList = dataObject.getFoundedUsers();
-		FoundUsers.addAll(foundedUsersList);
-		UsersTV.setItems(FoundUsers);
-		showFoundedUsers();
-	}
-	
-	public void setUsersComulnValues(User user){
 		userNameTC.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
 		firstNameTC.setCellValueFactory(new PropertyValueFactory<User, String>("firstName"));
 		lastNameTC.setCellValueFactory(new PropertyValueFactory<User, String>("lastName"));
@@ -142,10 +120,39 @@ public class MainThirdButtonOfVBoxController {
 		cityTC.setCellValueFactory(new PropertyValueFactory<User, String>("city"));
 		countryTC.setCellValueFactory(new PropertyValueFactory<User, String>("country"));
 		genderTC.setCellValueFactory(new PropertyValueFactory<User, String>("gender"));
+		
+	}
+	public void setFoundedUsers(FoundedUsers dataObject){
+		ObservableList<User> friendsList = this.mainController.getFriendsData();
+		
+		if(foundedUsersList != null)
+		FoundUsers.removeAll(foundedUsersList);
+		
+		foundedUsersList = dataObject.getFoundedUsers();
+		
+		for(User user: foundedUsersList){
+			if(!user.getUserName().equals(loggedUser.getUserName())){
+				boolean flag = false;
+				for(User friend : friendsList){
+					if(friend.getUserName().equals(user.getUserName()))
+						flag = true;
+				}
+				if(flag == false){
+					FoundUsers.add(user);
+				}
+			}
+		}
+
+		
+		UsersTV.setItems(FoundUsers);
+		showFoundedUsers();
 	}
 	
 	public void setLoggedUser(User loggedUser){
 		this.loggedUser = loggedUser;
 	}
-
+	
+	public void setMainController(MainController mainController){
+		this.mainController = mainController;
+	}
 }
