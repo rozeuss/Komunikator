@@ -1,24 +1,33 @@
 package controllers;
 
+
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import transferData.Sender;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.TabPane;
+
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+
+
 
 public class ChattingController implements Initializable {
 
@@ -51,13 +60,28 @@ public class ChattingController implements Initializable {
 		this.tabPane = tabPane;
 	}
 
-	@FXML
-	public void chatTFonKeyReleased(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER)) {
-			chatTextField.clear();
+	@FXML public void chatTFonKeyReleased(KeyEvent e) {
+		if(e.getCode().equals(KeyCode.ENTER))
+		{
+        System.out.println("Wcisnieto ENTER! Robimy clear");
+        chatTextField.clear();
 
+        
 		}
-	}
+      }
+
+	       
+        public void openConversationTab(int clientID, String name, String surname){
+            Tab tab = new Tab();
+            try {
+                tab.setContent(FXMLLoader.load(getClass().getResource("/fxml/Conversation.fxml")));
+            } catch (IOException ex) {
+                Logger.getLogger(ChattingController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tab.setText(clientID + " " + name + " " + surname);
+            
+            
+        }
 
 	public Tab getMyDynamicTab() {
 		return myDynamicTab;

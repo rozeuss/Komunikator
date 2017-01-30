@@ -7,9 +7,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import javax.sql.RowSetMetaData;
-
-import database.DataConnectionWorker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -22,7 +19,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
@@ -36,14 +32,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import main.Main;
-import sun.awt.AppContext;
+import tasks.FileAppender;
 import transferData.Sender;
 import transferDataContainers.EndOfFriendship;
 import transferDataContainers.FoundedUsers;
@@ -54,7 +48,6 @@ import transferDataContainers.NewFriend;
 import transferDataContainers.OverdueInvitations;
 import transferDataContainers.UnreadMessages;
 import transferDataContainers.User;
-import transferDataContainers.UserData;
 
 import utils.DialogsUtils;
 import utils.FxmlUtils;
@@ -109,6 +102,7 @@ public class MainController {
 	private Parent chattingFxmlRoot;
 	private FXMLLoader mainSecondFxmlLoader;
 	private Sender sender;
+	private FileAppender fileAppender;
 
 
 
@@ -180,7 +174,6 @@ public class MainController {
 	private void createTabDynamically(String firstName, String lastName, String userName) {
 		if (!openedTabsUsernames.contains(userName)) {
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/secondView.fxml"));
-			// SecondViewController secondView = new SecondViewController();
 			SecondViewController secondView = new SecondViewController();
 			secondViewsControllers.add(secondView);
 
@@ -192,7 +185,7 @@ public class MainController {
 				secondView.setUsername(userName);
 				secondView.setSecondFXML(loader);
 				secondView.setChattingFXMLLoader(getChattingFxmlLoader());
-				secondView.setMainFxmlLoader(mainFxmlLoader);
+				secondView.setMainFxmlLoader(mainFxmlLoader);				
 				loader.setController(secondView);
 				Parent parent = loader.load();
 				myDynamicTab = new Tab("" + firstName + " " + lastName + " " + "[" + userName + "]");
@@ -205,6 +198,13 @@ public class MainController {
 				});
 				chattingController.getTabPane().getTabs().add(myDynamicTab);
 				chattingController.getTabPane().getSelectionModel().select(myDynamicTab);
+				for(Message message : unreadMessages){
+					String senderName = message.getSender();
+					String text = message.getTextContent();
+					if(secondView.getUsername().equals(senderName)){
+						secondView.addMessageToConversationTextArea(text, senderName);
+					}
+				}
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -225,7 +225,6 @@ public class MainController {
 	}
 	
 	public void updateFriendsList(){
-		
 		personTable.setItems(this.getFriendsData());
 		firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFirstName()));
 		lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName()));
@@ -493,7 +492,6 @@ public class MainController {
 		}
 		mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
 		mainThirdButtonOfVBoxController.setMainThirdButtonOfVBoxControllerRoot(mainThirdFxmlRoot);
-
 		System.out.println("mainThirdButtonOfVBoxController " + in.getClass());
 		System.out.println(out.getClass());
 		System.out.println(socket.getClass());
@@ -527,6 +525,8 @@ public class MainController {
 	private Friends friendsLoggedUserData;
 
 	private ObservableList<User> friendsData = FXCollections.observableArrayList();
+
+	private ArrayList<Message> unreadMessages = new ArrayList<Message>();
 
 	public ObservableList<User> getFriendsData() {
 		return friendsData;
@@ -589,19 +589,15 @@ public class MainController {
 
 	public void setMainFxmlLoader(FXMLLoader mainFxmlLoader) {
 		this.mainFxmlLoader = mainFxmlLoader;
-
 	}
 
 	public void setFoundedUsers(FoundedUsers dataObject) {
 		mainThirdButtonOfVBoxController.setFoundedUsers(dataObject);
 	}
 
-	private UnreadMessages unreadMessages;
 
 	public void setUnreadMessages(UnreadMessages dataObject) {
-		// this.unreadMessages = dataObject.getInvitations();
-		// mainFirstButtonOfVBoxController.setInvitationList(invitations);
-
+		this.unreadMessages  = dataObject.getUnreadMessages();
 	}
 
 	private Message message;

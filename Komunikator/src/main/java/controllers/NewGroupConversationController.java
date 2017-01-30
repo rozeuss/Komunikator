@@ -32,7 +32,7 @@ public class NewGroupConversationController {
 	        friendListListView.setItems(items);
 	        friendListListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	        friendListListView.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)->{
-	        	selectedFriendsListView.setItems(friendListListView.getSelectionModel().getSelectedItems());
+	        selectedFriendsListView.setItems(friendListListView.getSelectionModel().getSelectedItems());
 	        });
 	    }
 
@@ -46,7 +46,7 @@ public class NewGroupConversationController {
      	ObservableList<String> selectedItems = friendListListView.getSelectionModel().getSelectedItems();
 
         for(String s : selectedItems){
-            System.out.println("selected item " + s);
+            //System.out.println("selected item " + s);
 	}
 }
 

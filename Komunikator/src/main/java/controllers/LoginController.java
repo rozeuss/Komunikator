@@ -22,7 +22,6 @@ import javafx.stage.Stage;
 
 import main.Main;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,13 +29,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
-import javafx.scene.text.Text;
+import security.PasswordHasher;
 import tasks.LogInCredentialsHandlerTrigger;
 import transferDataContainers.*;
 
@@ -112,7 +110,7 @@ public class LoginController implements Initializable {
 		loginConfirmation = new Confirmation();
 		this.loginButtonActionEvent = event;
 		try {
-			Socket socket = new Socket("127.0.0.1", 1056);
+			Socket socket = new Socket("172.25.169.205", 1056);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			this.setSocket(socket, out, in);
@@ -120,10 +118,12 @@ public class LoginController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
+                String pw_hash = PasswordHasher.hashpw(txtPassword.getText(), PasswordHasher.gensalt());
+                LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
+                System.out.println(pw_hash);
+                pw_hash = null;
 		user = new User(txtUsername.getText());
-		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials,
-				this);
+		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials, this);
 		Thread thread = new Thread(loginConnectionWorker);
 		thread.run();
 
