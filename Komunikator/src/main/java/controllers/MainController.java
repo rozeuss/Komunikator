@@ -218,9 +218,6 @@ public class MainController {
 	private void initialize() {
 		mainRightVBoxController.setMainController(this);
 
-		// userData.add(loggedUserData.getFriends().get(0));
-		// System.out.println("\n\ndodano " + loggedUserData.getFriends().get(0)
-		// + "\n\n");
 
 		
 	}
@@ -321,7 +318,6 @@ public class MainController {
 
 		Optional<ButtonType> result = DialogsUtils.confirmationDialog("Exit", "Attention! It's dangerous!");
 		if (result.get() == ButtonType.OK) {
-			System.out.println("Kontroler tutaj " + loginFxmlLoader.<LoginController>getController());
 			try {
 				loginFxmlLoader.<LoginController>getController().getIn().close();
 			} catch (IOException e) {
@@ -493,9 +489,7 @@ public class MainController {
 		}
 		mainThirdButtonOfVBoxController = mainThirdFxmlLoader.<MainThirdButtonOfVBoxController>getController();
 		mainThirdButtonOfVBoxController.setMainThirdButtonOfVBoxControllerRoot(mainThirdFxmlRoot);
-		System.out.println("mainThirdButtonOfVBoxController " + in.getClass());
-		System.out.println(out.getClass());
-		System.out.println(socket.getClass());
+
 		mainThirdButtonOfVBoxController.setSocket(socket, out, in);
 		mainThirdButtonOfVBoxController.createSender();
 		mainThirdButtonOfVBoxController.setMainController(this);
@@ -628,8 +622,7 @@ public class MainController {
 		if(secondViewController == null) this.unreadMessages.add(dataObject);
 		else secondViewController.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender(), LocalDateTime.now());
 		message = dataObject;
-		System.out.println("Wiadomosc od: " + message.getSender() + " Do: " + getLoggedUserData().getUserName()
-				+ " Treœæ: " + message.getTextContent());
+
 
 	}
 

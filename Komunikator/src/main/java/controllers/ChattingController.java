@@ -63,7 +63,6 @@ public class ChattingController implements Initializable {
 	@FXML public void chatTFonKeyReleased(KeyEvent e) {
 		if(e.getCode().equals(KeyCode.ENTER))
 		{
-        System.out.println("Wcisnieto ENTER! Robimy clear");
         chatTextField.clear();
 
         

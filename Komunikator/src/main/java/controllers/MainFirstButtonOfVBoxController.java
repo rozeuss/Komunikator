@@ -69,7 +69,6 @@ public class MainFirstButtonOfVBoxController {
 	        editItem.setOnAction(event -> {
 	        String userName = cell.getItem();
 	        InvitationConfirmation invitationConfirmation = new InvitationConfirmation(new User(cell.getItem()), loggedUser, true);
-	        System.out.println("wysylam invitation confirmation Sender(1) : " +  userName + " receiver(2) " + loggedUser.getUserName());
 	        listView.getItems().remove(userName);   
 	        try {
 				sender.send(invitationConfirmation);
@@ -126,7 +125,6 @@ public class MainFirstButtonOfVBoxController {
 		this.invitationList.add(dataObject);	
 		
 		for(Invitation invitation: invitationList){
-			System.out.println("Jestem tu w add New invitation" + invitation.getSender().getUserName());
 		}
 		setInvitationList(invitationList);
 	}

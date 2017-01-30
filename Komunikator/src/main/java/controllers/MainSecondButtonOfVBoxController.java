@@ -52,16 +52,7 @@ public class MainSecondButtonOfVBoxController {
             ContextMenu contextMenu = new ContextMenu();
 
 
-            MenuItem editItem = new MenuItem();
-            editItem.textProperty().bind(Bindings.format("Edit \"%s\"", cell.itemProperty()));
-            editItem.setOnAction(event -> {
-               String item = cell.getItem();
-                
-            });
-            MenuItem deleteItem = new MenuItem();
-            deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
-            deleteItem.setOnAction(event -> getListView().getItems().remove(cell.getItem()));
-            contextMenu.getItems().addAll(editItem, deleteItem);
+
 
            cell.textProperty().bind(cell.itemProperty());
 
@@ -83,27 +74,26 @@ public class MainSecondButtonOfVBoxController {
 
 	@FXML Button newGroupButton;
 	
-	private void avoidBlankSpacesOnListView() throws IOException
-    {
-    String item = getListView().getSelectionModel().getSelectedItem().toString();
-    String itemUserName = getListView().getSelectionModel().getSelectedItem();
-        if(item != tempItem)
-        {
-        	archiveTextArea.clear();
-        	groupNameLabel.setText("Archive of " + getListView().getSelectionModel().getSelectedItem());
-        	
-        	fileReader.setFile("./src/main/resources/conversations/".concat(itemUserName).concat(".txt"), 100);
+	private void avoidBlankSpacesOnListView() throws IOException {
+		String item = getListView().getSelectionModel().getSelectedItem().toString();
+		String itemUserName = getListView().getSelectionModel().getSelectedItem();
+		if (item != tempItem) {
+			archiveTextArea.clear();
+			groupNameLabel.setText("Archive of " + getListView().getSelectionModel().getSelectedItem());
 
-        	String archiveContent;
-        	while((archiveContent=fileReader.readLine())!=null){
-        	archiveTextArea.appendText(archiveContent+"\n");
-        	}
+			boolean isFileExist = fileReader
+					.setFile("./src/main/resources/conversations/".concat(itemUserName).concat(".txt"), 100);
+			if (isFileExist) {
+				String archiveContent;
+				while ((archiveContent = fileReader.readLine()) != null) {
+					archiveTextArea.appendText(archiveContent + "\n");
+				}
+			}
 
-        }
-        tempItem = item;    
-}
-	
-	
+		}
+		tempItem = item;
+	}
+
 	FileReader fileReader = new FileReader();
 	
 	
@@ -115,31 +105,12 @@ public class MainSecondButtonOfVBoxController {
 
 
 
-	@FXML public void newGroupButtonOnAction() {
-		
-		Pane borderPane = FxmlUtils.fxmlLoader("/fxml/NewGroupConversation.fxml");
-		Stage stage = new Stage();
-		Scene scene = new Scene(borderPane);
-		stage.setHeight(600);
-		stage.setWidth(420);
-		stage.setScene(scene);
-		stage.setTitle("New group");
-		stage.setResizable(false);
-		stage.getIcons().add(
-				   new Image(
-				      this.getClass().getResourceAsStream( "../images/icon.png" ))); 
-		// stage.initStyle(StageStyle.UNDECORATED);
-		stage.show();
-		
-		
-	}
 
 	private FXMLLoader mainFXMLLoader;
 
 	public void setMainFXMLLoader(FXMLLoader mainFxmlLoader) {
 		// TODO Auto-generated method stub
 		this.mainFXMLLoader = mainFxmlLoader;
-		System.out.println("Z secondButton: + " + mainFXMLLoader);
 	}
 
 

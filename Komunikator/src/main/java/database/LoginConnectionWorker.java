@@ -65,7 +65,6 @@ public class LoginConnectionWorker implements Runnable {
 		
 			if(response instanceof Confirmation){
 				loginController.setLoginStatus((Confirmation)response);
-				System.out.println(((Confirmation) response).getMessage());
 				try {
 					sender.send(userDataRequest);
 				} catch (IOException e) {

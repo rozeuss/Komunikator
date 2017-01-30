@@ -45,9 +45,7 @@ public class NewGroupConversationController {
 		
      	ObservableList<String> selectedItems = friendListListView.getSelectionModel().getSelectedItems();
 
-        for(String s : selectedItems){
-            //System.out.println("selected item " + s);
-	}
+
 }
 
 

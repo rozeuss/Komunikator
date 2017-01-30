@@ -21,14 +21,17 @@ public class FileReader {
     BufferedReader bufferedReader;
     private int lineCounter;
 
-    public void setFile(String filepath, int lines) throws FileNotFoundException{
+    public boolean setFile(String filepath, int lines) throws FileNotFoundException{
+    	boolean isFileExist = false;
         lineCounter = 0;
         if(new File(filepath).exists()) {
+        	isFileExist = true;
             filePath = filepath;
             fileInputStream = new FileInputStream(filePath);
             bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
         }
 
+        return isFileExist;
     }
     
     public void setLineCounter(int lineCounter) {

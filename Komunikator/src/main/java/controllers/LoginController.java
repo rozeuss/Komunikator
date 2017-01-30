@@ -120,7 +120,6 @@ public class LoginController implements Initializable {
 		}
                 String pw_hash = PasswordHasher.hashpw(txtPassword.getText(), PasswordHasher.gensalt());
                 LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
-                System.out.println(pw_hash);
                 pw_hash = null;
 		user = new User(txtUsername.getText());
 		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials, this);
