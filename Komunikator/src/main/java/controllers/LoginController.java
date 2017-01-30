@@ -110,7 +110,7 @@ public class LoginController implements Initializable {
 		loginConfirmation = new Confirmation();
 		this.loginButtonActionEvent = event;
 		try {
-			Socket socket = new Socket("127.0.0.1", 1056);
+			Socket socket = new Socket("172.25.169.205", 1056);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			this.setSocket(socket, out, in);
