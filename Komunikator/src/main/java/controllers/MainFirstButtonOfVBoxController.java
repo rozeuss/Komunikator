@@ -1,14 +1,11 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,7 +14,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.cell.PropertyValueFactory;
 import transferData.Sender;
 import transferDataContainers.Invitation;
 import transferDataContainers.InvitationConfirmation;
@@ -53,7 +49,6 @@ public class MainFirstButtonOfVBoxController {
 				if(!invitationsSenders.contains(invitation.getSender().getUserName()))
 					invitationsSenders.add(invitation.getSender().getUserName());
 			}
-
 		}
 		
 		observableInvitationsSenders.addAll(invitationsSenders);
@@ -93,7 +88,6 @@ public class MainFirstButtonOfVBoxController {
 		        listView.getItems().remove(cell.getItem());    
 		        String logdUser = (String)loggedUser.getUserName();
 		        InvitationConfirmation invitationConfirmation = new InvitationConfirmation(new User(userName), new User(logdUser), false);
-		        
 		        try {
 					sender.send(invitationConfirmation);
 				} catch (IOException e) {

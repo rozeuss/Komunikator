@@ -1,6 +1,5 @@
 package database;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,7 +11,6 @@ import controllers.LoginController;
 import controllers.MainController;
 import controllers.SplashController;
 import transferData.Receiver;
-import transferData.Sender;
 import transferDataContainers.*;
 
 public class DataConnectionWorker implements Runnable {
