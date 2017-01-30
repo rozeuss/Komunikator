@@ -214,7 +214,7 @@ public class NewAccountController implements Initializable {
 				}
 			};
 			t.start();
-
+			cancelButtonOnAction(event);
 		}
 	}
 }
