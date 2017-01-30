@@ -290,16 +290,22 @@ public class MainController {
 
 					@Override
 					public void handle(ActionEvent event) {
-						Optional<ButtonType> result = DialogsUtils.confirmationDialog("Deleting friend",
-								"Do you really want to kill your friendship?");
+						Optional<ButtonType> result = DialogsUtils.confirmationDialog("Deleting friend", "Do you really want to kill your friendship?");
 						if (result.get() == ButtonType.OK) {
-							int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
-							String selectedName = personTable.getSelectionModel().getSelectedItem().getFirstName();
-							personTable.getItems().remove(selectedIndex);
-							System.out.println("Usunieto poprawnie uzytkownika: " + selectedName);
+						int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+						String selectedName = personTable.getSelectionModel().getSelectedItem().getFirstName();
+						EndOfFriendship endOfFriendship = new EndOfFriendship(loggedUserData, row.getItem());
+						try {
+							sender.send(endOfFriendship);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						personTable.getItems().remove(selectedIndex);
 						}
 					}
-				});
+	            	
+	            });
 
 				rowMenu.getItems().addAll(chatItem, profileItem, deleteFriendItem);
 				row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty())).then(rowMenu)
