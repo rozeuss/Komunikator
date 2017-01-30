@@ -35,6 +35,7 @@ public class SecondViewController implements Initializable{
     private FileAppender fileAppender;
     private FXMLLoader mainFxmlLoader;
     private Thread fileThread;
+    
     public void setMainFxmlLoader(FXMLLoader mainFxmlLoader) {
 		this.mainFxmlLoader = mainFxmlLoader;
 	}
@@ -57,8 +58,8 @@ public class SecondViewController implements Initializable{
                         .concat(chatTextField.getText())
                         .concat("\" ")
                         .concat(LocalDateTime.now().toString()));
-                fileThread = new Thread(fileAppender);
-                fileThread.start();
+                //fileThread = new Thread(fileAppender);
+                //fileThread.start();
                 
                 
                 
@@ -111,11 +112,5 @@ public class SecondViewController implements Initializable{
 		// TODO Auto-generated method stub
 		return this.username;
 	}
-
-
-
-
-	
-
 	
 }

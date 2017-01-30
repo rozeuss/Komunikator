@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author ADMIN
  */
-public class FileAppender implements Runnable {
+public class FileAppender {
     
     
     private File file;
@@ -44,9 +44,7 @@ public class FileAppender implements Runnable {
         if(!file.exists())
             file.createNewFile();
         
-        fileChannel = new RandomAccessFile(file,"rw").getChannel();
-        
-        
+        fileChannel = new RandomAccessFile(file,"rw").getChannel();    
     }
     
     public void writeToFile(String content)
@@ -82,19 +80,13 @@ public class FileAppender implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(FileAppender.class.getName()).log(Level.SEVERE, "BW CLOSE FAILED");
         }
-            
-        
-
+           
         setMessageContent(null);
-        
-    
+
     }
 
-    @Override
+    /*@Override
     public void run() {
         writeToFile(messageContent);
-
-    }
-    
-    
+    }   */
 }
