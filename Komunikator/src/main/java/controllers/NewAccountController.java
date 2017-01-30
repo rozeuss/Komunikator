@@ -185,7 +185,7 @@ public class NewAccountController implements Initializable {
 					ObjectInputStream in = null;
 
 					try {
-						socket = new Socket("172.25.169.205", 1056);
+						socket = new Socket("127.0.0.1", 1056);
 						out = new ObjectOutputStream(socket.getOutputStream());
 						in = new ObjectInputStream(socket.getInputStream());
 					} catch (Exception e) {

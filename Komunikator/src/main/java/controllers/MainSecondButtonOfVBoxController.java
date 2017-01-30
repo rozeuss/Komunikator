@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -17,14 +18,12 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import tasks.FileReader;
 import transferDataContainers.User;
 import utils.FxmlUtils;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-
-/** JEZELI LISTA KONWERSACJI BEDZIE PUSTA TO MOZE WYWALIC BLAD GDY UZYTKOWNIK
- * BEDZIE CHCIAL JAKAS ZAZNACZYC, MOZNA NP ZROBIC disable dla listy jezeli uzytkownik
- * nie ma zadnych konwersacji **/
+import javafx.scene.control.TextArea;
 
 public class MainSecondButtonOfVBoxController {
 
@@ -33,7 +32,7 @@ public class MainSecondButtonOfVBoxController {
 	ObservableList<User> items =FXCollections.observableArrayList();
 
 	@FXML
-	private ListView<User> listView;
+	private ListView<String> listView;
 	
 	public void initialize(){
 		
@@ -43,11 +42,12 @@ public class MainSecondButtonOfVBoxController {
 	}
 
 	
+	
 	public void updateFriendsViewList(){
 		
         getListView().setCellFactory(lv -> {
 
-            ListCell<User> cell = new ListCell<>();
+            ListCell<String> cell = new ListCell<>();
 
             ContextMenu contextMenu = new ContextMenu();
 
@@ -55,20 +55,15 @@ public class MainSecondButtonOfVBoxController {
             MenuItem editItem = new MenuItem();
             editItem.textProperty().bind(Bindings.format("Edit \"%s\"", cell.itemProperty()));
             editItem.setOnAction(event -> {
-               User item = cell.getItem();
+               String item = cell.getItem();
                 
             });
             MenuItem deleteItem = new MenuItem();
             deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
             deleteItem.setOnAction(event -> getListView().getItems().remove(cell.getItem()));
             contextMenu.getItems().addAll(editItem, deleteItem);
-            
-            
-            
-          // WYSWIETLANIE NAZWY :(
-           //cell.textProperty().bind(cell.itemProperty().asString());
-           
-          // cell.textProperty().bind(cell.itemProperty().asString());
+
+           cell.textProperty().bind(cell.itemProperty());
 
            
             cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
@@ -91,22 +86,29 @@ public class MainSecondButtonOfVBoxController {
 	private void avoidBlankSpacesOnListView() throws IOException
     {
     String item = getListView().getSelectionModel().getSelectedItem().toString();
-
+    String itemUserName = getListView().getSelectionModel().getSelectedItem();
         if(item != tempItem)
         {
-           //click, do something
-        	System.out.println("clicked on " + getListView().getSelectionModel().getSelectedItem());
+        	archiveTextArea.clear();
+        	groupNameLabel.setText("Archive of " + getListView().getSelectionModel().getSelectedItem());
+        	
+        	fileReader.setFile("./src/main/resources/conversations/".concat(itemUserName).concat(".txt"), 100);
+
+        	String archiveContent;
+        	while((archiveContent=fileReader.readLine())!=null){
+        	archiveTextArea.appendText(archiveContent+"\n");
+        	}
+
         }
         tempItem = item;    
 }
 	
 	
+	FileReader fileReader = new FileReader();
+	
 	
 	@FXML public void listViewOnMouseClicked(MouseEvent arg0) throws IOException {
-		
-	  //  System.out.println("clicked on " + listView.getSelectionModel().getSelectedItem());
 	    avoidBlankSpacesOnListView();
-
 	}
 
 
@@ -145,16 +147,20 @@ public class MainSecondButtonOfVBoxController {
 	/**
 	 * @return the listView
 	 */
-	public ListView<User> getListView() {
+	public ListView<String> getListView() {
 		return listView;
 	}
 
 
 
+    @FXML
+    private Label groupNameLabel;
+
+	@FXML TextArea archiveTextArea;
 	/**
 	 * @param listView the listView to set
 	 */
-	public void setListView(ListView<User> listView) {
+	public void setListView(ListView<String> listView) {
 		this.listView = listView;
 	}
 	

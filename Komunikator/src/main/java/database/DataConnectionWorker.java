@@ -69,8 +69,6 @@ public class DataConnectionWorker implements Runnable {
 					
 					NewFriend friend = (NewFriend)dataObject;
 					mainController.setNewFriend(friend);
-					System.out.println("dostalam nowego przyjaciela");
-					System.out.println(friend.getFriend().getUserName());
 					
 				}
 				else if(dataObject instanceof Message){

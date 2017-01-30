@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-public class FileReader implements Runnable {
+public class FileReader {
     
     private File file;
     private String filePath;
@@ -23,26 +23,30 @@ public class FileReader implements Runnable {
 
     public void setFile(String filepath, int lines) throws FileNotFoundException{
         lineCounter = 0;
-        filePath = filepath;
-        fileInputStream = new FileInputStream(filePath);
-        bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+        if(new File(filepath).exists()) {
+            filePath = filepath;
+            fileInputStream = new FileInputStream(filePath);
+            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+        }
+
     }
     
     public void setLineCounter(int lineCounter) {
         this.lineCounter = lineCounter;
     }
     
-    
-    @Override
-    public void run() {
-        String line;
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
-                
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(FileReader.class.getName()).log(Level.SEVERE, null, ex + "\n >>> ERROR WHILE READING A CONVERSATION FILE");
-        }
+ 
+    public String readLine() {
+        String line = null;
+        
+        
+        
+		try {
+			line = bufferedReader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        return line;
         
     }
     

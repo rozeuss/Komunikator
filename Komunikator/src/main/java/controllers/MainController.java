@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -202,7 +203,7 @@ public class MainController {
 					String senderName = message.getSender();
 					String text = message.getTextContent();
 					if(secondView.getUsername().equals(senderName)){
-						secondView.addMessageToConversationTextArea(text, senderName);
+						secondView.addMessageToConversationTextArea(text, senderName,LocalDateTime.now());
 					}
 				}
 
@@ -552,7 +553,13 @@ public class MainController {
 		}
 		updateFriendsList();
 		
-		getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().getListView().setItems(friendsData);
+		
+		ObservableList<String> friendsNames = FXCollections.observableArrayList();
+		for(User friend : friendsData)
+		{
+			friendsNames.add(friend.getUserName());
+		}
+		getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().getListView().setItems(friendsNames);
 	}
 
 	public Parent getMainControllerRoot() {
@@ -618,7 +625,8 @@ public class MainController {
 				secondViewController = controller;
 			}
 		}
-		secondViewController.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender());
+		if(secondViewController == null) this.unreadMessages.add(dataObject);
+		else secondViewController.addMessageToConversationTextArea(dataObject.getTextContent(), dataObject.getSender(), LocalDateTime.now());
 		message = dataObject;
 		System.out.println("Wiadomosc od: " + message.getSender() + " Do: " + getLoggedUserData().getUserName()
 				+ " Treœæ: " + message.getTextContent());

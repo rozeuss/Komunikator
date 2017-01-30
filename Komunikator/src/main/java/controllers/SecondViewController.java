@@ -46,18 +46,18 @@ public class SecondViewController implements Initializable{
     }
 
 
-    public void addMessageToConversationTextArea(String text, String sender){
+    public void addMessageToConversationTextArea(String text, String sender, LocalDateTime localTime){
                 try {
                     fileAppender.setFile("./src/main/resources/conversations/".concat(username).concat(".txt"));
                 } catch (IOException ex) {
                     Logger.getLogger(SecondViewController.class.getName()).log(Level.SEVERE, null, ex + "\n >>>COULDNT SET A FILE PATH");
                 }
-                fileAppender.setMessageContent(
+                /*fileAppender.setMessageContent(
                         sender
                         .concat(" \"")
                         .concat(chatTextField.getText())
                         .concat("\" ")
-                        .concat(LocalDateTime.now().toString()));
+                        .concat(localTime.toString()));*/
                 //fileThread = new Thread(fileAppender);
                 //fileThread.start();
                 
@@ -65,6 +65,12 @@ public class SecondViewController implements Initializable{
                 
     	conversationTextArea.appendText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())
 		+ " " + sender + ":" + " " +text  + "\n");
+    	
+    	fileAppender.writeToFile(sender
+                        .concat(" \"")
+                        .concat(chatTextField.getText())
+                        .concat("\" ")
+                        .concat(localTime.toString()));
     }
 
 	public void setSecondFXML(FXMLLoader loader) {
@@ -92,7 +98,7 @@ public class SecondViewController implements Initializable{
 			e.printStackTrace();
 		}
 		addMessageToConversationTextArea(chatTextField.getText(), chattingFXMLLoader.<ChattingController>getController().
-				getMainFXMLLoader().<MainController>getController().getLoggedUserData().getUserName());
+				getMainFXMLLoader().<MainController>getController().getLoggedUserData().getUserName(), LocalDateTime.now());
                 chatTextField.clear();
         }
 
