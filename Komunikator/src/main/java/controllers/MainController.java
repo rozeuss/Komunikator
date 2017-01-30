@@ -62,25 +62,27 @@ import utils.FxmlUtils;
 public class MainController {
 	@FXML
 	private TableView<User> groupTable;
-	@FXML
-	private TableView<User> personTable;
-	@FXML
-	private TableColumn<User, String> firstNameColumn;
-	@FXML
-	private TableColumn<User, String> lastNameColumn;
-	@FXML
-	private Label firstNameLabel;
-	@FXML
-	private Label lastNameLabel;
-	@FXML
-	private Label streetLabel;
-	@FXML
-	private Label postalCodeLabel;
-	@FXML
-	private Label cityLabel;
-	@FXML
-	private Label birthdayLabel;
-	private Parent mainControllerRoot;
+
+    @FXML
+    private TableView<User> personTable;
+    @FXML
+    private TableColumn<User, String> firstNameColumn;
+    @FXML
+    private TableColumn<User, String> lastNameColumn;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label lastNameLabel;
+    @FXML
+    private Label streetLabel;
+    @FXML
+    private Label postalCodeLabel;
+    @FXML
+    private Label cityLabel;
+    @FXML
+    private Label birthdayLabel;
+    private Parent mainControllerRoot;
+
 	private Socket socket;
 	private ObjectOutputStream out;
 
@@ -108,9 +110,7 @@ public class MainController {
 	private FXMLLoader mainSecondFxmlLoader;
 	private Sender sender;
 
-	public String getShowProfileUserName() {
-		return showProfileUserName;
-	}
+
 
 	private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
 
@@ -145,10 +145,17 @@ public class MainController {
 	@FXML
 	CheckMenuItem menuItemAlwaysOnTop;
 
-	@FXML
+	
+	
+	
+	public String getShowProfileUserName() {
+		return showProfileUserName;
+	}
 
-	private void tableViewOnMouseClicked() {
-		System.out.println("elo");
+	
+	@FXML
+	private void tableViewOnMouseClicked(){
+
 	}
 
 	public void setCenter(FXMLLoader fxmlLoader) {
@@ -166,7 +173,6 @@ public class MainController {
 		}
 	}
 
-	// SecondViewController secondView;
 	private ArrayList<SecondViewController> secondViewsControllers = new ArrayList<SecondViewController>();
 	private boolean isTabOpened;
 	private ObservableList<String> openedTabsUsernames = FXCollections.observableArrayList();

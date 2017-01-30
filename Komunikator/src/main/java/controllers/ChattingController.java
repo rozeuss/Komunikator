@@ -22,10 +22,10 @@ import javafx.scene.control.Tab;
 
 public class ChattingController implements Initializable {
 
-	
 	private FXMLLoader mainFXMLLoader;
 	private FXMLLoader chattingFXMLloader;
 	private Sender sender;
+
 	public Sender getSender() {
 		return sender;
 	}
@@ -33,67 +33,46 @@ public class ChattingController implements Initializable {
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	
+
 	@FXML
 	private TabPane tabPane;
+	@FXML
+	TextField chatTextField;
+	@FXML
+	Button sendMessageButton;
+	@FXML
+	private Tab myDynamicTab;
 
-	/**
-	 * @return the tabPane
-	 */
 	public TabPane getTabPane() {
 		return tabPane;
 	}
 
-	/**
-	 * @param tabPane the tabPane to set
-	 */
 	public void setTabPane(TabPane tabPane) {
 		this.tabPane = tabPane;
 	}
 
-	@FXML TextField chatTextField;
-	@FXML Button sendMessageButton;
-	
 	@FXML
-	private Tab myDynamicTab;
+	public void chatTFonKeyReleased(KeyEvent e) {
+		if (e.getCode().equals(KeyCode.ENTER)) {
+			chatTextField.clear();
 
-	@FXML public void chatTFonKeyReleased(KeyEvent e) {
-		if(e.getCode().equals(KeyCode.ENTER))
-		{
-        System.out.println("Wcisnieto ENTER! Robimy clear");
-        chatTextField.clear();
-        
 		}
-      }
+	}
 
-
-	/**
-	 * @return the myDynamicTab
-	 */
 	public Tab getMyDynamicTab() {
 		return myDynamicTab;
 	}
 
-	/**
-	 * @param myDynamicTab the myDynamicTab to set
-	 */
 	public void setMyDynamicTab(Tab myDynamicTab) {
 		this.myDynamicTab = myDynamicTab;
 	}
 
-	/**
-	 * @return the mainFXMLLoader
-	 */
 	public FXMLLoader getMainFXMLLoader() {
 		return mainFXMLLoader;
 	}
 
-	/**
-	 * @param mainFXMLLoader the mainFXMLLoader to set
-	 */
 	public void setMainFXMLLoader(FXMLLoader mainFXMLLoader) {
 		this.mainFXMLLoader = mainFXMLLoader;
-		System.out.println("Z CHATTING CONTROLER mainloader" + mainFXMLLoader);
 	}
 
 	@Override
@@ -101,32 +80,22 @@ public class ChattingController implements Initializable {
 
 	}
 
-	
-	
-	/**
-	 * @return the chattingFXMLloader
-	 */
 	public FXMLLoader getChattingFXMLloader() {
 		return chattingFXMLloader;
 	}
 
-	/**
-	 * @param chattingFXMLloader the chattingFXMLloader to set
-	 */
 	public void setChattingFXMLloader(FXMLLoader chattingFXMLloader) {
 		this.chattingFXMLloader = chattingFXMLloader;
-		System.out.println("CHATTING FXML LODAER " + chattingFXMLloader);
 	}
-
 
 	public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
 		this.socket = socket;
 		this.in = in;
 		this.out = out;
 	}
-	
-	public void createSender(){
+
+	public void createSender() {
 		this.sender = new Sender(out);
 	}
-	
+
 }

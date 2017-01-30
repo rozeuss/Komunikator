@@ -60,8 +60,6 @@ public class SplashController implements Initializable {
 				Scene scene = new Scene(root);
 				Stage stage = new Stage();
 				stage.setScene(scene);
-				//scene.setFill(Color.TRANSPARENT);
-				//root.setStyle("-fx-background-color: transparent;");
 				stage.setHeight(800);
 				stage.setWidth(1000);
 				stage.setMinHeight(575);
@@ -71,10 +69,7 @@ public class SplashController implements Initializable {
 				stage.getIcons().add(
 						   new Image(
 						      Main.class.getResourceAsStream( "../images/icon.png" ))); 
-				//stage.initStyle(StageStyle.TRANSPARENT);
-				stage.show();
-		//mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
-		
+				stage.show();		
 				mainController.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainController.getMainFxmlLoader());
 				mainController.getMainSecondFxmlLoader().<MainSecondButtonOfVBoxController>getController().setMainFXMLLoader(mainController.getMainFxmlLoader());
 				mainController.getChattingFxmlLoader().<ChattingController>getController().setMainFXMLLoader(mainController.getMainFxmlLoader());

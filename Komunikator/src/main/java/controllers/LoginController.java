@@ -1,6 +1,5 @@
 package controllers;
 
-
 import utils.FxmlUtils;
 
 import java.io.IOException;
@@ -42,19 +41,20 @@ import tasks.LogInCredentialsHandlerTrigger;
 import transferDataContainers.*;
 
 public class LoginController implements Initializable {
-    private static final ExecutorService taskExecutor = Executors.newFixedThreadPool(5);
-    
-    private LogInCredentialsHandlerTrigger credentialsHandlerTrigger;
+	private static final ExecutorService taskExecutor = Executors.newFixedThreadPool(5);
 
-    private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
+	private LogInCredentialsHandlerTrigger credentialsHandlerTrigger;
+
+	private static final String FXML_NEW_ACCOUNT_FXML = "/fxml/NewAccount.fxml";
 
 	private static final String FXML_SPLASH_FXML = "/fxml/Splash.fxml";
-	
+
 	private static final String FXML_MAIN_FXML = "/fxml/Main.fxml";
 
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
-        
+
 	private Socket socket;
+
 	public Socket getSocket() {
 		return socket;
 	}
@@ -74,14 +74,15 @@ public class LoginController implements Initializable {
 	private MainController mainController;
 	private SplashController splashController;
 	private DataConnectionWorker dataConnectionWorker;
+
 	public DataConnectionWorker getDataConnectionWorker() {
 		return dataConnectionWorker;
 	}
 
 	private User user;
 	private Parent mainControllerRoot;
-	
-    @FXML
+
+	@FXML
 	private Label messageLabel;
 
 	@FXML
@@ -106,45 +107,24 @@ public class LoginController implements Initializable {
 
 	FXMLLoader mainFxmlLoader;
 
-
 	@FXML
-	private void loginButtonOnAction(ActionEvent event) throws Exception {		
-		loginConfirmation =  new Confirmation();
-		/*credentialsHandlerTrigger.SetUsername(txtUsername.getText());
-		credentialsHandlerTrigger.SetPassword(txtPassword.getText());
-		try {
-		    incorrectCredentialsLabel.setVisible(false);
-		    taskExecutor.execute(credentialsHandlerTrigger);
-		    taskExecutor.shutdown();
-		   taskExecutor.awaitTermination(1, TimeUnit.SECONDS);
-		} catch (IllegalArgumentException e) {
-		    incorrectCredentialsLabel.setVisible(true);
-		} catch (NullPointerException nlp) {
-		            LOGGER.log(Level.WARNING, "NULL POINTER EXCEPTION IN LOG IN EXECUTOR");  
-		}*/
+	private void loginButtonOnAction(ActionEvent event) throws Exception {
+		loginConfirmation = new Confirmation();
 		this.loginButtonActionEvent = event;
-		
-
-		try{
+		try {
 			Socket socket = new Socket("127.0.0.1", 1056);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-			this.setSocket(socket, out, in);	
-			System.out.println("login  " +  in.getClass());
-			System.out.println(out.getClass());
-			System.out.println(socket.getClass());
+			this.setSocket(socket, out, in);
 			this.setSettingsOfMainController();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		LoginCredentials loginCredentials = new LoginCredentials(txtUsername.getText(), txtPassword.getText());
 		user = new User(txtUsername.getText());
-		
-		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials, this);
-
+		LoginConnectionWorker loginConnectionWorker = new LoginConnectionWorker(socket, out, in, loginCredentials,
+				this);
 		Thread thread = new Thread(loginConnectionWorker);
-		
-		
 		thread.run();
 
 	}
@@ -174,48 +154,42 @@ public class LoginController implements Initializable {
 
 	public LoginController() {
 		LOGGER.log(Level.FINE, "LOG IN Controller created");
-        credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();	
+		credentialsHandlerTrigger = new LogInCredentialsHandlerTrigger();
 		this.mainFxmlLoader = new FXMLLoader(getClass().getResource(FXML_MAIN_FXML));
 		try {
-			this.mainControllerRoot = (Parent)mainFxmlLoader.load();
+			this.mainControllerRoot = (Parent) mainFxmlLoader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		mainController = mainFxmlLoader.<MainController>getController();
+		mainController = mainFxmlLoader.<MainController> getController();
 		mainController.setMainControllerRoot(mainControllerRoot);
 		mainController.setMainFxmlLoader(mainFxmlLoader);
-	
-	}
-	
-	public void setSettingsOfMainController(){
-		System.out.println("Main " +  in.getClass());
-		System.out.println(out.getClass());
-		System.out.println(socket.getClass());
-		mainController.setSocket(socket, out, in);
-		mainController.createFxmlControllers(this.loginFXMLLoader);
-	//	mainFourthFxmlLoader.<MainFourthButtonOfVBoxController>getController().setMainFXMLLoader(mainFxmlLoader);
-		System.out.println("TU JESZCZE JEST " + mainController.getMainFourthFxmlLoader().<MainFourthButtonOfVBoxController>getController());
+
 	}
 
+	public void setSettingsOfMainController() {
+		mainController.setSocket(socket, out, in);
+		mainController.createFxmlControllers(this.loginFXMLLoader);
+	}
 
 	public void setSocket(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
 		this.socket = socket;
 		this.in = in;
 		this.out = out;
 	}
-	
+
 	public void setLoginStatus(Confirmation loginStatus) {
 		this.loginConfirmation = loginStatus;
 	}
-	
-	public void setSplashScene(){
+
+	public void setSplashScene() {
 		((Node) (loginButtonActionEvent.getSource())).getScene().getWindow().hide();
 		messageLabel.setText("Welcome: " + txtUsername.getText());
 
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_SPLASH_FXML)); 
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_SPLASH_FXML));
 		Parent root;
 		try {
-			root = (Parent)fxmlLoader.load();
+			root = (Parent) fxmlLoader.load();
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
@@ -227,48 +201,41 @@ public class LoginController implements Initializable {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		splashController = fxmlLoader.<SplashController>getController();
+		splashController = fxmlLoader.<SplashController> getController();
 
-		try{
+		try {
 			splashController.setMainController(mainController);
 			splashController.startSplashScreen();
 			createAndRunDataConnectionWorker();
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void showInvalidCredentialsLabel(){	
+
+	public void showInvalidCredentialsLabel() {
 		messageLabel.setText(loginConfirmation.getMessage());
-		
-		System.out.println(loginConfirmation.getMessage());
 	}
 
 	public void checkLoginStatus() {
-		if(loginConfirmation.isConfirmed() == true) {
+		if (loginConfirmation.isConfirmed() == true) {
 			setSplashScene();
-		}
-		else{
+		} else {
 			showInvalidCredentialsLabel();
-			System.out.println("zly status ");
 		}
-			
+
 	}
 
-	@FXML public void txtPasswordOnKeyReleased( KeyEvent e) {
-		if(e.getCode().equals(KeyCode.ENTER)) {
+	@FXML
+	public void txtPasswordOnKeyReleased(KeyEvent e) {
+		if (e.getCode().equals(KeyCode.ENTER)) {
 			loginButton.fire();
-	        System.out.println("Wcisnieto ENTER! Robimy clear");
-	        txtUsername.clear();
-	        txtPassword.clear();
+			txtUsername.clear();
+			txtPassword.clear();
 
 		}
 	}
-	
 
-
-	
-	public void createAndRunDataConnectionWorker(){
+	public void createAndRunDataConnectionWorker() {
 		try {
 			dataConnectionWorker = new DataConnectionWorker(socket, out, in, this);
 		} catch (IOException e) {
@@ -277,12 +244,12 @@ public class LoginController implements Initializable {
 		Thread thread = new Thread(dataConnectionWorker);
 		thread.start();
 	}
-	
-	public MainController getMainController(){
+
+	public MainController getMainController() {
 		return mainController;
 	}
-	
-	public SplashController getSplashController(){
+
+	public SplashController getSplashController() {
 		return splashController;
 	}
 
@@ -291,11 +258,10 @@ public class LoginController implements Initializable {
 	}
 
 	public void setLoginFXMLLoader(FXMLLoader fxmlLoader) {
-		System.out.println("Otrzymany LoginLoader " + fxmlLoader);
-		this.loginFXMLLoader=fxmlLoader;
-		
+		this.loginFXMLLoader = fxmlLoader;
+
 	}
-	
+
 	public FXMLLoader getLoginFXMLLoader() {
 		return loginFXMLLoader;
 	}

@@ -85,7 +85,6 @@ public class DataConnectionWorker implements Runnable {
 			}
 			catch (ClassNotFoundException | IOException e)
 			{
-				
 				e.printStackTrace();
 			}
 
@@ -97,10 +96,8 @@ public class DataConnectionWorker implements Runnable {
 		try {
 			this.in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// TODO Auto-generated method stub
 		
 	}
 }

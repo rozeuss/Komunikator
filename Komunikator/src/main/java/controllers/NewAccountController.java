@@ -48,7 +48,6 @@ import javafx.scene.control.ComboBox;
 public class NewAccountController implements Initializable {
 	private static final String FXML_LOGIN_FXML = "/fxml/Login.fxml";
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
-
 	@FXML
 	private TextField usernameTextField;
 	@FXML
@@ -82,30 +81,24 @@ public class NewAccountController implements Initializable {
 	private StringsValidator lastNameValidator;
 	private StringsValidator countryNameValidator;
 	private StringsValidator cityNameValidator;
+	private StringsValidator passwordValidator;
+	private StringsValidator usernameValidator;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		genderComboBox.setItems(options);
 		genderComboBox.setValue(options.get(0));
-
 		BooleanBinding booleanBinding = usernameTextField.textProperty().isEqualTo("")
 				.or(passwordTextField.textProperty().isEqualTo("")
-						.or(firstNameTextField.textProperty().isEqualTo("")
-								.or(lastNameTextField.textProperty().isEqualTo("")
-										.or(ageTextField.textProperty().isEqualTo("")
-												.or(emailTextField.textProperty().isEqualTo("")
-														.or(cityTextField.textProperty().isEqualTo("")
-																.or(countryTextField.textProperty().isEqualTo("")
-
-		)))))));
-
+						.or(firstNameTextField.textProperty().isEqualTo("").or(lastNameTextField.textProperty()
+								.isEqualTo("").or(ageTextField.textProperty().isEqualTo("")
+										.or(emailTextField.textProperty().isEqualTo("").or(cityTextField.textProperty()
+												.isEqualTo("").or(countryTextField.textProperty().isEqualTo(""))))))));
 		createAccountButton.disableProperty().bind(booleanBinding);
-
 	}
 
 	@FXML
 	public void cancelButtonOnAction(ActionEvent event) {
-
 		Pane borderPane = FxmlUtils.fxmlLoader(FXML_LOGIN_FXML);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		Scene scene = new Scene(borderPane);
@@ -113,7 +106,6 @@ public class NewAccountController implements Initializable {
 		stage.setTitle("Yo! - Login");
 		stage.setResizable(false);
 		stage.show();
-
 	}
 
 	private boolean isInputValid() {
@@ -124,12 +116,24 @@ public class NewAccountController implements Initializable {
 		lastNameValidator = new StringsValidator();
 		countryNameValidator = new StringsValidator();
 		cityNameValidator = new StringsValidator();
+		passwordValidator = new StringsValidator();
+		usernameValidator = new StringsValidator();
 
-		if (firstNameValidator.isAlpha(firstNameTextField.getText()) == false || firstNameTextField.getText().length() == 0) {
+		if (usernameValidator.isValidUsername(usernameTextField.getText()) == false) {
+			errorMessage += "No valid username!\n";
+		}
+
+		if (passwordValidator.isValidPass(passwordTextField.getText()) == false) {
+			errorMessage += "No valid password!\n";
+		}
+
+		if (firstNameValidator.isAlpha(firstNameTextField.getText()) == false
+				|| firstNameTextField.getText().length() == 0) {
 			errorMessage += "No valid first name!\n";
 		}
-		
-		if (lastNameValidator.isAlpha(lastNameTextField.getText()) == false || lastNameTextField.getText().length() == 0) {
+
+		if (lastNameValidator.isAlpha(lastNameTextField.getText()) == false
+				|| lastNameTextField.getText().length() == 0) {
 			errorMessage += "No valid last name!\n";
 		}
 
@@ -142,7 +146,8 @@ public class NewAccountController implements Initializable {
 			errorMessage += "No valid age!\n";
 		}
 
-		if (countryNameValidator.isAlpha(countryTextField.getText()) == false || countryTextField.getText().length() == 0) {
+		if (countryNameValidator.isAlpha(countryTextField.getText()) == false
+				|| countryTextField.getText().length() == 0) {
 			errorMessage += "No valid country!\n";
 		}
 
@@ -157,14 +162,11 @@ public class NewAccountController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Invalid Fields");
 			alert.setHeaderText("Please correct invalid fields");
 			alert.setContentText(errorMessage);
-
 			alert.showAndWait();
-
 			return false;
 		}
 	}
@@ -175,64 +177,44 @@ public class NewAccountController implements Initializable {
 
 	@FXML
 	public void createAccountButtonOnAction(ActionEvent event) {
-		if(isInputValid()){
-		Thread t = new Thread() {
-			public void run() {
-				Socket socket = null;
-				ObjectOutputStream out = null;
-				ObjectInputStream in = null;
+		if (isInputValid()) {
+			Thread t = new Thread() {
+				public void run() {
+					Socket socket = null;
+					ObjectOutputStream out = null;
+					ObjectInputStream in = null;
 
-				try {
-					System.out.println("1");
-					socket = new Socket("127.0.0.1", 1056);
-					System.out.println("2");
-					out = new ObjectOutputStream(socket.getOutputStream());
-					System.out.println("3");
-					in = new ObjectInputStream(socket.getInputStream());
-					System.out.println("4");
-				} catch (Exception e) {
-					e.printStackTrace();
+					try {
+						socket = new Socket("127.0.0.1", 1056);
+						out = new ObjectOutputStream(socket.getOutputStream());
+						in = new ObjectInputStream(socket.getInputStream());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					Sender sender = new Sender(out);
+
+					try {
+						sender.send(new RegistrationInformation(usernameTextField.getText(),
+								passwordTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(),
+								emailTextField.getText(), Integer.valueOf(ageTextField.getText()), "Male",
+								countryTextField.getText(), cityTextField.getText()));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+					try {
+						Confirmation confirmation = (Confirmation) in.readObject();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
 				}
+			};
+			t.start();
 
-				Sender sender = new Sender(out);
-
-				try {
-					System.out.println("siema");
-					sender.send(new RegistrationInformation(
-							// "kwas2",
-							// "kwas2",
-							// "kwas2",
-							// "kwas2",
-							// "kwas2",
-							// 1,
-							// "kwas2","kwas2",null));
-							// System.out.println("siema222");
-							usernameTextField.getText(), passwordTextField.getText(), firstNameTextField.getText(),
-							lastNameTextField.getText(), emailTextField.getText(),
-							Integer.valueOf(ageTextField.getText()), "Male", countryTextField.getText(),
-							cityTextField.getText()));
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				try {
-					Confirmation confirmation = (Confirmation) in.readObject();
-					System.out.println("Potwierdzenie: " + confirmation);
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				System.out.println(usernameTextField.getText() + " " + passwordTextField.getText() + " "
-						+ firstNameTextField.getText() + " " + lastNameTextField.getText() + " "
-						+ ageTextField.getText());
-
-			}
-		};
-		t.start();
-
-	}
+		}
 	}
 }
